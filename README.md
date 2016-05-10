@@ -1,1 +1,1 @@
-"#School Management Web application" 
+#School Management Web application
