@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Fee Group 
+        </ui:define>
+        <ui:define name="menu_panel">
+            A Fee group is a composition of single fee that comprises to form a single payable unit of fee.
+            Every fee group must contain at list a fee but may or may not be associated with a grade-level.
+            <br/><br />
+            Associating a fee group with a grade level means that only students that belong to that grade 
+            level will pay
+            the summing amount of all fee amount in that group.
+            <br/><br />
+            Statutory fees are fees that all students must pay. All Statutory fee must have grade levels 
+            so as to define the amount that each level must pay.
+        </ui:define>
+        <ui:define name="panelTitle">
+            Fee Group (s)
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel>
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true" id="messages"/>
+                    <table width="100%">
+                        <tr>
+                            <td align="right" width="15%">Grade Level</td>
+                            <td width="20%">
+                                <p:selectOneMenu style="width:150px"
+                                                 value="#{feeGroupBean.gradeLevelId}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.gradeLevelList}" var="g"
+                                                   itemValue="#{g.gradeLevelId}" itemLabel="#{g.description}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right" width="10%" valign="top">Fee Type</td>
+                            <td width="25%">
+                                <p:selectOneMenu style="width:200px"
+                                                 value="#{feeGroupBean.feeTypeCode}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{financeApplicationBean.feeTypes}" var="f"
+                                                   itemValue="#{f.feeTypeCode}" itemLabel="#{f.description}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td>
+                                <p:selectBooleanCheckbox value="#{feeGroupBean.statutory}" /> Statutory
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td colspan="4">
+                                <p:commandButton id="searchButton" value=" Search " icon="ui-icon-search" ajax="false"
+                                                 action="#{feeGroupBean.findFeeGroups}" update="dataTable messages">
+                                </p:commandButton>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">
+                                <p:dataTable id="dataTable" var="row" value="#{feeGroupBean.feeGroupModel}"
+                                             rowKey="#{row.feeGroupId}" selection="#{feeGroupBean.feeGroup}"
+                                             selectionMode="single" scrollable="true" scrollHeight="200">
+                                    <p:column headerText="ID" width="20">
+                                        #{row.feeGroupId}
+                                    </p:column>
+                                    <p:column headerText="Description">
+                                        #{row.description}
+                                    </p:column>
+                                    <p:column headerText="Statutory" width="50">
+                                        #{row.statutory}
+                                    </p:column>
+                                    <p:column headerText="Fee Type">
+                                        #{row.feeType.description}
+                                    </p:column>
+                                    <p:column headerText="Grade Level">
+                                        #{row.gradeLevel == null ? '' : row.gradeLevel.description}
+                                    </p:column>
+                                    <p:column headerText="Status" width="30">
+                                        #{row.status}
+                                    </p:column>
+                                    <p:column headerText="Modified By" width="60">
+                                        #{row.modifiedBy}
+                                    </p:column>
+                                    <p:column headerText="Modified" width="60">
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil" value="Update"
+                                         action="#{feeGroupBean.prepareForModify}" update=":detailsform:detailsPanel"/>
+
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/schooluser/finance/settings/index" ajax="false" /> 
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="5" align="center">
+                                <p:messages id="messages2" rendered="true" globalOnly="true" showSummary="true" 
+                                            showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="description" value="Description"/></td>
+                            <td>
+                                <p:inputText id="description" value="#{feeGroupBean.feeGroup.description}" required="true" 
+                                             requiredMessage="" size="30" maxlength="50"
+                                             readonly="#{feeGroupBean.editMode != 'MODIFY'}"/>
+                            </td>
+                            <td align="right">Statutory</td>
+                            <td>
+                                <p:selectBooleanCheckbox value="#{feeGroupBean.feeGroup.statutory}" 
+                                                         disabled="#{feeGroupBean.editMode != 'MODIFY'}"/>
+                            </td>
+                            <td rowspan="5">
+                                <p:outputLabel for="feeList" value="Fees"/>
+                                <p:selectManyMenu value="#{feeGroupBean.feeGroup.feeList}" showCheckbox="true"
+                                                  style="width:100%;height:100px" required="true" id="feeList"
+                                                  disabled="#{feeGroupBean.editMode != 'MODIFY'}"
+                                                  converter="feeConverter">
+                                    <f:selectItems value="#{financeSessionBean.fees}" var="f"
+                                                   itemLabel=" #{f.description}" itemValue="#{f}" />
+                                </p:selectManyMenu>  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="feeTypeCode" value="Fee Type"/></td>
+                            <td>
+                                <p:selectOneMenu id="feeTypeCode" style="width:200px" required="true"
+                                                 value="#{feeGroupBean.feeGroup.feeType.feeTypeCode}"
+                                                 disabled="#{feeGroupBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{financeApplicationBean.feeTypes}" var="f"
+                                                   itemValue="#{f.feeTypeCode}" itemLabel="#{f.description}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right"><p:outputLabel for="gradeLevelId" value="Grade Level"/></td>
+                            <td>
+                                <p:selectOneMenu id="gradeLevelId" style="width:180px"
+                                                 value="#{feeGroupBean.feeGroup.gradeLevel.gradeLevelId}"
+                                                 disabled="#{feeGroupBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.gradeLevelList}" var="g"
+                                                   itemValue="#{g.gradeLevelId}" itemLabel="#{g.description}"/>
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top"><p:outputLabel for="status" value="Status"/></td>
+                            <td>
+                                <p:selectOneMenu id="status" required="true" requiredMessage="" style="width:150px"
+                                                 value="#{feeGroupBean.feeGroup.status}" disabled="true">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.statusList}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right">ID</td>
+                            <td>
+                                <p:inputText id="feeGroupId" value="#{feeGroupBean.feeGroup.feeGroupId}"
+                                             readonly="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Modified By</td>
+                            <td>
+                                <p:inputText id="modifiedBy" value="#{feeGroupBean.feeGroup.modifiedBy}" required="true" 
+                                             requiredMessage="" readonly="true"/>
+                            </td>
+                            <td align="right">Last Modified</td>
+                            <td>
+                                <p:inputText id="modifiedTime" value="#{feeGroupBean.feeGroup.modifiedTime}" required="true" 
+                                             requiredMessage="" readonly="true">
+                                    <f:convertDateTime />
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="3">
+                                <p:commandButton id="saveButton" value=" Save " action="#{feeGroupBean.saveFeeGroup}"
+                                                 disabled="#{feeGroupBean.editMode != 'MODIFY'}" 
+                                                 update=":searchform:dataTable @form messages2" icon="ui-icon-disk" /> 
+
+                                <p:commandButton id="clearButton" value="Reset" update="@form" icon="ui-icon-arrowrefresh-1-w"
+                                                 immediate="true"  action="#{feeGroupBean.clearForm}" /> 
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

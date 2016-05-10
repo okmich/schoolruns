@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="store-activity-report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a017bba8-46b4-4547-815c-d4a295ae46f7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="schoolName" class="java.lang.String"/>
+	<parameter name="schoolEmail" class="java.lang.String"/>
+	<parameter name="schoolPhoneNumber" class="java.lang.String"/>
+	<parameter name="schoolWebsite" class="java.lang.String"/>
+	<parameter name="schoolAddress" class="java.lang.String"/>
+	<parameter name="schoolMotto" class="java.lang.String"/>
+	<parameter name="logo_url" class="java.lang.String"/>
+	<parameter name="storeId" class="java.lang.Integer"/>
+	<parameter name="startDate" class="java.util.Date"/>
+	<parameter name="endDate" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT store_activity_id, store_item, store_activity_type_code, store_activity, activity_date, quantity, item_value, narration, entry_date, entry_by, store_name, store_address FROM v_store_activities v where store_id = $P{storeId} and activity_date between $P{startDate} and $P{endDate} order by activity_date]]>
+	</queryString>
+	<field name="store_activity_id" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="store_item" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="store_activity_type_code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="store_activity" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="activity_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="quantity" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="item_value" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="narration" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="entry_date" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="entry_by" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="store_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="store_address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="item_value_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{item_value}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="109" splitType="Stretch">
+			<textField>
+				<reportElement uuid="faab3ffe-ea36-4006-9e57-4c5e07a13201" x="296" y="75" width="259" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolWebsite} == null || $P{schoolWebsite}.trim().isEmpty() ? "" : "Website: " +  $P{schoolWebsite}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fcad1f28-3ddc-4ce4-94df-e97ff63bda94" x="93" y="36" width="462" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolAddress}]]></textFieldExpression>
+			</textField>
+			<image onErrorType="Blank">
+				<reportElement uuid="e98b6ee8-84d8-411b-b1e2-c37a843198ad" x="1" y="-1" width="91" height="87"/>
+				<imageExpression><![CDATA[$P{logo_url}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="66e9b2cb-3705-4c89-9d80-0e976d7fc549" x="1" y="88" width="554" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STORE ACTIVITIES/AUDIT REPORT]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="49cd11bf-52eb-4b8d-b697-5cb337fdfb11" x="93" y="0" width="462" height="26"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="41e58b94-f9ae-4f13-bf33-c2c7256d751c" x="93" y="25" width="462" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolMotto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="afa20657-b440-404c-b156-3f4c63984005" x="356" y="62" width="199" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Contact Number: " + $P{schoolPhoneNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="650054b4-a257-4708-90e8-b9aab4a81ce9" x="356" y="49" width="199" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Email: " + $P{schoolEmail}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="61487cab-771d-4056-a31d-31e56e4ba518" x="2" y="1" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Store:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="21a50f9b-6508-49ee-896b-7859c8daa216" x="100" y="20" width="305" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{store_address}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="3d2480c1-9ec5-4fbc-9ae7-5f95b1fde9e1" x="0" y="20" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Store address: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="9af44e7d-24a6-4bef-9f80-a5d90aca1986" x="101" y="1" width="305" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{store_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="0b674d3e-b81a-4234-ba1d-90a065d032a2" mode="Opaque" x="0" y="0" width="38" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3ea64b89-1b1c-4dad-8fd6-8c0e1c278e36" mode="Opaque" x="37" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ITEM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1a500157-9f3a-49b3-aa43-3f0812c6aa47" mode="Opaque" x="136" y="0" width="66" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTIVITY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="72772433-ba6b-4d83-9446-25dc40e78437" mode="Opaque" x="202" y="0" width="151" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NARRATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8c3fe19e-6190-4f16-97f7-0959540bcd48" mode="Opaque" x="352" y="0" width="41" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[QUANTITY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c06cce0c-469d-4f0b-bdee-c4b4b4c69070" mode="Opaque" x="392" y="0" width="56" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ITEM VALUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="35ed5995-d0f4-4461-add7-3a3df73539d0" mode="Opaque" x="503" y="0" width="52" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ENTRY BY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bc48d736-982c-434c-8ac3-6c6cd9b8c5b3" mode="Opaque" x="447" y="0" width="57" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ENTRY DATE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="dd/MM/yy">
+				<reportElement uuid="b9ae3291-1dc0-4c0c-9a07-79c085fe956c" x="2" y="0" width="36" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{activity_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="a9b25e09-69fb-43ff-b182-e9923c13c6bb" x="37" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{store_item}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="4c7c2d62-30b6-4e18-832a-d9148b3cf481" x="136" y="0" width="66" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{store_activity}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="58fd8eeb-7382-456a-93c4-be8e1abdbb22" x="202" y="0" width="151" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{narration}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement uuid="db4dd946-dbda-4793-ac77-df4b1bb39875" x="352" y="0" width="41" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="dfce79bb-fa81-477f-82ad-3f782816436a" x="392" y="0" width="56" height="20"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item_value}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="791cab60-f255-4762-a460-1113a3468c84" x="503" y="0" width="52" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{entry_by}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yy h.mm a">
+				<reportElement uuid="b568facb-e7c2-48db-870e-d43b8bafedc2" x="447" y="0" width="57" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{entry_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="13" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement uuid="d5e9ad80-d63b-462e-a1b8-ff41ac756ed1" x="0" y="1" width="128" height="12"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8dd11c4e-311b-4774-824d-2f64233a096d" x="423" y="1" width="131" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="1141eff8-0b2a-4039-a559-3e97c8a57da1" x="0" y="1" width="100" height="18"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Value:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="df8292d7-4a06-4e80-ba2f-3230a7acbc7c" x="100" y="1" width="101" height="18"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{item_value_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div style="margin: auto;width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="Liability Types">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <p:dataTable scrollable="true" scrollHeight="200" value="#{liabilityTypeBean.liabilityTypeModel}" var="row" 
+                                 rowKey="#{row.liabilityTypeId}"  selection="#{liabilityTypeBean.liabilityType}" 
+                                 selectionMode="single" id="dataTable">
+                        <p:column width="100" headerText="Code"> 
+                            #{row.liabilityTypeId}
+                        </p:column> 
+                        <p:column width="200" headerText="Name">
+                            #{row.description} 
+                        </p:column>
+                    </p:dataTable>  
+                    <br />
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="newButton" value="New" icon="ui-icon-document" 
+                                         action="#{liabilityTypeBean.prepareForCreate}" update=":detailsform:detailsPanel"  />
+
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil"
+                                         action="#{liabilityTypeBean.prepareForModify}" update=":detailsform:detailsPanel" />
+
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/admin/settings/index" />   
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <h:panelGrid columns="3">
+                        <h:outputText value="Code" />
+                        <p:inputText id="liabilityTypeCode" value="#{liabilityTypeBean.liabilityType.liabilityTypeId}"
+                                     required="#{liabilityTypeBean.editMode != 'CREATE'}" requiredMessage="required"
+                                     readonly="true"/>
+                        <p:message for="liabilityTypeCode" />
+                        <h:outputText value="Name" />
+                        <p:inputText id="description" value="#{liabilityTypeBean.liabilityType.description}"
+                                     required="true" requiredMessage="required"
+                                     readonly="#{liabilityTypeBean.editMode != 'CREATE'}"/>
+                        <p:message for="description" />
+                        <h:outputText value="" />
+                        <h:panelGroup>
+                            <p:commandButton id="saveButton" value="Save" 
+                                             action="#{liabilityTypeBean.saveLiabilityType}" update=":searchform:dataTable" 
+                                             disabled="#{liabilityTypeBean.editMode != 'CREATE' || liabilityTypeBean.editMode != 'MODIFY'}"/> 
+
+                            <p:commandButton id="clearButton" value="Reset" update="detailsPanel"
+                                             immediate="true"  action="#{liabilityTypeBean.clearForm}" /> 
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div style="margin: auto;min-width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="School Subject(s)">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <table width="100%">
+                        <tr>
+                            <td class="highlight">
+                                <h:panelGrid columns="5">
+                                    <h:outputText value="Grade Level" />
+                                    <p:selectOneMenu id="gradeLevelsId" value="#{schoolSubjectBean.gradeLevelId}"
+                                                     style="width:200px">
+                                        <f:selectItem itemValue="" itemLabel="----------------------" />
+                                        <f:selectItems value="#{applicationListBean.gradeLevelList}" var="g" 
+                                                       itemLabel="#{g.description}" itemValue="#{g.gradeLevelId}" />
+                                    </p:selectOneMenu>
+                                    <h:outputText value="Subject" />
+                                    <p:selectOneMenu id="subjectsId" value="#{schoolSubjectBean.subjectId}"
+                                                     style="width:200px">
+                                        <f:selectItem itemValue="" itemLabel="----------------------" />
+                                        <f:selectItems value="#{applicationListBean.subjectList}" var="s" 
+                                                       itemLabel="#{s.description}" itemValue="#{s.subjectId}" />
+                                    </p:selectOneMenu>
+                                    <p:commandButton id="searchButton" icon="ui-icon-zoomin" value="Search"
+                                                     action="#{schoolSubjectBean.clearForm}" 
+                                                     update="dataTable"/>
+                                    <p:defaultCommand target="searchButton" />
+                                </h:panelGrid>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:dataTable scrollable="true" scrollHeight="200" id="dataTable" var="row"
+                                             value="#{schoolSubjectBean.schoolSubjectModel}" rowKey="#{row.schoolSubjectId}"
+                                             selection="#{schoolSubjectBean.schoolSubject}" selectionMode="single">
+                                    <p:column> 
+                                        <f:facet name="header">
+                                            <h:outputText value="ID" />
+                                        </f:facet> 
+                                        #{row.schoolSubjectId}  
+                                    </p:column>
+                                    <p:column> 
+                                        <f:facet name="header">
+                                            <h:outputText value="Subject Code" />
+                                        </f:facet> 
+                                        #{row.subjectCode}  
+                                    </p:column>
+                                    <p:column> 
+                                        <f:facet name="header">
+                                            <h:outputText value="Subject" />
+                                        </f:facet> 
+                                        #{row.subject.description}  
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Credit Weight" />
+                                        </f:facet> 
+                                        #{row.creditWeight}  
+                                    </p:column>
+                                    <p:column> 
+                                        <f:facet name="header">
+                                            <h:outputText value="Grade Level" />
+                                        </f:facet> 
+                                        #{row.gradeLevel.description}  
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Status" />
+                                        </f:facet>   
+                                        #{row.status}  
+                                    </p:column> 
+                                    <p:column width="100">
+                                        <f:facet name="header">
+                                            <h:outputText value="Last Modified" />
+                                        </f:facet>   
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Modified By" />
+                                        </f:facet>   
+                                        #{row.modifiedBy}  
+                                    </p:column> 
+                                </p:dataTable>  
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil" value="Update"
+                                         action="#{schoolSubjectBean.prepareForModify}" 
+                                         update=":detailsform:detailsPanel"/>
+
+                        <p:commandButton id="uploadButton" icon="ui-icon-cart" value="Upload from Excel"
+                                         action="/schooluser/settings/schoolsubject_upload" ajax="false"/>
+
+                        <p:commandButton id="doneButton" value="Done" immediate="true"
+                                         action="/schooluser/settings/index" ajax="false" /> 
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="6">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                Subject
+                            </td>
+                            <td>
+                                <p:selectOneMenu id="subjectId" value="#{schoolSubjectBean.schoolSubject.subject.subjectId}"
+                                                 required="true" requiredMessage="" style="width:200px"
+                                                 disabled="#{schoolSubjectBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.subjectList}" var="s"
+                                                   itemValue="#{s.subjectId}" itemLabel="#{s.description}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><h:message for="subjectId" /></td>
+                            <td align="right">Grade Level</td>
+                            <td>
+                                <p:selectOneMenu id="gradeLevelId" value="#{schoolSubjectBean.schoolSubject.gradeLevel.gradeLevelId}"
+                                                 required="true" requiredMessage="" style="width:200px"
+                                                 disabled="#{schoolSubjectBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.gradeLevelList}" var="g"
+                                                   itemValue="#{g.gradeLevelId}" itemLabel="#{g.description}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="gradeLevelId" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Subject Code</td>
+                            <td>
+                                <p:inputText id="subjectCode" value="#{schoolSubjectBean.schoolSubject.subjectCode}" 
+                                             readonly="#{schoolSubjectBean.editMode != 'MODIFY'}" maxlength="10"/>
+                            </td>
+                            <td><p:message for="subjectCode" /></td>
+                            <td align="right">Credit Weight</td>
+                            <td>
+                                <p:inputText id="creditWeight" value="#{schoolSubjectBean.schoolSubject.creditWeight}" 
+                                             readonly="#{schoolSubjectBean.editMode != 'MODIFY'}"
+                                             required="true" requiredMessage="" converterMessage="" validatorMessage="min is 1">
+                                    <f:validateLongRange minimum="1" maximum="10" />
+                                    <f:convertNumber integerOnly="true"/>
+                                </p:inputText>
+                            </td>
+                            <td><p:message for="creditWeight" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">School Subject Id</td>
+                            <td>
+                                <p:inputText id="schoolSubjectId" value="#{schoolSubjectBean.schoolSubject.schoolSubjectId}" 
+                                             readonly="true"/>
+                            </td>
+                            <td><p:message for="schoolSubjectId" /></td>
+                            <td align="right">Status</td>
+                            <td>
+                                <p:selectOneMenu id="status" value="#{schoolSubjectBean.schoolSubject.status}"
+                                                 required="true" requiredMessage="" style="width:150px"
+                                                 disabled="#{schoolSubjectBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.statusList}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="status" /></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="5">
+                                <p:commandButton id="saveButton" value="Save" disabled="#{schoolSubjectBean.editMode != 'MODIFY'}"
+                                                 action="#{schoolSubjectBean.saveSchoolSubject}" update=":searchform:dataTable,@form" /> 
+
+                                <p:commandButton id="clearButton" value="Reset" update="detailsPanel,@form"
+                                                 immediate="true"  action="#{schoolSubjectBean.clearForm}" /> 
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+            </h:form>
+            <p:dialog header="Upload School Subjects from Excel file" widgetVar="dlg" resizable="false" modal="true">  
+                <h:form enctype="multipart/form-data">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <h:panelGrid columns="1" style="margin-bottom:10px">
+                        <h:panelGroup>
+                            Check out the sample excel sheet format for this upload at 
+                            settings -> Preference -> Sample School Subject upload format
+                        </h:panelGroup>
+                        <h:panelGroup>  
+                            <h:outputLabel for="fileinput" value="File:" />  
+                            <p:fileUpload id="excelfileInput" value="#{excelFileImportBean.uploadedFile}" mode="simple"
+                                          allowTypes="/(\.|\/)(xls|xlsx)$/" invalidFileMessage="invalid file. Excel files only"
+                                          sizeLimit="807200" invalidSizeMessage="invalid file size. Must be less than 512kb"
+                                          required="true" requiredMessage="required"/>
+                            <h:outputText value=" " />
+                            <p:message for="excelfileInput"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                    <p:commandButton id="submitButton" value="Submit" action="#{excelFileImportBean.doExcelImport}" ajax="false"
+                                     icon="ui-icon-cart">
+                        <f:param name="ACTIONCODE" value="SCHSBJS" />
+                        <f:param name="ACTIONDESC" value="Bulk loading of school subjects" />
+                        <f:param name="BACKPATH" value="/schooluser/settings/schoolsubject" />
+                    </p:commandButton>
+                </h:form>  
+            </p:dialog>
+        </div>
+    </h:body>
+</html>

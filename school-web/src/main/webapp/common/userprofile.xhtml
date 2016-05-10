@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <body class="ui-widget-content">
+        <ui:composition template="/templates/searchformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                About My login....
+            </ui:define>
+            <ui:define name="contentPanel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="3" align="center">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="30%">Username</td>
+                            <td>
+                                <h:outputText id="name" value="#{userLoginSessionBean.userLogin.username}"
+                                              styleClass="highlight"/>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top">Password</td>
+                            <td>
+                                <h:outputText id="password" value="********"
+                                              styleClass="highlight"/>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Login attempts</td>
+                            <td valign="top">
+                                <h:outputText  value="#{userLoginSessionBean.userLogin.loginAttempts}" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Is Admin Role?</td>
+                            <td valign="top">
+                                <h:outputText id="isAdmin" value="#{userLoginSessionBean.userLogin.isAdmin}"/>
+                            </td>
+                            <td><p:message for="isAdmin" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Last Modified</td>
+                            <td valign="top">
+                                <h:outputText id="modifiedTime" value="#{userLoginSessionBean.userLogin.modifiedTime}">
+                                    <f:convertDateTime dateStyle="full" />
+                                </h:outputText>
+                            </td>
+                            <td><p:message for="modifiedTime" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">School</td>
+                            <td valign="top">
+                                <h:outputText id="school" value="#{userLoginSessionBean.userLogin.school.name}" 
+                                              styleClass="highlight" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Email</td>
+                            <td valign="top">
+                                <p:inputText id="emailAddress" value="#{userLoginSessionBean.userLogin.email}" 
+                                             size="40"/>
+                            </td>
+                            <td><p:message for="emailAddress" /></td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel"> 
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

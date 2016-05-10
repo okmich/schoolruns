@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <ui:composition template="/templates/parentportalstyle.xhtml">
+        <ui:define name="menupanel">
+            <ui:include src="/parent/student/student_menu.xhtml" />
+        </ui:define>
+        <ui:define name="paneltitle">
+            Parent Portal Home ::: Student Bio-data information
+        </ui:define>
+        <ui:define name="contentpanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="4" align="center">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="surname" value="Surname" /></td>
+                        <td>
+                            <p:inputText id="surname" value="#{studentBean.studentData.surname}"
+                                         readonly="true" size="30"/>
+                        </td>
+                        <td align="right"><p:outputLabel for="firstname" value="First name" /></td>
+                        <td>
+                            <p:inputText id="firstname" value="#{studentBean.studentData.firstname}"
+                                         readonly="true" size="30"/>
+                        </td>
+                    </tr>
+                    <tr style="background-color: #EEE;">
+                        <td align="right"><p:outputLabel for="othernames" value="Othernames"/></td>
+                        <td>
+                            <p:inputText id="othernames" value="#{studentBean.studentData.othernames}"
+                                         readonly="true" size="30"/>
+                        </td>
+                        <td  align="right"><p:outputLabel for="address" value="Address"/></td>
+                        <td rowspan="4" colspan="2" align="left">
+                            <okrol:address address="#{studentBean.studentData.address}" viewMode="true"
+                                           required="true" requiredMessage="" streetFieldSize = "40"
+                                           id="address"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Gender</td>
+                        <td>
+                            #{studentBean.studentData.gender == 'M' ? 'Male' : 'Female'}
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr style="background-color: #EEE;">
+                        <td align="right"><p:outputLabel for="birthDate" value="Date of Birth"/></td>
+                        <td>
+                            <p:calendar id="birthDate" value="#{studentBean.studentData.birthDate}" mindate="1/1/1890"
+                                        pattern="dd/MM/yyyy" readonly="true" navigator="true"/>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td align="right">Blood Group</td>
+                        <td>
+                            #{studentBean.studentData.bloodGroup}
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr style="background-color: #EEE;">
+                        <td align="right"><p:outputLabel for="genotype" value="Genotype" /></td>
+                        <td>
+                            <p:selectOneMenu id="genotype" value="#{studentBean.studentData.genotype}"
+                                             style="width:200px" disabled="true">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{applicationListBean.staticListMap['GENO_TYPE']}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td align="right"> </td>
+                        <td>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="countryCode" value="Nationality" /></td>
+                        <td>
+                            <p:selectOneMenu id="countryCode" value="#{studentBean.studentData.countryCode}"
+                                             style="width:200px" disabled="true">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{applicationListBean.countryList}" var="c" 
+                                               itemLabel="#{c.description}" itemValue="#{c.countryCode}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td align="right"><p:outputLabel for="stateMenu" value="State of Origin" /></td>
+                        <td>
+                            <p:selectOneMenu id="stateMenu" value="#{studentBean.studentData.stateOriginCode}"
+                                             style="width:200px" onchange="" disabled="true">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{addressApplicationBean.statesList}" var="s" 
+                                               itemLabel="#{s.name}" itemValue="#{s.stateCode}" />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr style="background-color: #EEE;">
+                        <td align="right"><p:outputLabel for="languageId" value="Language" /></td>
+                        <td>
+                            <p:selectOneMenu value="#{studentBean.studentData.languageId}"
+                                             style="width:200px" id="languageId" disabled="true">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{applicationListBean.languageList}" var="l" 
+                                               itemLabel="#{l.language}" itemValue="#{l.languageId}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td align="right">Parent/Guardian:</td>
+                        <td>
+                            <p:inputText id="parentsurname" value="#{studentBean.studentData.parent}"
+                                         readonly="true" size="30"/>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

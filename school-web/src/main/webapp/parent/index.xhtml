@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Schoolruns.com ::: Parents' Portal</title>
+        <h:outputStylesheet name="parent-portal-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div id="headbanner" class="ui-widget-header">
+            <img src="../resources/images/parents.logo.fw.png"/>
+        </div>
+        <div id="navdiv"> 
+            <div> </div>
+        </div>
+        <div id="container">
+            <div id="sidebar1" style="padding-top: 20px;min-height:300px;">
+            </div>
+            <div id="content">
+                <div style="margin-left:auto;margin-right:auto;margin-top:70px;margin-bottom:30px;width:400px;">
+                    <h:form prependId="false">
+                        <p:messages rendered="true" globalOnly="true" showSummary="true" 
+                                    showDetail="true"/>
+                        <p:panel header="Login Credentials">
+                            <h:panelGrid columns="2" style="width: 100%;">
+                                <p:outputLabel for="pUser" value="Username" />
+                                <p:inputText id="pUser" value="#{parentServiceBean.username}"
+                                             label="Username" required="true" requiredMessage=""/>
+                                <p:outputLabel for="password" value="Password" />
+                                <p:password id="password" value="#{parentServiceBean.password}" label="Password"
+                                            required="true" requiredMessage=""/>
+                            </h:panelGrid>
+                            <f:facet name="footer">
+                                <p:commandButton id="signBtn" action="#{parentServiceBean.performLogin}"
+                                                 value="Sign in" icon="ui-icon-check" ajax="false" />
+                                <p:defaultCommand target="signBtn" />
+                            </f:facet>
+                        </p:panel>
+                    </h:form>                
+                    <h:form prependId="false">
+                        <div style="text-align: center">
+                            <br />
+                            <h:commandLink action="/passwordrecover" value="Reset your password">
+                                <f:setPropertyActionListener target="#{sessionBean.editMode}" value="PARENT"/>
+                            </h:commandLink>
+                        </div>
+                    </h:form> 
+                </div>
+            </div>
+        </div>
+        <p:panel id="footer">
+            Copyright 2013, powered by <a href="http://www.schoolruns.com.ng">www.schoolruns.com.ng</a>
+        </p:panel>
+    </h:body>
+</f:view>

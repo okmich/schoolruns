@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Register classes with Exam Session - #{sessionBean.examBatch.examBatchId}
+        </ui:define>
+        <ui:define name="menu_panel">
+            Select/deselect classes to ensure that all classes participating in the exams are fully identified <br /><br />
+            Registering selected class is not reversible. So users must therefore ensure that all classes to participate 
+            in the session of exams are fully registered.
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="25%">Exam Session Description </td>
+                        <td>
+                            <p:inputText id="description" value="#{sessionBean.examBatch.description}" 
+                                         required="true" requiredMessage="" size="45" readonly="true"/>
+                        </td>
+                        <td><p:message for="description" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Exam Session ID </td>
+                        <td>
+                            <p:inputText id="examBatchId" value="#{sessionBean.examBatch.examBatchId}" 
+                                         required="true" requiredMessage="" size="10" readonly="true"/>
+                        </td>
+                        <td><p:message for="examBatchId" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top">Participating Classes</td>
+                        <td>
+                            <p:scrollPanel style="width:300px;height:200px" mode="native">
+                                <p:selectManyCheckbox id="schoolClasses" value="#{examBatchBean.schoolClasses}" 
+                                                      required="true" requiredMessage=""
+                                                      layout="pageDirection" converter="schoolClassConverter" 
+                                                      disabled="#{sessionBean.examBatch.status != 'I'}">
+                                    <f:selectItems value="#{schoolSessionBean.schoolClassBySection}" var="s"
+                                                   itemValue="#{s}" itemLabel="#{s.description}" />
+                                </p:selectManyCheckbox>
+                            </p:scrollPanel>
+                        </td>
+                        <td> <p:message for="schoolClasses" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <a href="#">select all</a>
+                            <h:outputText value="&nbsp;&nbsp;&nbsp;" />
+                            <a href="#">deselect all</a>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="addButton" value=" Save Classes " icon="ui-icon-disk"
+                                     rendered="#{sessionBean.examBatch.status == 'I'}" update="messages"
+                                     action="#{examBatchBean.saveExamBatchClasses}"/>
+
+                    <p:commandButton id="doneButton" value=" Done " icon="ui-icon-check"
+                                     rendered="#{sessionBean.editMode !='CREATE'}" immediate="true"
+                                     action="/schooluser/exams/exambatchdetails"/>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

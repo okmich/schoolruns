@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+    <composite:interface>
+        <composite:attribute required="true" name="address" type="com.okmich.schoolruns.common.entity.Address" />
+        <composite:attribute name="viewMode" default="false" />
+        <composite:attribute name="required" default="false" />
+        <composite:attribute name="requiredMessage" default="*" />
+        <composite:attribute name="streetFieldSize" default="30" />
+    </composite:interface>
+
+
+    <composite:implementation>
+        <h:panelGrid columns="2" rendered="#{cc.attrs.viewMode == 'false'}">
+            <p:inputText id="streetLine1" value="#{cc.attrs.address.streetLine1}" required="#{cc.attrs.required}"
+                         requiredMessage="#{cc.attrs.requiredMessage}" size="#{cc.attrs.streetFieldSize}"/>
+            <p:message for="streetLine1" severity="error" display="icon" />
+            <p:inputText id="streetLine2" value="#{cc.attrs.address.streetLine2}"
+                         size="#{cc.attrs.streetFieldSize}"/>
+            <p:message for="streetLine2" severity="error" display="icon" />
+            <p:selectOneMenu id="stateMenu" value="#{cc.attrs.address.state.stateCode}" onchange="" immediate="true"
+                             valueChangeListener="#{addressApplicationBean.fireStateChangedEvent}"
+                             required="#{cc.attrs.required}" style="width:200px">
+                <f:ajax event="change" execute="@this" render="cityMenu"/>
+                <f:selectItem itemLabel="Select One" itemValue="" />
+                <f:selectItems value="#{addressApplicationBean.statesList}" var="s" 
+                               itemLabel="#{s.name}" itemValue="#{s.stateCode}" />
+            </p:selectOneMenu>
+            <p:message for="stateMenu" severity="error" display="icon" />
+            <p:selectOneMenu id="cityMenu" value="#{cc.attrs.address.city.cityId}" style="width:200px"
+                             required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}">
+                <f:selectItem itemLabel="Select One" itemValue="" />
+                <f:selectItems value="#{addressApplicationBean.citiesList}" var="c" itemLabel="#{c.name}" itemValue="#{c.cityId}" />
+            </p:selectOneMenu>
+            <p:message for="cityMenu" severity="error" display="icon" />
+        </h:panelGrid>
+        <h:panelGrid columns="1" rendered="#{cc.attrs.viewMode == 'true'}">
+            <h:outputText id="readstreetLine1" value="#{cc.attrs.address.streetLine1}" />
+            <h:outputText id="readstreetLine2" value="#{cc.attrs.address.streetLine2}" />
+            <p:selectOneMenu id="readstateMenu" value="#{cc.attrs.address.state.stateCode}"
+                             disabled="true" style="width:200px">
+                <f:selectItem itemLabel="Select One" itemValue="" />
+                <f:selectItems value="#{addressApplicationBean.statesList}" var="s" 
+                               itemLabel="#{s.name}" itemValue="#{s.stateCode}" />
+            </p:selectOneMenu>
+            <p:selectOneMenu id="readcityMenu" value="#{cc.attrs.address.city.cityId}" disabled="true" 
+                             style="width:200px">
+                <f:selectItems value="#{addressApplicationBean.citiesList}" var="c"
+                               itemLabel="#{c.name}" itemValue="#{c.cityId}" />
+            </p:selectOneMenu>
+        </h:panelGrid>
+    </composite:implementation>
+</html>

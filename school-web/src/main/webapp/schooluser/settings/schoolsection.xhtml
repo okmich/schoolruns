@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body class="ui-widget-content">
+        <div style="margin: auto;min-width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="Sections">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="2">
+                                <p:dataTable scrollable="true" scrollHeight="200" value="#{schoolSectionBean.schoolSectionModel}" var="row" 
+                                             rowKey="#{row.schoolSectionId}"  selection="#{schoolSectionBean.schoolSection}" 
+                                             selectionMode="single" id="dataTable">
+                                    <p:column> 
+                                        <f:facet name="header">
+                                            <h:outputText value="Section ID" />
+                                        </f:facet> 
+                                        #{row.schoolSectionId}  
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Description" />
+                                        </f:facet>   
+                                        #{row.section.description}  
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Head" />
+                                        </f:facet>   
+                                        #{row.employee.fullname}
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Last Modified" />
+                                        </f:facet>   
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Modified by" />
+                                        </f:facet>   
+                                        <h:outputText value="#{row.modifiedBy}" />
+                                    </p:column>
+                                </p:dataTable>  
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil" value="Update"
+                                         action="#{schoolSectionBean.prepareForModify}" update=":detailsform:detailsPanel">   
+                            <f:param name="editMode" value="EDIT" />
+                        </p:commandButton>
+
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/schooluser/settings/index" ajax="false" /> 
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="6">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Section</td>
+                            <td>
+                                <p:selectOneMenu id="sectionId" value="#{schoolSectionBean.schoolSection.section.sectionId}"
+                                                 required="true" requiredMessage="" style="width:200px"
+                                                 disabled="#{schoolSectionBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.sectionList}" var="s" 
+                                                   itemLabel="#{s.description}" itemValue="#{s.sectionId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><h:message for="sectionId" /></td>
+                            <td align="right">Section Head</td>
+                            <td>
+                                <p:selectOneMenu id="employeeId" value="#{schoolSectionBean.schoolSection.employee.employeeId}"
+                                                 style="width:200px" disabled="#{schoolSectionBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{schoolSessionBean.employees}" var="e" 
+                                                   itemLabel="#{e.fullname}" itemValue="#{e.employeeId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><h:message for="employeeId" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">School Section Id</td>
+                            <td>
+                                <p:inputText id="schoolSectionId" value="#{schoolSectionBean.schoolSection.schoolSectionId}" 
+                                             readonly="true"/>
+                            </td>
+                            <td><p:message for="schoolSectionId" /></td>
+                            <td align="right">Status</td>
+                            <td>
+                                <p:selectOneMenu id="status" value="#{schoolSectionBean.schoolSection.status}"
+                                                 required="true" requiredMessage="" style="width:200px"
+                                                 disabled="#{schoolSectionBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.statusList}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><h:message for="status" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Last Modified By</td>
+                            <td>
+                                <p:inputText id="modifiedBy" value="#{schoolSectionBean.schoolSection.modifiedBy}" 
+                                             readonly="true" />
+                            </td>
+                            <td><h:message for="modifiedBy" /></td>
+                            <td align="right">Last Modified at</td>
+                            <td>
+                                <p:inputText id="modifiedTime" value="#{schoolSectionBean.schoolSection.modifiedTime}" 
+                                             readonly="true">
+                                    <f:convertDateTime />
+                                </p:inputText>
+                            </td>
+                            <td><h:message for="modifiedTime" /></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="5">
+                                <p:commandButton id="saveButton" value="Save" disabled="#{schoolSectionBean.editMode != 'MODIFY'}"
+                                                 action="#{schoolSectionBean.saveSchoolSection}" update="@form :searchform:dataTable" /> 
+
+                                <p:commandButton id="clearButton" value="Reset" update="@form"
+                                                 immediate="true"  action="#{schoolSectionBean.clearForm}" /> 
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/parentportalstyle.xhtml">
+        <ui:define name="menupanel">
+            <ui:include src="/parent/student/student_menu.xhtml" />
+        </ui:define>
+        <ui:define name="paneltitle">
+            Parent Portal Home ::: Student Sports Activity Log
+        </ui:define>
+        <ui:define name="contentpanel">
+            <h:form>
+
+                <table width="100%">
+                    <tr>
+                        <td align="center">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:dataTable id="schoolSportsTabs" var="row" value="#{studentBean.studentSportModel}"
+                                         rowKey="#{row.studentSportId}"
+                                         selection="#{studentBean.studentSport}" selectionMode="single"
+                                         style="overflow: scroll;width: 100%;height: 300px">
+                                <p:column headerText="ID">
+                                    #{row.studentSportId}
+                                </p:column>
+                                <p:column headerText="Category">
+                                    #{row.sportCategory.description}
+                                </p:column>
+                                <p:column headerText="Academic Year" >
+                                    #{row.schoolYear.academicYear.description}
+                                </p:column>
+                                <p:column headerText="Comment" width="300px">
+                                    #{studentPropertyBean.truncate(row.description)}
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    #{row.modifiedBy}
+                                </p:column>
+                                <p:column headerText="Lasted Modified">
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime dateStyle="short" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                            <div id="taskButtonPanel">
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

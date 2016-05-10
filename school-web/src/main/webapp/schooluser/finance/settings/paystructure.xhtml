@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body class="ui-widget-content">
+        <h:form prependId="false" id="searchform"> 
+            <p:panel header="Payroll Scheme(s)">
+                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                <table width="100%">
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable scrollable="true" scrollHeight="200" value="#{payStructureBean.payStructureModel}" var="row" 
+                                         rowKey="#{row.payStructureId}"  selection="#{payStructureBean.payStructure}" 
+                                         selectionMode="single" id="dataTable">
+                                <p:column width="60"> 
+                                    <f:facet name="header">
+                                        <h:outputText value="ID" />
+                                    </f:facet> 
+                                    #{row.payStructureId}  
+                                </p:column>
+                                <p:column width="190">
+                                    <f:facet name="header">
+                                        <h:outputText value="Title" />
+                                    </f:facet>   
+                                    #{row.title}  
+                                </p:column> 
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Description" />
+                                    </f:facet>   
+                                    #{row.description}  
+                                </p:column> 
+                                <p:column width="100">
+                                    <f:facet name="header">
+                                        <h:outputText value="Total Amount" />
+                                    </f:facet>
+                                    <h:outputText value="#{row.totalAmount}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column width="70">
+                                    <f:facet name="header">
+                                        <h:outputText value="Last Modified By" />
+                                    </f:facet>
+                                    #{row.modifiedBy}
+                                </p:column> 
+                                <p:column width="60">
+                                    <f:facet name="header">
+                                        <h:outputText value="Last Modified" />
+                                    </f:facet>
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>  
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="updateButton" icon="ui-icon-pencil" value="Update"
+                                     action="#{payStructureBean.prepareForModify}" update=":detailsform:detailsPanel"/>
+
+                    <p:commandButton id="doneButton" value="Done" 
+                                     action="/schooluser/finance/settings/index" ajax="false" /> 
+                </div>
+            </p:panel>
+        </h:form>
+        <h:form prependId="false" id="detailsform">
+            <p:panel header="Details" id="detailsPanel">
+                <table width="100%">
+                    <tr>
+                        <td colspan="3">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel for="title" value="Title" /></td>
+                        <td>
+                            <p:inputText id="title" value="#{payStructureBean.payStructure.title}" 
+                                         readonly="#{payStructureBean.editMode != 'MODIFY'}" size = "30"
+                                         required="true" requiredMessage=""/>
+                        </td>
+                        <td rowspan="5">
+                            <p:outputLabel for="payStructureItemList" value="Scheme Items:" />
+                            <p:selectManyMenu value="#{payStructureBean.payStructure.payStructureItemList}"
+                                              disabled="#{payStructureBean.editMode != 'MODIFY'}" showCheckbox="true"
+                                              style="width:100%;height:100px" required="true" id="payStructureItemList"
+                                              converter="payStructureItemConverter">
+                                <f:selectItems value="#{payStructureItemBean.payStructureItems}" var="p"
+                                               itemLabel="#{p.title}" itemValue="#{p}" />
+                            </p:selectManyMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel for="description" value="Description" /></td>
+                        <td>
+                            <p:inputText id="description" value="#{payStructureBean.payStructure.description}" 
+                                         readonly="#{payStructureBean.editMode != 'MODIFY'}" size = "40"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel for="amount" value="Amount" /></td>
+                        <td>
+                            <p:inputText id="amount" value="#{payStructureBean.payStructure.totalAmount}" 
+                                         readonly="true">
+                                <f:convertNumber pattern="#,##0.00" />
+                                <f:validateDoubleRange minimum="0"/>
+                            </p:inputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ID</td>
+                        <td>
+                            <p:inputText value="#{payStructureBean.payStructure.payStructureId}" readonly="true" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="2">
+                            <p:commandButton id="saveButton" value=" Save " action="#{payStructureBean.savePayStructure}"
+                                             disabled="#{payStructureBean.editMode != 'MODIFY'}" 
+                                             update=":searchform:dataTable,@form" icon="ui-icon-disk" /> 
+
+                            <p:commandButton id="clearButton" value="Reset" update="@form" icon="ui-icon-arrowrefresh-1-w"
+                                             immediate="true"  action="#{payStructureBean.clearForm}" /> 
+                        </td>
+                    </tr>
+                </table>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>

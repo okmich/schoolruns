@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/searchformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                Search e-library
+            </ui:define>
+            <ui:define name="contentPanel">
+                <h:form>
+
+                    <table width="100%">
+                        <tr>
+                            <td width="10%">Title</td>
+                            <td>
+                                <p:inputText value="#{ebookBean.title}" />
+                            </td>
+                            <td width="10%">Subject</td>
+                            <td>
+                                <p:selectOneMenu id="subjectId" value="#{ebookBean.subjectId}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.subjectList}" var="s" 
+                                                   itemLabel="#{s.description}" itemValue="#{s.subjectId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td width="10%">Section</td>
+                            <td>
+                                <p:selectOneMenu id="sectionId" value="#{ebookBean.sectionId}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.sectionList}" var="s" 
+                                                   itemLabel="#{s.description}" itemValue="#{s.sectionId}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Teacher</td>
+                            <td>
+                                <p:inputText value="#{ebookBean.staff}" />
+                            </td>
+                            <td>Type</td>
+                            <td>
+                                <p:selectOneMenu id="type" value="#{ebookBean.type}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.staticListMap['EBOOK_TYPE']}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td>Public</td>
+                            <td>
+                                <p:selectBooleanCheckbox value="#{ebookBean.publicized}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="5">
+                                <p:commandButton id="searchButton" value="Search" icon="ui-icon-search"
+                                                 update="ebookTabs" action="#{ebookBean.findEbooks}"/>
+                                <p:defaultCommand target="searchButton" />
+                                <h:outputText value=" " />
+                                <p:commandButton id="newButton" value="New E-book" icon="ui-icon-document"
+                                                 update="ebookTabs" action="/schooluser/media/elibrarydetails"
+                                                 ajax="false">
+                                    <f:setPropertyActionListener target="#{sessionBean.editMode}"
+                                                                 value="CREATE" />
+                                </p:commandButton>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <p:dataTable id="ebookTabs" var="row" value="#{sessionBean.ebookModel}" rowKey="#{row.ebookId}"
+                                             selection="#{ebookBean.ebook}" selectionMode="single" 
+                                             scrollable="true" scrollHeight="300" resizableColumns="true">
+                                    <p:column headerText="ID" width="50">
+                                        #{row.ebookId}
+                                    </p:column>
+                                    <p:column headerText="Title">
+                                        #{row.title}
+                                    </p:column>
+                                    <p:column headerText="Subject" width="120">
+                                        #{row.subject.description}
+                                    </p:column>
+                                    <p:column headerText="Section" width="90">
+                                        #{row.section.description}
+                                    </p:column>
+                                    <p:column headerText="Upload By" width="130">
+                                        #{row.creator}
+                                    </p:column>
+                                    <p:column headerText="Upload Date" width="60">
+                                        <h:outputText value="#{row.createDate}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>                                    
+                                    <p:column headerText="Modified By" width="70">
+                                        #{row.modifiedBy}
+                                    </p:column>
+                                    <p:column headerText="" width="120">
+                                        <h:commandLink value="view" action="#{ebookBean.findEbook}" >
+                                            <f:param name="ebookId" value="#{row.ebookId}" />
+                                            <f:param name="viewMode" value="VIEW" />
+                                        </h:commandLink>
+                                        <h:outputText value=" " />
+                                        <h:outputLink value="#{row.sourceUrl}" type="#{row.fileType}"
+                                                      target="_blank" >
+                                            <h:outputText value="open" />
+                                        </h:outputLink>
+                                        <h:outputText value=" " />
+                                        <h:commandLink value="update" action="#{ebookBean.findEbook}" >
+                                            <f:param name="ebookId" value="#{row.ebookId}" />
+                                            <f:param name="viewMode" value="UPDATE" />
+                                        </h:commandLink>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

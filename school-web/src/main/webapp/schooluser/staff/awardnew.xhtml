@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+                <ui:include src="/schooluser/staff/relatedtaskmenu.xhtml" />
+            </ui:define>
+            <ui:define name="panelTitle">
+                Award History - (#{sessionBean.employeeData.fullname})
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td align="center" colspan="3">
+                                You are about to enter an award received by  #{sessionBean.employeeData.fullname}. <br/>
+                                Please make sure that you are entering this records for the  <br/>correct employee and so rightly 
+                                because it will not be possible to delete or edit  <br/>information once entered.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" colspan="3">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="underline" colspan="3">
+                                Details
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="25%" align="right">Award</td>
+                            <td>
+                                <p:inputText value="#{employeePropertyBean.employeeAward.award}" id="award"
+                                             style="width:200px" required="true" requiredMessage="" />
+                            </td>
+                            <td><p:message for="award" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Institution</td>
+                            <td>
+                                <p:inputText value="#{employeePropertyBean.employeeAward.institution}" id="institution"
+                                             style="width:200px" required="true" requiredMessage="" />
+                            </td>
+                            <td><p:message for="institution" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top">Comments</td>
+                            <td>
+                                <h:inputTextarea value="#{employeePropertyBean.employeeAward.comment}"
+                                                 rows="5" cols="45" required="true" requiredMessage=""
+                                                 id="comment"/>
+                            </td>
+                            <td><p:message for="comment" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Date Obtained</td>
+                            <td>
+                                <p:calendar value="#{employeePropertyBean.employeeAward.dateObtained}"
+                                            required="true" requiredMessage="" id="dateObtained"
+                                            pattern="dd/MM/yyyy" navigator="true"/>
+                            </td>
+                            <td><p:message for="dateObtained" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td colspan="2">
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="addButton" value=" Save " icon="ui-icon-disk"
+                                         action="#{employeePropertyBean.saveEmployeeAward}" ajax="false"/>
+
+                        <p:commandButton id="doneButton" value=" Back " icon="ui-icon-seek-prev"
+                                         immediate="true" action="/schooluser/staff/awards" ajax="false"/>
+
+                        <p:defaultCommand target="doneButton" />
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

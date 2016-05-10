@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body class="ui-widget-content">
+        <div style="margin: auto;min-width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="Class Rooms">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="2">
+                                <p:dataTable scrollHeight="200" value="#{classroomBean.classroomModel}" var="row" 
+                                             rowKey="#{row.classroomId}"  selection="#{classroomBean.classroom}" 
+                                             selectionMode="single" id="dataTable">
+                                    <p:column> 
+                                        <f:facet name="header">
+                                            <h:outputText value="ID" />
+                                        </f:facet> 
+                                        #{row.classroomId}  
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Code" />
+                                        </f:facet>   
+                                        #{row.code}  
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Description" />
+                                        </f:facet>   
+                                        #{row.description}  
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Status" />
+                                        </f:facet>   
+                                        #{row.status}  
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Modified By" />
+                                        </f:facet>   
+                                        #{row.modifiedBy} 
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Last Modified" />
+                                        </f:facet>   
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>  
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil" value="Update"
+                                         action="#{classroomBean.prepareForModify}" update=":detailsform:detailsPanel">
+                            <f:param name="editMode" value="EDIT" />
+                        </p:commandButton>
+
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/schooluser/settings/index" ajax="false" /> 
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="6">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ID</td>
+                            <td>
+                                <p:inputText id="classroomId" value="#{classroomBean.classroom.classroomId}" 
+                                             readonly="true"/>
+                            </td>
+                            <td><p:message for="classroomId" /></td>
+                            <td>Status</td>
+                            <td>
+                                <p:selectOneMenu id="status" value="#{classroomBean.classroom.status}"
+                                                 required="true" requiredMessage=""
+                                                 disabled="#{classroomBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.statusList}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="status" /></td>
+                        </tr>
+                        <tr>
+                            <td>Code</td>
+                            <td>
+                                <p:inputText id="code" value="#{classroomBean.classroom.code}" maxlength="15"
+                                             readonly="#{classroomBean.editMode != 'MODIFY'}"
+                                             required="true" requiredMessage=""/>
+                            </td>
+                            <td><p:message for="code" /></td>
+                            <td>Description</td>
+                            <td>
+                                <p:inputText id="description" value="#{classroomBean.classroom.description}" 
+                                             readonly="#{classroomBean.editMode != 'MODIFY'}" maxlength="45"
+                                             required="true" requiredMessage=""/>
+                            </td>
+                            <td><p:message for="description" /></td>
+                        </tr>
+                        <tr>
+                            <td>Modified on</td>
+                            <td>
+                                <p:calendar id="modifiedTime" value="#{classroomBean.classroom.modifiedTime}" 
+                                            readonly="true"/>
+                            </td>
+                            <td><p:message for="modifiedTime" /></td>
+                            <td>Modified by</td>
+                            <td>
+                                <p:inputText id="modifiedBy" value="#{classroomBean.classroom.modifiedBy}" 
+                                             readonly="true"/>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <p:commandButton id="saveButton" value="Save" disabled="#{classroomBean.editMode != 'MODIFY'}"
+                                                 action="#{classroomBean.saveClassroom}" update=":searchform:dataTable,@form" /> 
+
+                                <p:commandButton id="clearButton" value="Reset" update="@form"
+                                                 immediate="true"  action="#{classroomBean.clearForm}" /> 
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

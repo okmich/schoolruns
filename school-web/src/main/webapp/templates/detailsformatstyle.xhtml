@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <body class="ui-widget-content">
+        <table width="100%" style="margin: 0;padding:0;">
+            <tr>
+                <td valign="top">
+                    <p:panel style="float:left; width: 99%;">
+                        <f:facet name="header">
+                            <ui:insert name="panelTitle">
+
+                            </ui:insert>
+                        </f:facet>
+                        <ui:insert name="content_panel" rendered="true">
+                            <p:panel header="HeaderText" style="min-height: 400px;">
+
+                            </p:panel>
+                        </ui:insert>
+                    </p:panel>
+                </td>
+                <td style="width:200px;min-width:200px;" valign="top">
+                    <p:panel header="Related Tasks" style="min-width:200px;min-height: 400px;float: right;">
+                        <h:form>
+                            <ui:insert name="menu_panel" rendered="true">
+                                header text here
+                            </ui:insert>
+                        </h:form>
+                    </p:panel>
+                </td>
+            </tr>
+        </table>
+    </body>
+</f:view>

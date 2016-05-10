@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+
+    <composite:interface>
+        <composite:attribute required="true" name="value" type="com.okmich.schoolruns.common.entity.TimetableEntry" />
+    </composite:interface>
+
+
+    <composite:implementation>
+        <h:panelGroup  style="text-align:center; min-width:100px;min-height:90px;vertical-align:middle">
+            <h:panelGroup rendered="#{not cc.attrs.value.classPeriod.breakTime}" >
+                <div style="font-size:x-small;font-weight:bold">
+                	#{cc.attrs.value.schoolSubject.subjectCode}
+                </div>
+                <br />
+                <div style="font-size: xx-small">
+                    <h:outputText value="#{cc.attrs.value.classPeriod.startTime}">
+                        <f:convertDateTime pattern="hh:mm" />
+                    </h:outputText>
+                    <h:outputText value=" - " rendered="#{cc.attrs.value.classPeriod.startTime != null}" /> 
+                    <h:outputText value="#{cc.attrs.value.classPeriod.endTime}">
+                        <f:convertDateTime pattern="hh:mm" />
+                    </h:outputText>
+                </div>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{cc.attrs.value.classPeriod.breakTime}" style="text-align:center;font-size: large;" >
+                Break
+            </h:panelGroup>
+        </h:panelGroup>
+        <h:panelGroup style="float: right">
+            <h:commandLink action="#{classTimeTableBean.findTimetableEntry}" value="..." style="text-decoration: none">
+                <f:param name="valueId" value="#{cc.attrs.value.timetableEntryId}" />
+                <f:param name="classPeriodId" value="#{cc.attrs.value.classPeriod.classPeriodId}" />
+                <f:param name="weekdayCode" value="#{cc.attrs.value.weekday.code}" />
+            </h:commandLink>
+        </h:panelGroup>
+    </composite:implementation>
+</html>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            E-Book Details
+        </ui:define>
+        <ui:define name="menu_panel">
+
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form enctype="multipart/form-data">
+                <table width="100%"> 
+                    <tr>
+                        <td colspan="2">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" 
+                                        showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="25%"><p:outputLabel value="Title" for="title" /></td>
+                        <td>
+                            <p:inputText id="title" value="#{ebookBean.ebook.title}"
+                                         required="true" size="30"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><p:outputLabel value="Description" for="description" /></td>
+                        <td>
+                            <h:inputTextarea id="description" value="#{ebookBean.ebook.description}" 
+                                             required="true" cols="40" rows="6" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Type of Resource" for="type" /></td>
+                        <td>
+                            <p:selectOneMenu id="type" value="#{ebookBean.ebook.type}" required="true"
+                                             disabled="#{sessionBean.editMode == 'VIEW'}" immediate="true"
+                                             onchange="" valueChangeListener="#{ebookBean.changeFileTypeEvent}">
+                                <f:ajax event="change" execute="@form" render="@form"/>
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{applicationListBean.staticListMap['EBOOK_TYPE']}" />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel value="Source" for="uploadedFile" rendered="#{ebookBean.fileUpload}" />
+                            <p:outputLabel value="Resource Link" for="link" rendered="#{not ebookBean.fileUpload}"/>
+                        </td>
+                        <td>
+                            <p:fileUpload id="uploadedFile" value="#{ebookBean.uploadedFile}" mode="simple"
+                                          sizeLimit="10240000" invalidSizeMessage="invalid file size. Must be less than 10mb"
+                                          required="true" rendered="#{ebookBean.fileUpload}"/>
+                            <p:inputText id="link" value="#{ebookBean.link}" size="45"
+                                         required="true" rendered="#{not ebookBean.fileUpload}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Year of Publication" for="year" /></td>
+                        <td>
+                            <p:selectOneMenu id="year" value="#{ebookBean.ebook.year}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{applicationListBean.yearList}"/>
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Author" for="author" /></td>
+                        <td>
+                            <p:inputText id="author" value="#{ebookBean.ebook.author}"
+                                         required="true" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Section Concerned" for="sectionId" /></td>
+                        <td>
+                            <p:selectOneMenu id="sectionId" value="#{ebookBean.ebook.section.sectionId}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{applicationListBean.sectionList}" var="s" 
+                                               itemLabel="#{s.description}" itemValue="#{s.sectionId}" />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Subject" for="subjectId" /></td>
+                        <td>
+                            <p:selectOneMenu id="subjectId" value="#{ebookBean.ebook.subject.subjectId}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{applicationListBean.subjectList}" var="s" 
+                                               itemLabel="#{s.description}" itemValue="#{s.subjectId}" />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Make available for public</td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{ebookBean.publicized}"
+                                                     disabled="#{sessionBean.editMode == 'VIEW'}"/>
+                        </td>
+                    </tr>
+                </table>
+                <h:panelGroup rendered="#{sessionBean.editMode != 'CREATE'}">
+                    <table width="100%"> 
+                        <tr>
+                            <td width="25%"><p:outputLabel value="Creation By" for="creator" /></td>
+                            <td>
+                                <p:inputText id="creator" value="#{ebookBean.ebook.creator}"
+                                             readonly="true"/>
+                            </td>
+                            <td><p:outputLabel value="Create Date" for="createDate" /></td>
+                            <td>
+                                <p:inputText id="createDate" value="#{ebookBean.ebook.createDate}"
+                                             readonly="true">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="File Type" for="fileType" /></td>
+                            <td>
+                                <p:inputText id="fileType" value="#{ebookBean.ebook.fileType}"
+                                             readonly="true"/>
+                            </td>
+                            <td><p:outputLabel value="Status" for="status" /></td>
+                            <td>
+                                <p:selectOneMenu value="#{ebookBean.ebook.status}"
+                                                 style="width:200px" id="status" required="true"
+                                                 requiredMessage="">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.statusList}"/>
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Modified By" for="modifiedBy" /></td>
+                            <td>
+                                <p:inputText id="modifiedBy" value="#{ebookBean.ebook.modifiedBy}"
+                                             readonly="true"/>
+                            </td>
+                            <td><p:outputLabel value="Ebook ID" for="ebookId" /></td>
+                            <td>
+                                <p:inputText id="ebookId" value="#{ebookBean.ebook.ebookId}"
+                                             readonly="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Last Modified" for="modifiedTime" /></td>
+                            <td>
+                                <p:inputText id="modifiedTime" value="#{ebookBean.ebook.modifiedTime}"
+                                             readonly="true" size="35">
+                                    <f:convertDateTime dateStyle="full" />
+                                </p:inputText>
+                            </td>
+                            <td></td>
+                            <td>
+                            </td>
+                        </tr>
+                    </table>
+                </h:panelGroup>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk"
+                                     action="#{ebookBean.saveEbook}" update="messages" ajax="false"
+                                     rendered="#{sessionBean.editMode != 'VIEW'}"/>
+                    <h:outputText value=" "/> 
+                    <p:commandButton id="doneButton" value="Done" icon="ui-icon-check" ajax="false"
+                                     action="#{ebookBean.retToSearch}" immediate="true" />
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

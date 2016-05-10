@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/parentportalstyle.xhtml">
+        <ui:define name="menupanel">
+            <h:form>
+                <p:menu style="width: 100%">
+                    <p:menuitem value=" Ward's Home " icon="ui-icon-search"
+                                action="#{studentBean.goStudentHome}" ajax="false" />
+
+                    <p:separator />
+                    <p:menuitem value=" By Term " icon="ui-icon-search"
+                                action="/parent/student/attendance/index" ajax="false" />
+                </p:menu>
+            </h:form>
+        </ui:define>
+        <ui:define name="paneltitle">
+            School Attendance Summary ::: By Academic Year
+        </ui:define>
+        <ui:define name="contentpanel">
+            <h:form>
+                <p:panel>
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <p:dataTable id="searchTabs" var="row" 
+                                 value="#{studentAttendanceBean.yearModel}" 
+                                 style="overflow: scroll;width: 100%;height: 250px">
+                        <p:column headerText="School">
+                            #{row.school_name}
+                        </p:column>
+                        <p:column headerText="Year">
+                            #{row.academic_year}
+                        </p:column>
+                        <p:column headerText="Opens">
+                            <h:outputText value="#{row.year_start}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Closes">
+                            <h:outputText value="#{row.year_close}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Attendance #" >
+                            <h:outputText value="#{row.attendance}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

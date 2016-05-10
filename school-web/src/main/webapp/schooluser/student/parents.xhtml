@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+                <ui:include src="/schooluser/student/relatedtaskmenu.xhtml" />
+            </ui:define>
+            <ui:define name="panelTitle">
+                Student's Parent/Guardian - #{sessionBean.schoolStudentData.fullname}
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="4" align="center">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="15%"><p:outputLabel for="titleCode" value="Title"/></td>
+                            <td>
+                                <p:selectOneMenu id="titleCode" value="#{parentBean.parent.title.titleCode}"
+                                                 style="width:200px" onchange="" immediate="true">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.titleList}" var="t" 
+                                                   itemLabel="#{t.description}" itemValue="#{t.titleCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right" width="15%"></td>
+                            <td> </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="surname" value="Surname"/></td>
+                            <td>
+                                <p:inputText id="surname" value="#{parentBean.parent.surname}" 
+                                             required="true" requiredMessage="" />
+                            </td>
+                            <td align="right"><p:outputLabel for="othernames" value="Othernames"/></td>
+                            <td>
+                                <p:inputText id="othernames" value="#{parentBean.parent.othernames}" 
+                                             required="true" requiredMessage="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="email" value="Email"/></td>
+                            <td>
+                                <p:inputText id="email" value="#{parentBean.parent.email}"/>
+                            </td>
+                            <td align="right"><p:outputLabel for="phoneNumber" value="Phone #"/></td>
+                            <td>
+                                <p:inputText id="phoneNumber" value="#{parentBean.parent.phoneNumber}" 
+                                             required="true" requiredMessage=""  readonly="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="relationship" value="Relationship"/></td>
+                            <td>
+                                <p:selectOneMenu id="relationship" value="#{parentBean.parent.relationship}"
+                                                 style="width:200px" required="true" requiredMessage="">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.staticListMap['RELATIONSHIP_TYPE']}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right"><p:outputLabel for="alternateNumber" value="Alt. Phone #"/></td>
+                            <td>
+                                <p:inputText id="alternateNumber" value="#{parentBean.parent.alternateNumber}" 
+                                             required="true" requiredMessage="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top"><p:outputLabel for="address" value="Res. Address"/></td>
+                            <td>
+                                <okrol:address address="#{parentBean.parent.address1}" viewMode="false"
+                                               required="true" requiredMessage="" streetFieldSize = "35"
+                                               id="address"/>
+                            </td>
+                            <td align="right" valign="top"><p:outputLabel for="address2" value="Official. Address"/></td>
+                            <td>
+                                <okrol:address address="#{parentBean.parent.address}" viewMode="false"
+                                               streetFieldSize = "35" id="address2"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="jobIndustry" value="Industry"/></td>
+                            <td>
+                                <p:inputText id="jobIndustry" value="#{parentBean.parent.jobIndustry}"/>
+                            </td>
+                            <td align="right"><p:outputLabel for="stateMenu" value="State of Origin"/></td>
+                            <td>
+                                <p:selectOneMenu id="stateMenu" value="#{parentBean.parent.state.stateCode}"
+                                                 style="width:200px" onchange="" immediate="true">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{addressApplicationBean.statesList}" var="s" 
+                                                   itemLabel="#{s.name}" itemValue="#{s.stateCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="underline" colspan="4">Others</td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="status" value="Status"/></td>
+                            <td>
+                                <h:inputText id="status" value="#{parentBean.parent.status}" 
+                                             readonly="true"/>
+                            </td>
+                            <td align="right"><p:outputLabel for="modifiedTime" value="Modified"/></td>
+                            <td>
+                                <h:inputText id="modifiedTime" value="#{parentBean.parent.modifiedTime}" 
+                                             readonly="true">
+                                    <f:convertDateTime dateStyle="long" />
+                                </h:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Modified by</td>
+                            <td>
+                                <h:inputText id="modifiedBy" value="#{parentBean.parent.modifiedBy}" 
+                                             readonly="true" />
+                            </td>
+                            <td align="right"></td>
+                            <td>
+                               
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="msgButton" value="Send Message"
+                                         icon="ui-icon-mail-closed" onclick="msgDialog.show()"/>
+
+                        <p:commandButton id="dassButton" value="De-assign from Student"
+                                         icon="ui-icon-arrowthick-2-e-w" onclick="deDialog.show()"/>
+
+                        <p:commandButton id="doneButton" value="Done" icon="ui-icon-check" immediate="true"
+                                         action="/schooluser/student/studentdetails" ajax="false"/>
+                        <p:defaultCommand target="doneButton" />
+
+                        <p:confirmDialog message="Are you sure about delete the relationship between this present and 
+                                         the currently set Child/Ward? \n\nNote that a mail will be sent to parent and 
+                                         school administrators of this action"
+                                         header="Deassign Parent-Ward Relationship" severity="alert"
+                                         widgetVar="deDialog">
+                            <p:commandButton value="Yes Sure!" action="#{parentBean.deassignParent}"
+                                             oncomplete="confirmation.hide()" icon="ui-icon-check"/>
+                            <p:commandButton value="No! Not Sure" onclick="confirmation.hide();" type="button"
+                                             icon="ui-icon-circle-close"/>
+                        </p:confirmDialog>
+
+                        <p:dialog header="Send Message to Parent" widgetVar="msgDialog" modal="true">
+
+                            <p:commandButton value="No! Not Sure" onclick="msgDialog.hide();" type="button"
+                                             icon="ui-icon-circle-close"/>
+                        </p:dialog>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

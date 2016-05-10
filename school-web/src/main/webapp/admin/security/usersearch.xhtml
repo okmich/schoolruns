@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/searchformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                User(s)
+            </ui:define>
+            <ui:define name="contentPanel">
+                <h:form> 
+                    <table width="100%">
+                        <tr>
+                            <td colspan="6">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                	id="messages"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="10%">Name</td>
+                            <td><p:inputText value="#{userLoginBean.title}" /></td>
+                            <td align="right" width="10%">Phone #</td>
+                            <td><p:inputText value="#{userLoginBean.phoneNumber}" /></td>
+                            <td align="right" width="10%">Login ID</td>
+                            <td><p:inputText value="#{userLoginBean.username}" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right" >Email</td>
+                            <td><p:inputText value="#{userLoginBean.email}" /></td>
+                            <td align="right">School Admin</td>
+                            <td><p:selectBooleanCheckbox value="#{userLoginBean.schoolAdmin}" /></td>
+                            <td align="right">Default Role</td>
+                            <td>
+                                <p:selectOneMenu id="systemRoleId" value="#{userLoginBean.systemRoleId}" immediate="true"
+                                                 style="width:200px">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.systemRoleList}" var="s"
+                                                   itemLabel="#{s.description}" itemValue="#{s.systemRoleId}"/>
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> </td>
+                            <td colspan="3">
+                                <p:commandButton id="searchButton" value="Search" icon="ui-icon-search" update="userTabs"
+                                                 action="#{userLoginBean.findUserLogins}"/>
+                                <p:defaultCommand target="searchButton" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <p:dataTable id="userTabs" var="usr" value="#{sessionBean.userLoginModel}" rowKey="#{usr.userLoginId}"
+                                             selection="#{userLoginBean.userLogin}" selectionMode="single"
+                                             scrollable="true" scrollHeight="300">
+                                    <p:column headerText="Username" width="90">
+                                        #{usr.username}
+                                    </p:column>  
+                                    <p:column headerText="User">
+                                        #{usr.title}
+                                    </p:column>
+                                    <p:column headerText="Email">
+                                        #{usr.email}
+                                    </p:column>
+                                    <p:column headerText="Phone #" width="120">
+                                        #{usr.phoneNumber}
+                                    </p:column>
+                                    <p:column headerText="Status" width="40">
+                                        #{usr.status}
+                                    </p:column>
+                                    <p:column headerText="Role" width="140">
+                                        #{usr.defaultSystemRole.description}
+                                    </p:column>
+                                    <p:column headerText="Last modified" width="70">
+                                        <h:outputText value="#{usr.modifiedTime}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel"> 
+                        <p:commandButton id="viewButton" value="View" icon="ui-icon-zoomin"
+                                         action="#{userLoginBean.findUserLogin}" ajax="false" update="messages">
+                            <f:param name="editMode" value="VIEW" />
+                        </p:commandButton>
+                        <p:commandButton id="updateButton" value="Update" icon="ui-icon-pencil"
+                                         action="#{userLoginBean.findUserLogin}" ajax="false" update="messages">
+                            <f:param name="editMode" value="MODIFY" />
+                        </p:commandButton>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

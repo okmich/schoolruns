@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Receipt Reversal
+        </ui:define>
+        <ui:define name="menu_panel">
+
+        </ui:define>
+        <ui:define name="panelTitle">
+          	Receipt Reversal
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3" align="center">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" 
+                                        showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                            <td align="right">
+                                <p:outputLabel value="ID" for="receiptId" />
+                            </td>
+                            <td>
+                                <p:inputText id="receiptId" value="#{financeSessionBean.receipt.receiptId}" 
+                                             readonly="true"/>
+                            </td>
+                            <td></td>
+                        </tr>
+                     	<tr>
+                            <td align="right">
+                                <p:outputLabel value="Receipt" for="receiptNumber" />
+                            </td>
+                            <td>
+                                <p:inputText id="receiptNumber" value="#{financeSessionBean.receipt.receiptNumber}" 
+                                             readonly="true"/>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <p:outputLabel value="Narration" for="narration" />
+                            </td>
+                            <td>
+                                <p:inputText id="narration" value="#{financeSessionBean.receipt.narration}" 
+                                             required="true"  requiredMessage="" size="50" maxlength="70" />
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="revButton" value=" Reverse " icon="ui-icon-arrowreturnthick-1-w"
+                                     action="#{receiptBean.reverseReceipt}" update="messages"/>
+
+                    <p:commandButton id="doneButton" value="Done" icon="ui-icon-check"
+                                     action="/schooluser/finance/receiptdetails" immediate="true" />
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

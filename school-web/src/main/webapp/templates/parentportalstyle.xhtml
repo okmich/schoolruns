@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Schoolruns.com ::: Parents' Portal</title>
+        <h:outputStylesheet name="parent-portal-style.css" library="css"/>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div id="headbanner" class="ui-widget-header">
+            <h:graphicImage name="parents.logo.fw.png" library="images"/>
+        </div>
+        <div id="navdiv">
+            <h:form>
+                <div>
+                    <h:commandLink action="/parent/console" value=" Home " /> | 
+                    <h:commandLink action="/parent/profile" value=" Account " /> | 
+                    <h:commandLink action="#{parentServiceBean.performLogout}" value=" Sign out " />
+                </div>
+            </h:form>
+        </div>
+        <div id="container">
+            <div id="sidebar1">
+                <p:panel style="min-height:300px;">
+                    <ui:insert name="menupanel" rendered="true">
+
+                    </ui:insert>
+                </p:panel>
+            </div>
+            <div id="content">
+                <p:panel style="width: 100%;">
+                    <f:facet name="header">
+                        <ui:insert name="paneltitle">
+
+                        </ui:insert>
+                    </f:facet>
+                    <ui:insert name="contentpanel" rendered="true">
+                        <h:form prependId="false">
+
+
+                        </h:form>
+                    </ui:insert>
+                </p:panel>
+            </div>
+        </div>
+        <p:panel id="footer">
+            Copyright 2013, powered by <a href="http://www.schoolruns.com.ng">www.schoolruns.com.ng</a>
+        </p:panel>
+    </h:body>
+</f:view>

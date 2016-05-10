@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Assignment
+        </ui:define>
+        <ui:define name="menu_panel">
+            Create an assignment. <br /><br />
+            The assignment will apply to all students in the particular grade level or class 
+            (which ever is selected) for a class subject. If the class or grade chosen is 
+            configured to have electives, the assignment will only applied to students who have 
+            elected to offer the subject.
+            <br /><br />
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="25%"><p:outputLabel for="assignmentTypeCode" value="Assignment Type" /></td>
+                        <td>
+                            <p:selectOneMenu id="assignmentTypeCode" required="true" requiredMessage="" style="width:200px"
+                                             value="#{assignmentBean.assignment.assignmentType.assignmentTypeCode}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.assignmentTypeList}" var="a"
+                                               itemValue="#{a.assignmentTypeCode}" itemLabel="#{a.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td width="25%"> </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="description" value="Description" /> </td>
+                        <td>
+                            <p:inputText id="description" value="#{assignmentBean.assignment.description}" 
+                                         required="true" requiredMessage="" size="45" />
+                        </td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="gradeLevelId" value="Grade" /></td>
+                        <td>
+                            <p:selectOneMenu id="gradeLevelId" required="true" requiredMessage="" style="width:200px"
+                                             value="#{assignmentBean.assignment.gradeLevel.gradeLevelId}" disabled="false"
+                                             valueChangeListener="#{schoolSessionBean.changeGradeEvent}" immediate="true" onchange="">
+                                <f:ajax event="valueChange" execute="@this" render="schoolClassId schoolSubjectId" />
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.gradeLevelList}" var="g"
+                                               itemValue="#{g.gradeLevelId}" itemLabel="#{g.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="schoolClassId" value="Class" /></td>
+                        <td>
+                            <p:selectOneMenu id="schoolClassId" style="width:200px"
+                                             value="#{assignmentBean.assignment.schoolClass.schoolClassId}"
+                                             requiredMessage="" disabled="false">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{schoolSessionBean.schoolClassByGrade}" var="s"
+                                               itemLabel="#{s.code}" itemValue="#{s.schoolClassId}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="schoolSubjectId" value="Subject" /></td>
+                        <td>
+                            <p:selectOneMenu id="schoolSubjectId" style="width:200px"
+                                             value="#{assignmentBean.assignment.schoolSubject.schoolSubjectId}" required="true"
+                                             requiredMessage="" disabled="false">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{schoolSessionBean.schoolSubjectByGrade}" var="s"
+                                               itemLabel="#{s.subjectCode}" itemValue="#{s.schoolSubjectId}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="createDate" value="Create on" /></td>
+                        <td>
+                            <p:calendar id="createDate" value="#{assignmentBean.assignment.createDate}"
+                                        pattern="dd/MM/yyyy HH:mm" required="true" requiredMessage="" navigator="true"
+                                        mindate="#{schoolSessionBean.schoolCalendarData.termStartDate}"
+                                        maxdate="#{schoolSessionBean.schoolCalendarData.termClosingDate}"/>
+                        </td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="submissionDate" value="Submission date" /></td>
+                        <td>
+                            <p:calendar id="submissionDate" value="#{assignmentBean.assignment.submissionDate}"
+                                        pattern="dd/MM/yyyy HH:mm" required="true" requiredMessage="" navigator="true"
+                                        mindate="#{schoolSessionBean.schoolCalendarData.termStartDate}"
+                                        maxdate="#{schoolSessionBean.schoolCalendarData.termClosingDate}"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="maxScore" value="Max Score" /></td>
+                        <td>
+                            <p:inputText id="maxScore" value="#{assignmentBean.assignment.maxScore}" 
+                                         required="true" requiredMessage=""/>
+                        </td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Notify Parent on Assignments</td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{assignmentBean.assignment.notifyParentBegin}" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Notify Parent on Results</td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{assignmentBean.assignment.notifyParentResult}" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Continuous Assessment</td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{assignmentBean.assignment.excludeCa}" />
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk" ajax="false"
+                                     action="#{assignmentBean.createAssignment}" update="messages"/>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

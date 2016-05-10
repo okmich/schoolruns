@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                Staff Attendance
+            </ui:define>
+            <ui:define name="menu_panel">
+                <p:menu style="width: 190px">
+                    <p:menuitem value="Upload Attendance Sheet" action="#{staffAttendanceBean.gotoUpload}"
+                                icon="ui-icon-arrowthickstop-1-n" ajax="false"/>
+                    <p:menuitem value="View Summary" action="#{staffAttendanceBean.findAttendanceSummary}" icon="ui-icon-star"
+                                ajax="false"/>
+                </p:menu>
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <table width="99%">
+                        <tr>
+                            <td align="right"> <h:outputLabel for="startDate" value="Start Date" /> </td>
+                            <td>
+                                <p:calendar id="startDate" value="#{staffAttendanceBean.startDate}" 
+                                            required="true" requiredMessage="" pattern="dd/MM/yyyy"
+                                            navigator="true"
+                                            maxdate="#{schoolSessionBean.schoolCalendarData.termClosingDate}"
+                                            mindate="#{schoolSessionBean.schoolCalendarData.termStartDate}"/>
+                            </td>
+                            <td>
+                                <p:commandButton id="saveButton" value=" Single Date Entry " icon="ui-icon-pencil"
+                                                 action="#{staffAttendanceBean.findAttendanceByDate}"
+                                                 update="messages" ajax="false" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><h:outputLabel for="endDate" value="End Date" /></td>
+                            <td>
+                                <p:calendar id="endDate" value="#{staffAttendanceBean.endDate}" 
+                                            pattern="dd/MM/yyyy" navigator="true"
+                                            maxdate="#{schoolSessionBean.schoolCalendarData.termClosingDate}"
+                                            mindate="#{schoolSessionBean.schoolCalendarData.termStartDate}"/>
+                            </td>
+                            <td>
+                                <p:commandButton id="save2Button" value=" Date Range Attendance " icon="ui-icon-pencil"
+                                                 action="#{staffAttendanceBean.findAttendanceByDateRange}"
+                                                 update="messages" ajax="false" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"> </td>
+                            <td>
+                            </td>
+                            <td>
+                                <p:commandButton id="save3Button" value=" Download Attendance Sheet " 
+                                                 icon="ui-icon-arrowthickstop-1-s"
+                                                 action="#{staffAttendanceBean.downloadAttendanceByDateRange}"
+                                                 update="messages" ajax="false" />
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="staff-data-page" language="groovy" pageWidth="598" pageHeight="842" columnWidth="558" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="92daf36c-7972-483d-95ee-3daa66941311">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#FFF8F8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="employee_classes" uuid="98ce0d6e-4db6-4ab8-b718-54c31c9ab58b">
+		<parameter name="subEmployeeId" class="java.lang.Integer" isForPrompting="false"/>
+		<queryString language="SQL">
+			<![CDATA[select sct.employee_id, sc.code class_code, sc.description class_description, gl.description grade_level, at.description alloc  from school_class_teacher sct join school_class sc on sc.school_class_id= sct.school_class_id join grade_level gl on gl.grade_level_id = sc.grade_level_id join allocation_type at on at.allocation_type_id = sct.allocation_type_id where sct.status = 'A' and sct.employee_id = $P{subEmployeeId}]]>
+		</queryString>
+		<field name="employee_id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="class_code" class="java.lang.String"/>
+		<field name="class_description" class="java.lang.String"/>
+		<field name="grade_level" class="java.lang.String"/>
+		<field name="alloc" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="schoolYearId" class="java.lang.Integer"/>
+	<parameter name="schoolName" class="java.lang.String"/>
+	<parameter name="schoolEmail" class="java.lang.String"/>
+	<parameter name="schoolPhoneNumber" class="java.lang.String"/>
+	<parameter name="schoolWebsite" class="java.lang.String"/>
+	<parameter name="schoolAddress" class="java.lang.String"/>
+	<parameter name="schoolMotto" class="java.lang.String"/>
+	<parameter name="logo_url" class="java.lang.String"/>
+	<parameter name="schoolClassId" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     v_school_class_teacher.`class_code` AS v_school_class_teacher_class_code,
+     v_school_class_teacher.`class_desc` AS v_school_class_teacher_class_desc,
+     v_school_class_teacher.`year_id` AS v_school_class_teacher_year_id,
+     v_school_class_teacher.`surname` AS v_school_class_teacher_surname,
+     v_school_class_teacher.`othernames` AS v_school_class_teacher_othernames,
+     v_school_class_teacher.`staff_number` AS v_school_class_teacher_staff_number,
+     v_school_class_teacher.`allocation_type` AS v_school_class_teacher_allocation_type,
+     v_school_class_teacher.`last_allocated` AS v_school_class_teacher_last_allocated,
+     v_school_class_teacher.`school_class_id` AS v_school_class_teacher_school_class_id,
+     v_school_class_teacher.`school_id` AS v_school_class_teacher_school_id,
+     v_school_class_teacher.`school_year_id` AS v_school_class_teacher_school_year_id
+FROM
+     `v_school_class_teacher` v_school_class_teacher]]>
+	</queryString>
+	<field name="v_school_class_teacher_class_code" class="java.lang.String"/>
+	<field name="v_school_class_teacher_class_desc" class="java.lang.String"/>
+	<field name="v_school_class_teacher_year_id" class="java.lang.Long"/>
+	<field name="v_school_class_teacher_surname" class="java.lang.String"/>
+	<field name="v_school_class_teacher_othernames" class="java.lang.String"/>
+	<field name="v_school_class_teacher_staff_number" class="java.lang.String"/>
+	<field name="v_school_class_teacher_allocation_type" class="java.lang.String"/>
+	<field name="v_school_class_teacher_last_allocated" class="java.sql.Timestamp"/>
+	<field name="v_school_class_teacher_school_class_id" class="java.lang.Long"/>
+	<field name="v_school_class_teacher_school_id" class="java.lang.Long"/>
+	<field name="v_school_class_teacher_school_year_id" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="111" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="b3cf9c95-b0fc-4251-ba30-51770cde9cde" x="100" y="1" width="441" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ba973543-7ec0-4a8b-aedb-9963a9ac3200" x="186" y="56" width="155" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolEmail}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f12de634-c161-4199-b8fb-ca3c85e87b2f" x="432" y="56" width="100" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolPhoneNumber}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="feaa23ee-4425-42d0-84e4-e2bef82c8a65" x="147" y="56" width="39" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Email:]]></text>
+			</staticText>
+			<image onErrorType="Icon">
+				<reportElement uuid="a6e017c8-eda8-457d-ae17-6aaf22881417" x="1" y="1" width="99" height="108"/>
+				<imageExpression><![CDATA[$P{logo_url}]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="2b4f52fd-8e8c-4b95-bdba-e19761fc6f0d" x="128" y="27" width="390" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolMotto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8a1c5f8e-f94a-499d-9709-e59403269f2a" x="100" y="42" width="441" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolAddress}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="fe475a8b-bf05-4355-9567-04e1e1395e92" x="346" y="56" width="85" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Contact Number:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="b2f776dd-6a73-48d8-9dbf-12c4a97e3b29" x="1" y="109" width="555" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="1537ab88-16b2-4458-93b7-a5dd3f458e0d" x="195" y="70" width="259" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolWebsite} == null || $P{schoolWebsite}.trim().isEmpty() ? "" : "Website: " +  $P{schoolWebsite}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="24" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="176" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:panel style="width:100%;overflow:hidden;max-height:200px">
+        <img src="#{sessionBean.employeeData.pictureUrl}" style="max-height: 200px; max-width: 100px; "/>
+    </p:panel>
+    <p:spacer />
+    <p:menu style="width:100%;">
+        <p:submenu label="Related Task">
+            <p:menuitem value="Awards"
+                        action="/schooluser/staff/awards" ajax="false" icon="ui-icon-search"/>
+            <p:menuitem value="Extra-Curricular"
+                        action="/schooluser/staff/extracurricular" ajax="false"
+                        icon="ui-icon-search"/>
+            <p:menuitem value="Message Board"
+                        action="/schooluser/staff/messageboard" ajax="false" icon="ui-icon-search"/>
+            <p:menuitem value="Qualification" action="/schooluser/staff/qualifications" ajax="false"
+                        icon="ui-icon-search"/>
+            <p:menuitem value="Queries" action="/schooluser/staff/queries" ajax="false"
+                        icon="ui-icon-search"/>
+            <p:menuitem value="Print Data page" action="#{employeeReportBean.runEmployeeDataPage}" ajax="false"
+                        icon="ui-icon-print" target="_blank"/>
+            <p:menuitem value="Upload Passport" action="#{employeeBean.prepareNewProfilePicture}" ajax="false"
+                        icon="ui-icon-arrowthickstop-1-n"/>
+            <p:menuitem value="User Security" icon="ui-icon-pencil"
+                        action="#{schoolUserSecurityBean.findUserRole}" ajax="false">
+                <f:param name="employeeId" value="#{sessionBean.employeeData.employeeId}" />
+            </p:menuitem>
+        </p:submenu>
+    </p:menu>
+</f:view>

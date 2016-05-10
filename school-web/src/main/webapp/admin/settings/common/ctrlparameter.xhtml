@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div style="margin: auto;width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="States">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                <p:dataTable scrollable="true" scrollHeight="200" id="dataTable" var="row"
+                                             value="#{ctrlParameterBean.ctrlParameterModel}" rowKey="#{row.code}"
+                                             selection="#{ctrlParameterBean.ctrlParameter}" selectionMode="single">
+                                    <p:column width="50"> 
+                                        <f:facet name="header">
+                                            <h:outputText value="Code" />
+                                        </f:facet> 
+                                        #{row.code}  
+                                    </p:column> 
+                                    <p:column width="200">
+                                        <f:facet name="header">
+                                            <h:outputText value="Description" />
+                                        </f:facet>   
+                                        #{row.description}  
+                                    </p:column> 
+                                    <p:column width="100">
+                                        <f:facet name="header">
+                                            <h:outputText value="Value" />
+                                        </f:facet>   
+                                        #{row.value}  
+                                    </p:column> 
+                                    <p:column width="100">
+                                        <f:facet name="header">
+                                            <h:outputText value="Status" />
+                                        </f:facet>   
+                                        #{row.status}  
+                                    </p:column> 
+                                    <p:column width="100">
+                                        <f:facet name="header">
+                                            <h:outputText value="Last Modified" />
+                                        </f:facet>   
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Modified By" />
+                                        </f:facet>   
+                                        #{row.modifiedBy}  
+                                    </p:column> 
+                                </p:dataTable>  
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil" value="Update"
+                                         action="#{ctrlParameterBean.prepareForModify}" 
+                                         update=":detailsform:detailsPanel"/>
+
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/admin/settings/index" ajax="false" /> 
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <h:panelGrid columns="3">
+                        <h:outputText value="Code" />
+                        <h:inputText id="code" value="#{ctrlParameterBean.ctrlParameter.code}" readonly="true"/>
+                        <h:message for="code" />
+                        <h:outputText value="Description" />
+                        <h:inputText id="description" value="#{ctrlParameterBean.ctrlParameter.description}" size="40"
+                                     required="true" requiredMessage="required"
+                                     readonly="#{ctrlParameterBean.editMode != 'MODIFY'}"/>
+                        <h:message for="description" />
+                        <h:outputText value="Value" />
+                        <h:inputText id="value" value="#{ctrlParameterBean.ctrlParameter.value}" size="40"
+                                     required="true" requiredMessage="required"
+                                     readonly="#{ctrlParameterBean.editMode != 'MODIFY'}"/>
+                        <h:message for="description" />
+                        <h:outputText value="Status" />
+                        <p:selectOneMenu id="status" value="#{ctrlParameterBean.ctrlParameter.status}"
+                                         required="true" requiredMessage="required" style="width:200px"
+                                         disabled="#{ctrlParameterBean.editMode != 'MODIFY'}">
+                            <f:selectItem itemValue="" itemLabel="----------------------" />
+                            <f:selectItems value="#{applicationListBean.statusList}" />
+                        </p:selectOneMenu>
+                        <h:message for="status" />
+                        <h:panelGroup>
+                        
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:commandButton id="saveButton" value="Save" disabled="#{ctrlParameterBean.editMode != 'MODIFY'}"
+                                             action="#{ctrlParameterBean.saveCtrlParameter}" update=":searchform:dataTable" /> 
+
+                            <p:commandButton id="clearButton" value="Reset" update="detailsPanel"
+                                             immediate="true"  action="#{ctrlParameterBean.clearForm}" /> 
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

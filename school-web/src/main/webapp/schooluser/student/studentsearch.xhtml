@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/searchformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                Student(s)/Pupil(s)
+            </ui:define>
+            <ui:define name="contentPanel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="4">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="20%">Surname</td>
+                            <td><p:inputText value="#{schoolStudentBean.surname}" /></td>
+                            <td align="right" width="20%">First name</td>
+                            <td>
+                                <p:inputText value="#{schoolStudentBean.firstname}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="20%">Class</td>
+                            <td>
+                                <p:selectOneMenu id="schoolClassMenu" value="#{schoolStudentBean.schoolClassId}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{schoolSessionBean.schoolClasses}" var="s" 
+                                                   itemLabel="#{s.description}" itemValue="#{s.schoolClassId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right" width="20%">Grade Level</td>
+                            <td>
+                                <p:selectOneMenu id="gradeLevel" value="#{schoolStudentBean.gradeLevel}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.gradeLevelList}" var="g" 
+                                                   itemLabel="#{g.description}" itemValue="#{g.gradeLevelId}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Admission No.</td>
+                            <td>
+                                <p:inputText value="#{schoolStudentBean.admissionNo}" />
+                            </td>
+                            <td align="right">Gender</td>
+                            <td>
+                                <p:selectOneRadio id="sex" value="#{schoolStudentBean.gender}">
+                                    <f:selectItem itemLabel="All" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.genderList}" />
+                                </p:selectOneRadio>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="3">
+                                <p:commandButton id="searchButton" value="Search" icon="ui-icon-search"
+                                                 update="schoolStudentTabs" action="#{schoolStudentBean.findSchoolStudents}"/>
+                                <p:defaultCommand target="searchButton" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <p:dataTable id="schoolStudentTabs" var="row" value="#{sessionBean.schoolStudentModel}" rowKey="#{row.schoolStudentId}"
+                                             selection="#{schoolStudentBean.schoolStudentData}" selectionMode="single"
+                                             style="overflow: scroll;width: 100%;height: 300px">
+                                    <p:column headerText="ID">
+                                        #{row.schoolStudentId}
+                                    </p:column>
+                                    <p:column headerText="Name">
+                                        #{row.fullname}
+                                    </p:column>
+                                    <p:column headerText="Gender" >
+                                        #{row.student.gender}
+                                    </p:column>
+                                    <p:column headerText="Reg. No">
+                                        #{row.registrationNo}
+                                    </p:column>
+                                    <p:column headerText="Class">
+                                        #{row.schoolClassCode}
+                                    </p:column>
+                                    <p:column headerText="Adm. Date">
+                                        <h:outputText value="#{row.admissionDate}" >
+                                            <f:convertDateTime dateStyle="short" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Modified By">
+                                        #{row.modifiedBy}
+                                    </p:column>
+                                    <p:column headerText="Lasted Modified">
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime dateStyle="short" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="updateButton" value="Update" icon="ui-icon-pencil"
+                                         action="#{schoolStudentBean.findSchoolStudent}" ajax="false">
+                            <f:param name="viewMode" value="UPDATE" />
+                        </p:commandButton>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

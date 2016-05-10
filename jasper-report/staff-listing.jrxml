@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="staff-listing" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8c7460a4-9f4e-4982-b245-81bb2a603bec">
+	<property name="ireport.zoom" value="0.9090909090909091"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="schoolId" class="java.lang.Integer"/>
+	<parameter name="schoolName" class="java.lang.String"/>
+	<parameter name="schoolEmail" class="java.lang.String"/>
+	<parameter name="schoolPhoneNumber" class="java.lang.String"/>
+	<parameter name="schoolWebsite" class="java.lang.String"/>
+	<parameter name="schoolAddress" class="java.lang.String"/>
+	<parameter name="schoolMotto" class="java.lang.String"/>
+	<parameter name="logo_url" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     employee_category,
+     staff_number,
+     date_of_hire,
+     surname,
+     othernames,
+     identification_means,
+     id_number,
+     birth_date,
+     full_address,
+     mobile_no,
+     office_no,
+     email,
+     gender,
+     religion,
+     resign_date,
+     employee_type,
+     marital_status,
+     nationality,
+     pay_structure,
+     state_origin,
+     home_town,
+     picture_url,
+     employee_position,
+     first_language,
+     username,
+     status
+FROM
+     v_employee v where v.status = 'A' and v.school_id = $P{schoolId}
+ORDER BY
+     v.surname, v.othernames]]>
+	</queryString>
+	<field name="employee_category" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="staff_number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="date_of_hire" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="surname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="othernames" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="identification_means" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="birth_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="full_address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mobile_no" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="office_no" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="gender" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="religion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="resign_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="employee_type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="marital_status" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nationality" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pay_structure" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="state_origin" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="home_town" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="picture_url" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="employee_position" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="first_language" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="username" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="134" splitType="Stretch">
+			<textField>
+				<reportElement uuid="70e14f8f-d7e2-4fb3-bdf9-8f409092589f" x="406" y="75" width="396" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolWebsite} == null || $P{schoolWebsite}.trim().isEmpty() ? "" : "Website: " +  $P{schoolWebsite}]]></textFieldExpression>
+			</textField>
+			<image onErrorType="Blank">
+				<reportElement uuid="0fb3ae9d-bc54-4588-9993-44c8040cfaca" x="0" y="0" width="101" height="97"/>
+				<imageExpression><![CDATA[$P{logo_url}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="f351a732-a9fb-4adc-b108-22f8b7071dcb" x="466" y="62" width="336" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Contact Number: " + $P{schoolPhoneNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8db063ca-f1a5-475f-9980-6f86f2227e2d" x="466" y="49" width="336" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Email: " + $P{schoolEmail}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="93b05dc0-f5b1-49b5-b5d2-1310ecbf66af" x="203" y="36" width="599" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolAddress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a8a903d1-39e1-4f84-9293-99bd7f9445ef" x="203" y="0" width="599" height="26"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bfc1ee65-f7a5-4ffc-8426-3004f08cce61" x="203" y="25" width="599" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolMotto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="d356f9cf-f2ba-4adc-8882-a9f5c09d46e4" x="0" y="105" width="802" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMPLOYEE LISTING]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="19" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch">
+			<staticText>
+				<reportElement uuid="2f875fba-884b-4ce2-b953-8f9e869c757e" mode="Opaque" x="1" y="-20" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Surname]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="37551a8f-0973-46f8-a90b-82c161a9d839" mode="Opaque" x="100" y="-20" width="103" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Other names]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5cb60764-b114-4dd8-9c63-c437f77340d1" mode="Opaque" x="203" y="-20" width="75" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Staff Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="399f01f4-9e44-4e1a-8f0c-5a8e3d00713a" mode="Opaque" x="277" y="-20" width="48" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date of Hire]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c3c4277c-8b99-4f87-9eda-0db2cc5abb2e" mode="Opaque" x="325" y="-20" width="66" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mobile No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1ffd9c9e-9877-4e94-9c66-e02e1564c8ac" mode="Opaque" x="391" y="-20" width="33" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gender]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c962c47e-9c4c-4fa7-bb3d-9186eaee8350" mode="Opaque" x="424" y="-20" width="70" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Primary Category]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="77dc950d-8e1a-432a-85d9-fcdfa09193de" mode="Opaque" x="494" y="-20" width="94" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Designation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d6702528-ed93-4e82-9e61-cd920a29a566" mode="Opaque" x="588" y="-20" width="153" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="613087d5-1306-4817-b064-27315e1b7a72" mode="Opaque" x="741" y="-20" width="61" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Marital Status]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="9cdaf100-da8a-4e28-afac-90469f6847e9" x="1" y="0" width="100" height="19"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{surname}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ba25a330-a142-4318-a2db-c83ee404959b" x="100" y="0" width="103" height="19"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{othernames}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="abf77bff-480e-418d-afae-1dda7f2a6bbb" x="202" y="0" width="75" height="19"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{staff_number}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="426d857e-34dd-4d22-abfa-74dcf1475df8" x="277" y="0" width="48" height="19"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date_of_hire}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f6ce9c71-04bf-4d20-84e7-16f7bf3abd8c" x="325" y="0" width="66" height="19"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mobile_no}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="1db8d3b2-2b46-47a5-a2a4-c369ec6f3298" x="391" y="0" width="33" height="19"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="85296eb4-4ae5-4136-8a9c-f06e23f4de9a" x="424" y="1" width="70" height="19"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{employee_category}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="4f0a6a0e-41ce-4005-a1ca-106875b03057" x="494" y="1" width="94" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{employee_position}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="d3ad64aa-0a0e-480b-9913-c29d8ad77c48" x="588" y="1" width="153" height="19"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="be631a74-0253-4f4e-a72e-f80c1199a373" x="741" y="1" width="61" height="19"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{marital_status}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="14" splitType="Stretch">
+			<textField>
+				<reportElement uuid="66b37704-f1e0-41a4-acdd-0e3120f5d4df" x="683" y="-1" width="80" height="15"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="29a037e5-75da-4c2d-86e5-c763bb510031" x="762" y="-1" width="40" height="15"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="4cdadd77-c857-43e8-a29c-3f3ad3b62878" x="506" y="0" width="81" height="17"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Record Count:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="7afe2752-6559-49b2-b268-b8bcf26cb51f" x="587" y="0" width="153" height="17"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

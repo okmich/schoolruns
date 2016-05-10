@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            New Exam Session
+        </ui:define>
+        <ui:define name="menu_panel">
+            Create an Exam Session. <br /><br />
+            An Exam Session is the collection of individual exams that can be grouped into one batch in an academic sense.
+            <br /><br />
+            Examples are mock exams, final term exams or admission exams.
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="20%"><p:outputLabel for="description" value="Description" /></td>
+                        <td>
+                            <p:inputText id="description" value="#{examBatchBean.examBatch.description}" 
+                                         required="true" requiredMessage="" size="45" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="examTypeCode" value="Exam Type" /></td>
+                        <td>
+                            <p:selectOneMenu id="examTypeCode" required="true" requiredMessage="" style="width:200px"
+                                             value="#{examBatchBean.examBatch.examType.examTypeCode}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.examTypeList}" var="e"
+                                               itemValue="#{e.examTypeCode}" itemLabel="#{e.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="schoolSectionId" value="School Section" /></td>
+                        <td>
+                            <p:selectOneMenu id="schoolSectionId" required="true" requiredMessage="" style="width:200px"
+                                             value="#{examBatchBean.examBatch.schoolSection.schoolSectionId}">
+                                <f:selectItem itemValue="0" itemLabel="All Sections" />
+                                <f:selectItems value="#{schoolSessionBean.schoolSections}" var="s"
+                                               itemValue="#{s.schoolSectionId}" itemLabel="#{s.section.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="startDate" value="Starts" /></td>
+                        <td>
+                            <p:calendar id="startDate" value="#{examBatchBean.examBatch.startDate}"
+                                        pattern="dd/MM/yyyy" required="true" requiredMessage="" navigator="true"
+                                        mindate="#{schoolSessionBean.schoolCalendarData.termStartDate}"
+                                        maxdate="#{schoolSessionBean.schoolCalendarData.termClosingDate}"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="endDate" value="Ends" /></td>
+                        <td>
+                            <p:calendar id="endDate" value="#{examBatchBean.examBatch.endDate}"
+                                        pattern="dd/MM/yyyy" required="true" requiredMessage="" navigator="true"
+                                        mindate="#{schoolSessionBean.schoolCalendarData.termStartDate}"
+                                        maxdate="#{schoolSessionBean.schoolCalendarData.termClosingDate}"/>
+                        </td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Notify Parent on Exam</td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{examBatchBean.examBatch.notifyParentBegin}" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Notify Parent on Results</td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{examBatchBean.examBatch.notifyParentResult}" />
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="addButton" value=" Next >> " icon="ui-icon-seek-next"
+                                     action="#{examBatchBean.createExamBatch}" ajax="false">
+                        <f:setPropertyActionListener target="#{sessionBean.editMode}" value="CREATE" />
+                    </p:commandButton>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

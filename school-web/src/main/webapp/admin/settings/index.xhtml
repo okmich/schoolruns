@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body class="ui-widget-content">
+        <div style="margin: auto;width: 860px;">
+            <h:form>
+                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                <table style="width: 100%">
+                    <tr>
+                        <td valign="top" width="33%">
+                            <p:panel header ="Profile Settings">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/profile/idmeans" 
+                                                       value="ID Type" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/profile/language" 
+                                                       value="Language" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/profile/maritalstatus" 
+                                                       value="Marital Status" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/profile/religion" 
+                                                       value="Religion" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/profile/title" 
+                                                       value="Title" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                        <td valign="top" width="33%">
+                            <p:panel header ="School Settings">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/school/clubtype" value="Club Type" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/school/academicyear" value="Academic Year" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/school/eventtype" value="Event Type" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/school/facilitytypes" value="Facility" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/school/gradelevel" value="Grade Level" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/school/section" value="Section" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/school/sportcategory" value="Sports Categories" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/school/subject" value="Subjects" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/school/term" value="Term" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                        <td valign="top">
+                            <p:panel header ="Staff Settings">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/staff/allocationtype" value="Allocation Type" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/staff/educationalqualification" 
+                                                       value="Educational Qualification" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/staff/professionalqualification" 
+                                                       value="Professional Qualification" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/staff/employeecategory" 
+                                                       value="Employee Category" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/staff/employeeposition" 
+                                                       value="Employee Position" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/staff/employeetype" 
+                                                       value="Employee Type" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <p:panel header ="Common Settings">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/common/ctrlparameter" value="Control Parameter" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/common/weekdays" value="Week Days" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="#{applicationListBean.reinitialiseApplicationList}" value="Reset System List" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                        <td valign="top">
+                            <p:panel header ="Student Settings">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/students/warninglevel" value="Warning Levels" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                        <td valign="top">
+                            <p:panel header ="Exam/Assignment Settings">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/exams/assignmenttype" value="Assignment Types" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/exams/examtypes" value="Exam Types" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/exams/gradeband" value="Grading Bands" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <p:panel header="Address setup">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/address/country" value="Country" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/address/state">
+                                            <h:outputText value ="State" />
+                                        </h:commandLink> 
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/address/city" value="City" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                        <td valign="top">
+                            <table width="100%">
+                                <tr> 
+                                    <td>
+                                        <p:panel header ="Parent Settings">
+                                            <ul>
+                                                <li>
+                                                    <h:commandLink action="/admin/settings/parents/industry" 
+                                                                   value="Working Industry" />
+                                                </li>
+                                            </ul>
+                                        </p:panel>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:panel header ="Notification Settings">
+                                            <ul>
+                                                <li>
+                                                    <h:commandLink action="/admin/settings/notification/participantcategory" 
+                                                                   value="Recipient Types" />
+                                                </li>
+                                                <li>
+                                                    <h:commandLink action="/admin/settings/notification/messagechannel"
+                                                                   value="Message Channel Types" />
+                                                </li>
+                                            </ul>
+                                        </p:panel>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td valign="top">
+                            <p:panel header ="Finance">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/finance/assettype" 
+                                                       value="Asset Type" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/finance/feetype" 
+                                                       value="Fee Type" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/finance/liabilitytype" 
+                                                       value="Liability Type" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/finance/storeactivitytype" 
+                                                       value="Store Activity Type" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/finance/storeitemtype" 
+                                                       value="Store Item Type" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/admin/settings/finance/txncategory" 
+                                                       value="Transaction Category" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </div>
+    </h:body>
+</f:view>

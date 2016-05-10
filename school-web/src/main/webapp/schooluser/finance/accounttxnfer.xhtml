@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Account-Account Transfer
+        </ui:define>
+        <ui:define name="menu_panel">
+            With Account-to-Account transfer, school management can move funds within their various accounts to fully capture their cash flow scenario.
+            <br /><br />
+            To fully meet the above requirement, transaction types must be setup with the accounts to debit and credit rightly specified.
+
+        </ui:define>
+        <ui:define name="panelTitle">
+            Account-Account Transfer
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3" align="center">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true"
+                                        showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <p:outputLabel for="txnTypeId" value="Transaction Type" />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="txnTypeId" style="width:200px"
+                                             value="#{txnJournalBean.txnJournal.txnType.txnTypeId}"
+                                             disabled="#{financeSessionBean.editMode == 'VIEW'}" required="true"
+                                             requiredMessage="">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeSessionBean.txnTypes}" var="t"
+                                               itemValue="#{t.txnTypeId}" itemLabel="#{t.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <p:outputLabel for="txnTypeId" value="Narration" />
+                        </td>
+                        <td>
+                            <p:inputText id="narration" value="#{txnJournalBean.txnJournal.narration}" 
+                                         required="true" readonly="#{financeSessionBean.editMode == 'VIEW'}"
+                                         requiredMessage="" size="60"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <p:outputLabel for="txnDate" value="Txn. Date" />
+                        </td>
+                        <td>
+                            <p:calendar id="txnDate" value="#{txnJournalBean.txnJournal.txnDate}" 
+                                        required="true" readonly="#{financeSessionBean.editMode == 'VIEW'}"
+                                        requiredMessage="" navigator="true" pattern="dd/MM/yyyy" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <p:outputLabel for="effectiveDate" value="Effective Date" />
+                        </td>
+                        <td>
+                            <p:calendar id="effectiveDate" value="#{txnJournalBean.txnJournal.effectiveDate}" 
+                                        readonly="true" navigator="true" pattern="dd/MM/yyyy" />
+                        </td>
+                        <td><p:message for="effectiveDate" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <p:outputLabel for="amount" value="Amount" />
+                        </td>
+                        <td>
+                            <p:inputText id="amount" value="#{txnJournalBean.txnJournal.amount}" 
+                                         required="true" readonly="#{financeSessionBean.editMode == 'VIEW'}"
+                                         requiredMessage="">
+                                <f:validateDoubleRange minimum="0"/>
+                                <f:convertNumber pattern="#,##0.00"/>
+                            </p:inputText>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <p:outputLabel for="txnRef" value="Transaction Reference" />
+                        </td>
+                        <td>
+                            <p:inputText id="txnRef" value="#{txnJournalBean.txnJournal.txnRef}" 
+                                         readonly="#{financeSessionBean.editMode == 'VIEW'}" size="30" />
+                        </td>
+                        <td><p:message for="txnRef" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <p:outputLabel for="altRef" value="Alternate Reference" />
+                        </td>
+                        <td>
+                            <p:inputText id="altRef" value="#{txnJournalBean.txnJournal.altRef}" 
+                                         readonly="#{financeSessionBean.editMode == 'VIEW'}" size="30"/>
+                        </td>
+                        <td><p:message for="altRef" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Transaction ID</td>
+                        <td>
+                            <p:inputText id="txnJournalId" value="#{txnJournalBean.txnJournal.txnJournalId}"
+                                         readonly="true"/>
+                        </td>
+                        <td><p:message for="txnJournalId" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Status</td>
+                        <td>
+                            <p:selectOneMenu id="status" required="true" requiredMessage="" style="width:200px"
+                                             value="#{txnJournalBean.txnJournal.status}" 
+                                             disabled="true">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.statusList}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="status" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Modified By</td>
+                        <td>
+                            <p:inputText id="modifiedBy" value="#{txnJournalBean.txnJournal.modifiedBy}"
+                                         readonly="true"/>
+                        </td>
+                        <td><p:message for="modifiedBy" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Last Modified</td>
+                        <td>
+                            <p:inputText id="modifiedTime" value="#{txnJournalBean.txnJournal.modifiedTime}"
+                                         readonly="true">
+                                <f:convertDateTime />
+                            </p:inputText>
+                        </td>
+                        <td><p:message for="modifiedTime" /></td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel"> 
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk" ajax="false"
+                                     action="#{txnJournalBean.transferAccount}" update="messages"/>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

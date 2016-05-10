@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Message/ Announcement
+        </ui:define> 
+        <ui:define name="menu_panel">
+            Send a message broadcast to a specific audience which should be parents or staff. <br /><br />
+            To broadcast messages to parents or guardians of students in specific classes, grades or section, choose the Custom (Parent) option of Recipient Category field. Then furthermore, choose the relevant sections, grade level or class.
+            <br /><br />
+            If all of school section, grade and classes are set, then the preeminence for message purpose is taken in the reverse order.
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form prependId="false">
+                <table width="100%">
+                    <tr>
+                        <td colspan="3">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="25%"><p:outputLabel value="Title" for="title"/> </td>
+                        <td>
+                            <p:inputText id="title" value="#{schoolNotificationBean.messageData.title}" 
+                                         required="true" requiredMessage="" size="45" />
+                        </td>
+                        <td width="25%"></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel value="Expiry Date" for="expiryDate"/> </td>
+                        <td>
+                            <p:calendar id="expiryDate" value="#{schoolNotificationBean.messageData.expiryDate}"
+                                        pattern="dd/MM/yyyy" required="true" requiredMessage="" navigator="true"
+                                        mindate="#{schoolSessionBean.schoolCalendarData.termStartDate}"
+                                        maxdate="#{schoolSessionBean.schoolCalendarData.yearClosingDate}"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel value="Message Channel" for="messageChannelCode"/></td>
+                        <td>
+                            <p:selectOneMenu id="messageChannelCode" required="true" requiredMessage="" style="width:200px"
+                                             value="#{schoolNotificationBean.messageData.messageChannelCode}" immediate="true"
+                                             valueChangeListener="#{schoolNotificationBean.changeMessageChannelEvent}" onchange="">
+                                <f:ajax event="change" execute="@form" render="@form"/>
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.messageChannelList}" var="m"
+                                               itemValue="#{m.messageChannelCode}" itemLabel="#{m.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top">
+                            <h:panelGroup id="outputLabel">
+                                <p:outputLabel value="Messagess" for="smscontent" rendered="#{schoolNotificationBean.sms}"/>
+                                <p:outputLabel value="Messagesss" for="mailcontent" rendered="#{not schoolNotificationBean.sms}"/> 
+                            </h:panelGroup>
+                        </td>
+                        <td>
+                            <p:inputTextarea id="smscontent" value="#{schoolNotificationBean.messageData.content}" 
+                                             required="true" requiredMessage="" cols="50" rows="4" counter="display"
+                                             maxlength="160" counterTemplate="{0} characters remaining"
+                                             rendered="#{schoolNotificationBean.sms}"/>
+                            <br />
+                            <h:outputText id="display" /> 
+                            <p:editor id="mailcontent" value="#{schoolNotificationBean.messageData.content}" 
+                                      required="true" requiredMessage=""
+                                      rendered="#{not schoolNotificationBean.sms}"/>
+                            <br/>
+                        </td>
+                        <td valign="top"></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel value="Recipient Category" for="participantCategoryCode"/></td>
+                        <td>
+                            <p:selectOneMenu id="participantCategoryCode" required="true" requiredMessage="" style="width:200px"
+                                             value="#{schoolNotificationBean.messageData.participantCategoryCode}" immediate="true"
+                                             valueChangeListener="#{schoolNotificationBean.changeReceipientCategoryEvent}">
+                                <f:ajax event="change" execute="@form" render="@form"/>
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.participantCategoryList}" var="p"
+                                               itemValue="#{p.participantCategoryCode}" itemLabel="#{p.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="participantCategoryCode" /> </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <h:panelGrid columns="2" rendered="#{schoolNotificationBean.custom}" id="customGrid">
+                                <p:outputLabel value="School Section" for="schoolsectionMenu" />
+                                <p:selectOneMenu id="schoolsectionMenu" value="#{schoolStudentBean.schoolClassId}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{schoolSessionBean.schoolSections}" var="s" 
+                                                   itemLabel="#{s.section.description}" itemValue="#{s.schoolSectionId}" />
+                                </p:selectOneMenu>
+                                <h:outputText value="Grade Level" />
+                                <p:selectOneMenu id="gradeLevel" value="#{schoolStudentBean.gradeLevel}"
+                                                 valueChangeListener="#{schoolSessionBean.changeGradeEvent}" immediate="true" onchange="">
+                                    <f:ajax event="valueChange" execute="@this" render="schoolClassMenu" />
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.gradeLevelList}" var="g" 
+                                                   itemLabel="#{g.description}" itemValue="#{g.gradeLevelId}" />
+                                </p:selectOneMenu>
+                                <h:outputText value="Class" />
+                                <p:selectOneMenu id="schoolClassMenu" value="#{schoolStudentBean.schoolClassId}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{schoolSessionBean.schoolClassByGrade}" var="s" 
+                                                   itemLabel="#{s.description}" itemValue="#{s.schoolClassId}" />
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                        </td>
+                        <td> </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="addButton" value=" Save " icon="ui-icon-signal-diag"
+                                     action="#{schoolNotificationBean.sendMessage}" ajax="false"/>
+
+                    <p:commandButton id="cancelButton" value=" Cancel " icon="ui-icon-cancel"
+                                     action="/schooluser/common/homepage" ajax="false"
+                                     immediate="true">
+                        <f:setPropertyActionListener target="#{sessionBean.editMode}" value=""/>
+                    </p:commandButton>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

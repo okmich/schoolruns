@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/searchformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                Employee - Class Assignment
+            </ui:define>
+            <ui:define name="contentPanel">
+                <h:form id="searchform">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="2">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                            id="messages"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="300px" align="right">
+                                Employee:
+                            </td>
+                            <td>
+                                <p:selectOneMenu value="#{employeeAllocationBean.employeeId}" immediate="true"
+                                                 id="employeeId" valueChangeListener="#{employeeAllocationBean.fireOnSelectTeacherForClasses}">
+                                    <f:ajax event="change" execute="@this" render="classTeacherTab messages" />
+                                    <f:selectItem itemLabel="---------------------" itemValue="" />
+                                    <f:selectItems value="#{schoolSessionBean.teachingStaffs}" var="e" 
+                                                   itemLabel="#{e.fullname}" itemValue="#{e.employeeId}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <p:dataTable id="classTeacherTab" var="row" value="#{employeeAllocationBean.schoolClassTeacherModel}" 
+                                             rowKey="#{row.schoolClassTeacherId}" selection="#{employeeAllocationBean.schoolClassTeacher}"
+                                             selectionMode="single" style="overflow: scroll;width: 100%;height: 150px">
+                                    <p:column headerText="ID">
+                                        #{row.schoolClassTeacherId}
+                                    </p:column>
+                                    <p:column headerText="Employee Name">
+                                        #{row.employee.fullname}
+                                    </p:column>
+                                    <p:column headerText="Class Code" >
+                                        #{row.schoolClass.code}
+                                    </p:column>
+                                    <p:column headerText="Class Desc" >
+                                        #{row.schoolClass.description}
+                                    </p:column>
+                                    <p:column headerText="Allocation Type">
+                                        #{row.allocationType.description}
+                                    </p:column>
+                                    <p:column headerText="Modified By">
+                                        #{row.modifiedBy}
+                                    </p:column>
+                                    <p:column headerText="Lasted Modified">
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="addButton" icon="ui-icon-document" value=" New " ajax="false"
+                                         action="#{employeeAllocationBean.prepareToAddSchoolClassTeacher}" 
+                                         update=":detailsform:detailsPanel messages"/>
+
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil" value=" Update " ajax="false"
+                                         action="#{employeeAllocationBean.prepareToEditSchoolClassTeacher}" 
+                                         update=":detailsform:detailsPanel messages"/>
+                    </div>
+                </h:form>
+                <h:form prependId="false" id="detailsform">
+                    <p:panel header="Details" id="detailsPanel">
+                        #{employeeAllocationBean.editMode}
+                        <table width="80%">
+                            <tr>
+                                <td colspan="4">
+                                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                                id="messages"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="20%"><p:outputLabel for="schoolClassId" value="Class"/></td>
+                                <td width="30%">
+                                    <p:selectOneMenu id="schoolClassId" value="#{employeeAllocationBean.schoolClassTeacher.schoolClass.schoolClassId}"
+                                                     required="true" requiredMessage="" style="width:150px"
+                                                     disabled="#{employeeAllocationBean.editMode == null}">
+                                        <f:selectItem itemValue="" itemLabel="----------------------" />
+                                        <f:selectItems value="#{schoolSessionBean.schoolClasses}" var="s"
+                                                       itemValue="#{s.schoolClassId}" itemLabel="#{s.description}"/>
+                                    </p:selectOneMenu>
+                                </td>
+                                <td align="right" width="20%"><p:outputLabel for="allocationTypeId" value="Allocation Type"/></td>
+                                <td>
+                                    <p:selectOneMenu id="allocationTypeId" value="#{employeeAllocationBean.schoolClassTeacher.allocationType.allocationTypeId}"
+                                                     required="true" requiredMessage="" style="width:150px"
+                                                     disabled="#{employeeAllocationBean.editMode == null}">
+                                        <f:selectItem itemValue="" itemLabel="----------------------" />
+                                        <f:selectItems value="#{applicationListBean.allocationTypeList}" var="a"
+                                                       itemLabel="#{a.description}" itemValue="#{a.allocationTypeId}"/>
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right"><p:outputLabel for="employeeId" value="Employee ID"/></td>
+                                <td>
+                                    <p:inputText id="employeeId" value="#{employeeAllocationBean.schoolClassTeacher.employee.employeeId}" 
+                                                 readonly="true" size="10"/>
+                                </td>
+                                <td align="right"><p:outputLabel for="status" value="Status"/></td>
+                                <td>
+                                    <p:selectOneMenu id="status" value="#{employeeAllocationBean.schoolClassTeacher.status}"
+                                                     required="#{employeeAllocationBean.editMode == null}" requiredMessage="" style="width:150px"
+                                                     disabled="#{employeeAllocationBean.editMode == null}">
+                                        <f:selectItem itemValue="" itemLabel="----------------------" />
+                                        <f:selectItems value="#{applicationListBean.statusList}" />
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">ID</td>
+                                <td>
+                                    <p:inputText id="schoolClassTeacherId" value="#{employeeAllocationBean.schoolClassTeacher.schoolClassTeacherId}" 
+                                                 readonly="true"/>
+                                </td>
+                                <td align="right">Modified by</td>
+                                <td>
+                                    <p:inputText id="modifiedBy" value="#{employeeAllocationBean.schoolClassTeacher.modifiedBy}" 
+                                                 readonly="true" size="10" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <p:commandButton id="saveButton" value="Save" disabled="#{employeeAllocationBean.editMode == null}"
+                                                     action="#{employeeAllocationBean.doAssignSchoolClassTeacher}"
+                                                     update=":searchform:classTeacherTab,@form" />
+
+                                    <p:commandButton id="clearButton" value="Reset" update="detailsPanel,@form"
+                                                     immediate="true"  action="#{employeeAllocationBean.clearForm}" /> 
+                                </td>
+                            </tr>
+                        </table>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

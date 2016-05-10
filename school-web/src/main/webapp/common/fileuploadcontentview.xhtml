@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body class="ui-widget-content">
+        <div style="margin: auto;width: 100%px;">
+            <h:form>
+                <p:panel header="#{excelFileImportBean.excelFileUploadData.field2}">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                id="messageBoard"/>
+                    <div style="overflow: scroll;width: 100%;height: 450px">
+                        <p:dataTable var="row" value="#{excelFileImportBean.excelFileUploadData.data}" id="rowTable">
+                            <p:columns value="#{excelFileImportBean.excelFileUploadData.columnNames}" var="column" 
+                                       columnIndexVar="colIndex">
+                                <f:facet name="header">
+                                    #{column}
+                                </f:facet>
+                                #{row[colIndex]}
+                            </p:columns>
+                        </p:dataTable>
+                    </div>
+                    <div id="taskButtonPanel">
+                        <!-- the button for ADMIN employee upload -->
+                        <p:commandButton action="#{schoolRegBean.saveSchoolStaffs}" value="Save" ajax="false" 
+                                         rendered="#{excelFileImportBean.excelFileUploadData.field1 == '_SCHSTFF'}"
+                                         icon="ui-icon-disk"/>
+
+                        <!-- the button for employee upload -->
+                        <p:commandButton action="#{employeeBean.createEmployees}" value="Save" ajax="false" 
+                                         rendered="#{excelFileImportBean.excelFileUploadData.field1 == 'SCHSTFF'}"
+                                         icon="ui-icon-disk"/>
+
+                        <!-- the button to save parents uploaded data for ADMIN -->
+                        <p:commandButton action="#{schoolRegBean.saveParents}" value="Save" ajax="false" 
+                                         icon="ui-icon-disk" 
+                                         rendered="#{excelFileImportBean.excelFileUploadData.field1 == '_SCHPRNTS'}"/>
+
+                        <!-- the button to save parents uploaded data-->
+                        <p:commandButton action="#{parentBean.createParents}" value="Save" ajax="false" 
+                                         icon="ui-icon-disk" 
+                                         rendered="#{excelFileImportBean.excelFileUploadData.field1 == 'SCHPRNTS'}"/>
+
+                        <!-- the button to save school student uploaded data for ADMIN -->
+                        <p:commandButton action="#{schoolRegBean.saveSchoolStudents}" value="Save" ajax="false" 
+                                         icon="ui-icon-disk" 
+                                         rendered="#{excelFileImportBean.excelFileUploadData.field1 == '_SCHSTDNS'}"/>
+
+                        <!-- the button to save school student uploaded data -->
+                        <p:commandButton action="#{schoolStudentBean.createSchoolStudents}" value="Save" ajax="false" 
+                                         icon="ui-icon-disk" 
+                                         rendered="#{excelFileImportBean.excelFileUploadData.field1 == 'SCHSTDNS'}"/>
+
+                        <!-- the button to save school student and parents uploaded data-->
+                        <p:commandButton action="#{schoolStudentBean.bulkCreateSchoolStudentWithParents}" value="Save" ajax="false" 
+                                         icon="ui-icon-disk" 
+                                         rendered="#{excelFileImportBean.excelFileUploadData.field1 == 'STDPRNTS'}"/>
+
+                        <!-- the button to save school classes uploaded data -->
+                        <p:commandButton action="#{schoolClassBean.saveSchoolClasses}" value="Save" ajax="false" 
+                                         icon="ui-icon-disk" 
+                                         rendered="#{excelFileImportBean.excelFileUploadData.field1 == 'SCHCLSS'}" />
+
+                        <!-- the button to save school subjects uploaded data -->
+                        <p:commandButton action="#{schoolSubjectBean.saveSchoolSubjects}" value="Save" ajax="false" 
+                                         icon="ui-icon-disk" 
+                                         rendered="#{excelFileImportBean.excelFileUploadData.field1 == 'SCHSBJS'}"/>
+
+                        <!-- the button to save class exam scoresheet uploaded data -->
+                        <p:commandButton action="#{examBean.uploadClassScoreSheet}" value="Save" ajax="false" 
+                                         icon="ui-icon-disk" 
+                                         rendered="#{excelFileImportBean.excelFileUploadData.field1 == 'CLSSXAMSCR'}"/>
+
+                        <!-- the button to save student attendance sheet uploaded data -->
+                        <p:commandButton action="#{schoolStudentAttendanceBean.uploadAttendanceSheet}" value="Save" ajax="false" 
+                                         icon="ui-icon-disk" 
+                                         rendered="#{excelFileImportBean.excelFileUploadData.field1 == 'SCHSTDNSATTND'}"/>
+
+                        <!-- the button to save employee attendance sheet uploaded data -->
+                        <p:commandButton action="#{staffAttendanceBean.uploadAttendanceSheet}" value=" Save " ajax="false" 
+                                         icon="ui-icon-disk" 
+                                         rendered="#{excelFileImportBean.excelFileUploadData.field1 == 'STAFFSATTND'}"/>
+
+                        <!-- a generic button to go back to the previous page -->
+                        <p:commandButton action="#{excelFileImportBean.excelFileUploadData.getField3}"
+                                         value="Back" ajax="false" icon="ui-icon-arrowreturnthick-1-w"/>
+                    </div>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</f:view>

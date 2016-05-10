@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Asset Details
+        </ui:define>
+        <ui:define name="menu_panel">
+            <p:menu style="width: 190px">
+
+            </p:menu>
+        </ui:define>
+        <ui:define name="panelTitle">
+            <h:outputText value="Asset Details (#{assetBean.asset.assetId})" 
+                          rendered="#{financeSessionBean.editMode != 'CREATE'}"/>
+
+            <h:outputText value="New Asset" 
+                          rendered="#{financeSessionBean.editMode == 'CREATE'}"/>
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3" align="center">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">ID</td>
+                        <td>
+                            <p:inputText id="assetId" value="#{assetBean.asset.assetId}"
+                                         required="#{financeSessionBean.editMode != 'CREATE'}" 
+                                         requiredMessage="" readonly="true" size="6"/>
+                        </td>
+                        <td><p:message for="assetId" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Description</td>
+                        <td>
+                            <p:inputText id="description" value="#{assetBean.asset.description}" 
+                                         required="true" readonly="#{financeSessionBean.editMode == 'VIEW'}"
+                                         requiredMessage="" size="30"/>
+                        </td>
+                        <td><p:message for="description" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Unit Price</td>
+                        <td>
+                            <p:inputText id="unitPrice" value="#{assetBean.asset.unitPrice}" 
+                                         required="true" readonly="#{financeSessionBean.editMode == 'VIEW'}"
+                                         requiredMessage="">
+                                <f:convertNumber pattern="#,##0.00"/>
+                            </p:inputText>
+                        </td>
+                        <td><p:message for="unitPrice" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Unit Count</td>
+                        <td>
+                            <p:inputText id="unitCount" value="#{assetBean.asset.unitCount}" 
+                                         required="true" readonly="#{financeSessionBean.editMode == 'VIEW'}"
+                                         requiredMessage="" onchange="function dochange(){ alert('hello');
+                                         }">
+                                <f:convertNumber pattern="#,##0"/>
+                            </p:inputText>
+                        </td>
+                        <td><p:message for="unitCount" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Value</td>
+                        <td>
+                            <p:inputText id="amount" value="#{assetBean.asset.amount}" 
+                                         required="true" requiredMessage="" readonly="true">
+                                <f:convertNumber pattern="#,##0.00"/>
+                            </p:inputText>
+                        </td>
+                        <td><p:message for="amount" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Assumed Date</td>
+                        <td>
+                            <p:calendar id="acquireDate" value="#{assetBean.asset.acquireDate}" 
+                                        readonly="#{financeSessionBean.editMode == 'VIEW'}" 
+                                        required="true" requiredMessage="" pattern="dd/MM/yyyy"
+                                        navigator="true"/>
+                        </td>
+                        <td><p:message for="acquireDate" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Type of Asset</td>
+                        <td>
+                            <p:selectOneMenu id="assetTypeId" style="width:200px"
+                                             value="#{assetBean.asset.assetType.assetTypeId}"
+                                             disabled="#{financeSessionBean.editMode == 'VIEW'}" required="true"
+                                             requiredMessage="">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeApplicationBean.assetTypes}" var="l"
+                                               itemValue="#{l.assetTypeId}" itemLabel="#{l.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="assetTypeId" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Status</td>
+                        <td>
+                            <p:selectOneMenu id="status" required="true" requiredMessage="" style="width:200px"
+                                             value="#{assetBean.asset.status}" 
+                                             disabled="#{financeSessionBean.editMode == 'VIEW'}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.statusList}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="status" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Modified By</td>
+                        <td>
+                            <p:inputText id="modifiedBy" value="#{assetBean.asset.modifiedBy}"
+                                         readonly="true"/>
+                        </td>
+                        <td><p:message for="modifiedBy" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Last Modified</td>
+                        <td>
+                            <p:inputText id="modifiedTime" value="#{assetBean.asset.modifiedTime}"
+                                         readonly="true">
+                                <f:convertDateTime />
+                            </p:inputText>
+                        </td>
+                        <td><p:message for="modifiedTime" /></td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel"> 
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk"
+                                     action="#{assetBean.saveAsset}" update="messages"
+                                     rendered="#{financeSessionBean.editMode != 'VIEW'}"/>
+
+                    <p:commandButton id="doneButton" value="Done" icon="ui-icon-check"
+                                     action="/schooluser/finance/assetsearch" immediate="true" >
+                        <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="" />
+                    </p:commandButton>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

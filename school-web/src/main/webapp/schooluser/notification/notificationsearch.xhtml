@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Notification(s)
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="4">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="20%">Title</td>
+                        <td><p:inputText value="#{schoolNotificationBean.title}" /></td>
+                        <td align="right" width="20%">Effective Date</td>
+                        <td>
+                            <p:calendar value="#{schoolNotificationBean.expiryDate}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Participant Category</td>
+                        <td>
+                            <p:selectOneMenu id="pCategory" value="#{schoolNotificationBean.participationCategoryCode}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{applicationListBean.participantCategoryList}" var="p" 
+                                               itemLabel="#{p.description}" itemValue="#{e.participantCategoryCode}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td align="right" width="20%">Channel</td>
+                        <td>
+                            <p:selectOneMenu id="mChannel" value="#{schoolNotificationBean.messageChannelCode}">
+                                <f:selectItem itemLabel="--------------------" itemValue="" />
+                                <f:selectItems value="#{applicationListBean.messageChannelList}"  var="m" 
+                                               itemLabel="#{m.description}" itemValue="#{m.messageChannelCode}"/>
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <p:commandButton id="searchButton" value="Search" icon="ui-icon-search"
+                                             update="messageTab" action="#{schoolNotificationBean.findMessages}"/>
+                            <p:defaultCommand target="searchButton" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable id="messageTab" var="row" value="#{sessionBean.messageModel}" rowKey="#{row.messageId}"
+                                         selection="#{schoolNotificationBean.messageData}" selectionMode="single"
+										 scrollable="true" scrollHeight="300" >
+                                <p:column headerText="ID" width="50">
+                                    #{row.messageId}
+                                </p:column>
+                                <p:column headerText="Title">
+                                    #{row.title}
+                                </p:column>
+                                <p:column headerText="Live Date" width="80">
+                                    #{row.liveDate}
+                                </p:column>
+                                <p:column headerText="Channel" width="65">
+                                    #{row.messageChannel}
+                                </p:column>
+                                <p:column headerText="Recipients" width="120">
+                                    #{row.participantCategory}
+                                </p:column>
+                                <p:column headerText="Modified By" width="70">
+                                    #{row.modifiedBy}
+                                </p:column>
+                                <p:column headerText="Lasted Modified" width="80">
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="updateButton" value=" View " icon="ui-icon-zoomin" ajax="false"
+                                     action="#{schoolNotificationBean.findMessageDetails}" />
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

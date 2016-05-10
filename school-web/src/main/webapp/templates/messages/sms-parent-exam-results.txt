@@ -1,0 +1,2 @@
+Terms Results are out:
+${student}'s scores: 

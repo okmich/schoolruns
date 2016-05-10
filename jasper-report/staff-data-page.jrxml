@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="staff-data-page" language="groovy" pageWidth="598" pageHeight="842" columnWidth="558" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="92daf36c-7972-483d-95ee-3daa66941311">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="47"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#FFF8F8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="employee_classes" uuid="98ce0d6e-4db6-4ab8-b718-54c31c9ab58b">
+		<parameter name="subEmployeeId" class="java.lang.Integer" isForPrompting="false"/>
+		<queryString language="SQL">
+			<![CDATA[select sct.employee_id, sc.code class_code, sc.description class_description, gl.description grade_level, at.description alloc  from school_class_teacher sct join school_class sc on sc.school_class_id= sct.school_class_id join grade_level gl on gl.grade_level_id = sc.grade_level_id join allocation_type at on at.allocation_type_id = sct.allocation_type_id where sct.status = 'A' and sct.employee_id = $P{subEmployeeId}]]>
+		</queryString>
+		<field name="employee_id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="class_code" class="java.lang.String"/>
+		<field name="class_description" class="java.lang.String"/>
+		<field name="grade_level" class="java.lang.String"/>
+		<field name="alloc" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="employeeId" class="java.lang.Integer"/>
+	<parameter name="schoolName" class="java.lang.String"/>
+	<parameter name="schoolEmail" class="java.lang.String"/>
+	<parameter name="schoolPhoneNumber" class="java.lang.String"/>
+	<parameter name="schoolWebsite" class="java.lang.String"/>
+	<parameter name="schoolAddress" class="java.lang.String"/>
+	<parameter name="schoolMotto" class="java.lang.String"/>
+	<parameter name="logo_url" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT employee_id, employee_category, staff_number, date_of_hire, surname, othernames, identification_means, id_number, birth_date, full_address, mobile_no, office_no, email, gender, religion, resign_date, employee_type, marital_status, nationality, pay_structure, state_origin, home_town, picture_url, employee_position, first_language, username FROM v_employee v where employee_id = $P{employeeId}]]>
+	</queryString>
+	<field name="employee_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="employee_category" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="staff_number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="date_of_hire" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="surname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="othernames" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="identification_means" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="birth_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="full_address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mobile_no" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="office_no" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="gender" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="religion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="resign_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="employee_type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="marital_status" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nationality" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pay_structure" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="state_origin" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="home_town" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="picture_url" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="employee_position" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="first_language" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="username" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="111" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="b3cf9c95-b0fc-4251-ba30-51770cde9cde" x="100" y="1" width="441" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ba973543-7ec0-4a8b-aedb-9963a9ac3200" x="186" y="56" width="155" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolEmail}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f12de634-c161-4199-b8fb-ca3c85e87b2f" x="432" y="56" width="100" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolPhoneNumber}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="feaa23ee-4425-42d0-84e4-e2bef82c8a65" x="147" y="56" width="39" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Email:]]></text>
+			</staticText>
+			<image onErrorType="Icon">
+				<reportElement uuid="a6e017c8-eda8-457d-ae17-6aaf22881417" x="1" y="1" width="99" height="108"/>
+				<imageExpression><![CDATA[$P{logo_url}]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="2b4f52fd-8e8c-4b95-bdba-e19761fc6f0d" x="128" y="27" width="390" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolMotto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8a1c5f8e-f94a-499d-9709-e59403269f2a" x="100" y="42" width="441" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolAddress}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="fe475a8b-bf05-4355-9567-04e1e1395e92" x="346" y="56" width="85" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Contact Number:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="b2f776dd-6a73-48d8-9dbf-12c4a97e3b29" x="1" y="109" width="555" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="1537ab88-16b2-4458-93b7-a5dd3f458e0d" x="195" y="70" width="259" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolWebsite} == null || $P{schoolWebsite}.trim().isEmpty() ? "" : "Website: " +  $P{schoolWebsite}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="f8fd3189-875e-486b-ab8d-b7bd493784df" x="110" y="2" width="324" height="34"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMPLOYEE DATA PAGE]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="541" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="e7997da8-0962-4d6d-a991-bc61649e5d8f" mode="Opaque" x="-1" y="1" width="560" height="19" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BIODATA INFORMATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="22407845-e9cb-4215-9e1b-606dd37e1bc7" x="1" y="20" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Surname]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ffb6a7d9-decc-4470-ad90-7316d535432b" x="101" y="20" width="180" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{surname}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="ecd050d8-21b7-4bdb-b1f3-57147381a535" x="302" y="20" width="82" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Othernames]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="fa44f57a-404b-42f2-a152-9bf44634bb0d" x="384" y="20" width="172" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{othernames}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="f48b9afc-903f-4698-928f-ac2bbdbf457d" x="0" y="40" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Date of Birth]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="ff71cc06-0308-4a55-a654-644b70ce44e5" x="100" y="40" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{birth_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="0cb82ef2-0b38-412e-916d-361b9dcb426c" x="1" y="60" width="100" height="20"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Residential address]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="5d5ec9f7-b93e-4c72-91a7-4dbdcf9635aa" x="101" y="60" width="316" height="29"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{full_address}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6e0a8616-27c4-4b59-b5a2-dfc28b3d5ad9" x="233" y="40" width="69" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Gender]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="2c912126-e161-464c-9772-96334cf88e8d" x="302" y="40" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a87e512a-7324-495c-9061-901f423a19a3" x="0" y="89" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Religion]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="87893041-5b62-4792-8358-b6621a5797fd" x="100" y="89" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{religion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="18499406-009f-4e8d-939b-69463fcd9002" x="-1" y="109" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[State of origin]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="43ed27ee-fad3-4b08-a25b-a66fbb15e94c" x="99" y="109" width="118" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{state_origin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b8c4529c-0ed6-4b2d-8168-532c5e01defa" x="217" y="109" width="85" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Home town]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="30fe5d9a-4766-4e8f-94b7-1c40380e809a" x="302" y="109" width="115" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{home_town}]]></textFieldExpression>
+			</textField>
+			<image onErrorType="Icon">
+				<reportElement uuid="68854280-7e62-43ff-b3e0-10527d23605e" x="420" y="41" width="136" height="148"/>
+				<imageExpression><![CDATA[$F{picture_url}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="4a949b35-82c2-4373-9efb-dc049f1cb143" x="1" y="149" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Phone Number]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="66646a10-27db-4882-b79e-ceb1bf9cf5ec" x="101" y="149" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mobile_no}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="26314d22-8742-4699-80c4-738e5ebf7ee9" x="217" y="149" width="85" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Marital Status]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ae15a79b-a9f2-45df-8573-2169d016061d" x="302" y="149" width="115" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{marital_status}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="f704a4f9-5235-4d3a-8f1e-560f097e1e68" x="-1" y="129" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Nationality]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="070e461f-5af4-4451-9ac4-194d44e417af" x="99" y="129" width="102" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nationality}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="cb5f87e6-f548-4a6f-b689-80803f635364" mode="Opaque" x="-1" y="220" width="560" height="19" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMPLOYMENT INFORMATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4d07ab49-01fa-4091-87f0-bc9b3a722567" x="1" y="241" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Staff Number]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="866ae814-5540-4e5a-9e57-5377564758e4" x="101" y="241" width="163" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{staff_number}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="7f171640-9804-43c6-900a-93969f3eeb43" x="302" y="241" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Date of Employment]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="04d3477a-445a-4dd9-866d-7c900ff86e17" x="402" y="241" width="154" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date_of_hire}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="dc8725a0-6c17-413a-b859-e9911e9aa022" x="1" y="261" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Employee Category]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="0dbaf76c-38cd-475b-9da5-f7de8344c1bf" x="101" y="261" width="163" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{employee_category}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="78d6b0bb-6ea4-483d-b724-09027b6dfd21" x="302" y="261" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Employee Type]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="d46ade55-c35d-4c00-9cf9-b05c8311b70b" x="402" y="261" width="154" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{employee_type}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="35dffc61-9089-4337-a9c5-fc1ddb66a13d" x="1" y="301" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Means of ID]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="d6887b9d-6ea3-49e5-a012-653db803f9b2" x="101" y="301" width="163" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{identification_means}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="895ba442-f95f-48ee-801f-de2cc9cd3791" x="302" y="301" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[ID Number]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="fe389867-8b3e-491d-b428-babcf361449f" x="402" y="301" width="154" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_number}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="4318383f-5726-400e-a3f2-a962c45f08e7" x="0" y="281" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Employee Position]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f9ce4258-4c92-4b75-872f-02e2547bc9b6" x="101" y="281" width="163" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{employee_position}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2321ef05-31d9-4b9d-8f29-f0d0eca925fc" x="302" y="281" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Office Phone #]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="9a6fb6c0-c341-4d54-bec7-3ef75748496f" x="402" y="281" width="154" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{office_no}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="597e1e20-9837-46ae-962c-e121dbc0a2a3" x="1" y="321" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Payroll Cadre]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="4c7c3f0d-501e-4973-a8f5-a736344a1a45" x="101" y="321" width="163" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pay_structure}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="93ea2145-88eb-4dd3-920f-231d8117fe81" x="302" y="321" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[PORTAL Username]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="7cfe3200-989a-4c86-90d6-a4234569ceb9" x="402" y="321" width="154" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="8ba99b5f-c3f4-4267-bce6-fd392564cc82" mode="Opaque" x="0" y="377" width="560" height="19" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLASSES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7121f957-cecd-44af-bbe1-a148ae9e63fc" mode="Opaque" x="1" y="495" width="560" height="19" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUBJECTS]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement uuid="1bbbe432-e5ce-4c16-93c7-4b3a9e2471a7" key="table" style="table" x="-1" y="396" width="557" height="60" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="employee_classes" uuid="f3696459-7926-4a57-91c4-95cac9dcce9e">
+						<datasetParameter name="subEmployeeId">
+							<datasetParameterExpression><![CDATA[$F{employee_id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="74" uuid="592195af-33e0-4432-ba49-abb3091e2f5b">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="6585c61c-6e7d-49db-9e2f-05786aee08d4" x="0" y="0" width="74" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Class Code]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement uuid="1a2f681d-7c5a-48c7-9ef9-a738f1031b1f" x="0" y="0" width="74" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{class_code}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="179" uuid="cb804050-a895-4142-a11e-0bf1289a55c6">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="b55b6d48-04eb-4d7a-8158-f532c6444a03" x="0" y="0" width="179" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Class Name]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement uuid="0835bcc7-a1c1-4eff-bd5b-2952d3a1c76f" x="0" y="0" width="179" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{class_description}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="158" uuid="ec814590-fa35-4fcc-aeca-075985e19f5e">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="2bb9335d-cb06-4419-92ea-51d6ebc0fda4" x="0" y="0" width="158" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Grade Level]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement uuid="12948e0f-13e3-4b2b-b158-1a8f0ba0c337" x="0" y="0" width="158" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{grade_level}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="145" uuid="198ac329-9de7-425c-a405-dabe7365abd5">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="237a62a0-1601-4cc7-85c4-282b0594fdb8" x="0" y="0" width="145" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Role]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement uuid="fd52b0a8-b1b1-4a6e-a976-172ee6357e2c" x="0" y="0" width="145" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{alloc}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

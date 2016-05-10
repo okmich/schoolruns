@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            About me..
+        </ui:define>
+        <ui:define name="menu_panel">
+            <h:form prependId="false"> 
+                <p:menu style="width: 190px" >
+                    <p:menuitem value="Menu" outcome="/admin/security/rolesmenus" icon="ui-icon-battery-1"/>
+                    <p:menuitem value="Menu Item" outcome="/admin/security/rolesmenuitems" icon="ui-icon-tag"/>
+                    <p:menuitem value="Related Task" outcome="/admin/security/rolesrelatedtasks" 
+                                icon="ui-icon-gripsmall-diagonal-se"/>
+                </p:menu>
+            </h:form>
+        </ui:define>
+        <ui:define name="panelTitle">
+            User Details - #{sessionBean.systemRole.systemRoleId}
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form prependId="false">
+                <table width="100%">
+                    <tr>
+                        <td  colspan="3">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%">
+                            <p:outputLabel value="ID" for="systemRoleId"
+                                           rendered="#{sessionBean.editMode == 'VIEW'}"/>
+                        </td>
+                        <td>
+                            <p:inputText id="systemRoleId" value="#{sessionBean.systemRole.systemRoleId}"
+                                         readonly="true" rendered="#{sessionBean.editMode == 'VIEW'}"/>
+                        </td>
+                        <td><h:message for="systemRoleId" /></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Code" for="code"/></td>
+                        <td>
+                            <p:inputText id="code" value="#{sessionBean.systemRole.code}"
+                                         required="true" requiredMessage="required"
+                                         readonly="#{sessionBean.editMode == 'VIEW'}"/>
+                        </td>
+                        <td><h:message for="description" /></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Description" for="description"/></td>
+                        <td>
+                            <p:inputText id="description" value="#{sessionBean.systemRole.description}" size= "30"
+                                         required="true" requiredMessage="required"
+                                         readonly="#{sessionBean.editMode == 'VIEW'}"/>
+                        </td>
+                        <td><h:message for="description" /></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Is Admin"/></td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{sessionBean.systemRole.admin}" 
+                                         disabled="#{sessionBean.editMode == 'VIEW'}"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton value="Save" icon="ui-icon-disk"
+                                     action="#{systemRoleBean.saveSystemRole}" ajax="false"
+                                     rendered="#{sessionBean.editMode != 'VIEW'}" />   
+
+                    <p:commandButton value="Cancel" immediate="true" icon="ui-icon-circle-close"
+                                     action="/admin/security/rolesearch" ajax="false" />
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

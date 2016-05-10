@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Expense Details
+        </ui:define>
+        <ui:define name="menu_panel">
+            <p:menu style="width: 190px">
+                <p:menuitem id="reverseButton" value=" Reverse Expense " icon="ui-icon-plus"
+                            action="/schooluser/finance/expensereversal" ajax="false"
+                            rendered="#{financeSessionBean.editMode == 'VIEW'}">
+                    <f:setPropertyActionListener target="#{expenseBean.expense}" value="#{expenseBean.expense}"/>
+                </p:menuitem>
+            </p:menu>
+        </ui:define>
+        <ui:define name="panelTitle">
+            <h:outputText value="Expense Details (#{expenseBean.expense.expenseId})" 
+                          rendered="#{financeSessionBean.editMode != 'CREATE'}"/>
+
+            <h:outputText value="New Expense" 
+                          rendered="#{financeSessionBean.editMode == 'CREATE'}"/>
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <h:panelGroup>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="3" align="center">
+                                <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" 
+                                            showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="30%"><p:outputLabel value="Description" for="narration"/></td>
+                            <td width="50%">
+                                <p:inputText id="narration" value="#{expenseBean.expense.narration}" 
+                                             required="true" readonly="#{financeSessionBean.editMode == 'VIEW'}"
+                                             requiredMessage="" size="50"/>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel value="Amount" for="amount"/></td>
+                            <td>
+                                <p:inputText id="amount" value="#{expenseBean.expense.amount}" 
+                                             required="true" readonly="#{financeSessionBean.editMode == 'VIEW'}"
+                                             requiredMessage="">
+                                    <f:convertNumber pattern="#,##0.00"/>
+                                </p:inputText>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel value="Transaction Type" for="txnTypeId"/></td>
+                            <td>
+                                <p:selectOneMenu id="txnTypeId" style="width:200px"
+                                                 value="#{expenseBean.expense.txnType.txnTypeId}"
+                                                 disabled="#{financeSessionBean.editMode == 'VIEW'}" required="true"
+                                                 requiredMessage="">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{financeSessionBean.txnTypes}" var="t"
+                                                   itemValue="#{t.txnTypeId}" itemLabel="#{t.description}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="txnTypeId" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="30%"><p:outputLabel value="Transaction Date" for="txnDate"/></td>
+                            <td width="50%">
+                                <p:calendar id="txnDate" value="#{expenseBean.expense.txnDate}" 
+                                            readonly="#{financeSessionBean.editMode == 'VIEW'}" 
+                                            required="true" requiredMessage="" pattern="dd/MM/yyyy"
+                                            navigator="true"/>
+                            </td>
+                            <td><p:message for="txnDate" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel value="Invoice/Voucher/Reference" for="txnRef"/></td>
+                            <td>
+                                <p:inputText id="txnRef" value="#{expenseBean.expense.txnRef}" 
+                                             readonly="#{financeSessionBean.editMode == 'VIEW'}" size="30"/>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{financeSessionBean.editMode == 'VIEW'}">
+                    <table width="100%">
+                        <tr>
+                            <td align="right">ID</td>
+                            <td>
+                                <p:inputText id="expenseId" value="#{expenseBean.expense.expenseId}"
+                                             required="#{financeSessionBean.editMode != 'CREATE'}" 
+                                             requiredMessage="" readonly="true" size="6"/>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Status</td>
+                            <td>
+                                <p:selectOneMenu id="status" required="true" requiredMessage="" style="width:200px"
+                                                 value="#{expenseBean.expense.status}" 
+                                                 disabled="true">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.statusList}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="status" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Modified By</td>
+                            <td>
+                                <p:inputText id="modifiedBy" value="#{expenseBean.expense.modifiedBy}"
+                                             readonly="true"/>
+                            </td>
+                            <td><p:message for="modifiedBy" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Last Modified</td>
+                            <td>
+                                <p:inputText id="modifiedTime" value="#{expenseBean.expense.modifiedTime}"
+                                             readonly="true">
+                                    <f:convertDateTime />
+                                </p:inputText>
+                            </td>
+                            <td><p:message for="modifiedTime" /></td>
+                        </tr>
+                    </table>
+                </h:panelGroup>
+                <div id="taskButtonPanel"> 
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk"
+                                     action="#{expenseBean.saveExpense}" update="messages"
+                                     rendered="#{financeSessionBean.editMode == 'CREATE'}"/>
+
+                    <p:commandButton id="doneButton" value="Done" icon="ui-icon-check"
+                                     action="/schooluser/finance/expensesearch" immediate="true" >
+                        <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="" />
+                    </p:commandButton>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

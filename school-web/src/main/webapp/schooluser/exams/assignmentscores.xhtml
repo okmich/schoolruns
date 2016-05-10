@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Assignment (#{assignmentBean.assignment.assignmentId})
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="4">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            <h:inputHidden value="#{assignmentBean.assignment.assignmentId}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="20%">Description</td>
+                        <td>
+                            <h:inputText value="#{sessionBean.assignment.description}" readonly="true" size="40" />
+                        </td>
+                        <td align="right" width="20%">Class</td>
+                        <td>
+                            <h:inputText value="#{sessionBean.assignment.schoolClass.description}" readonly="true" size="40"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Type</td>
+                        <td>
+                            <h:inputText value="#{sessionBean.assignment.assignmentType.description}" readonly="true" size="40" />
+                        </td>
+                        <td align="right">Subject</td>
+                        <td>
+                            <h:inputText value="#{sessionBean.assignment.schoolSubject.subjectCode}" readonly="true" size="40" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Created Date</td>
+                        <td>
+                            <h:inputText value="#{sessionBean.assignment.createDate}" readonly="true">
+                                <f:convertDateTime dateStyle="full" />
+                            </h:inputText>
+                        </td>
+                        <td align="right">Submission Date</td>
+                        <td>
+                            <h:inputText value="#{sessionBean.assignment.submissionDate}" readonly="true">
+                                <f:convertDateTime dateStyle="full" />
+                            </h:inputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable id="examScoreTab" var="row" value="#{sessionBean.assignmentScoreModel}"
+                                         rowKey="#{row.assignmentScoreId}" style="overflow: scroll;width: 100%;height: 250px">
+                                <p:column headerText="ID">
+                                    #{row.assignmentScoreId}
+                                </p:column>
+                                <p:column headerText="Student Name">
+                                    #{row.schoolStudent.student.fullname}
+                                </p:column>
+                                <p:column headerText="Student Reg. #">
+                                    #{row.schoolStudent.registrationNo}
+                                </p:column>
+                                <p:column headerText="Score">
+                                    <p:inputText id="rownum" value="#{row.score}" required="true" validatorMessage="" size="5"
+                                                 converterMessage="" requiredMessage="" readonly="#{sessionBean.assignment.status == 'A'}">
+                                        <f:convertNumber pattern="#0" />
+                                        <f:validateLongRange minimum="0" maximum="#{sessionBean.assignment.maxScore}"/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    #{row.modifiedBy}
+                                </p:column>
+                                <p:column headerText="">
+                                    <p:message for="rownum" />
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk" ajax="false"
+                                     action="#{assignmentBean.saveAssignmentScores}"  update="messages"
+                                     rendered="#{sessionBean.editMode == 'EDIT'}" />
+
+                    <p:commandButton id="commitButton" value=" Commit " icon="ui-icon-arrowthickstop-1-s" ajax="false"
+                                     action="#{assignmentBean.commitAssignmentScores}" update="messages"
+                                     rendered="#{sessionBean.editMode == 'EDIT'}"/>
+
+                    <p:commandButton id="doneButton" value=" Done " icon="ui-icon-check"
+                                     action="/schooluser/exams/assignmentdetails" 
+                                     immediate="true"/>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+                <ui:include src="/schooluser/student/relatedtaskmenu.xhtml" />
+            </ui:define>
+            <ui:define name="panelTitle">
+                Students disciplinary file - #{sessionBean.schoolStudentData.fullname}
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td align="center">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:dataTable id="schoolClubTabs" var="row" value="#{studentPropertyBean.studentDisciplineModel}" 
+                                             rowKey="#{row.studentDisciplineId}"  selectionMode="single"
+                                             selection="#{studentPropertyBean.studentDiscipline}"
+                                             style="overflow: scroll;width: 100%;height: 250px">
+                                    <p:column headerText="ID">
+                                        #{row.studentDisciplineId}
+                                    </p:column>
+                                    <p:column headerText="Title">
+                                        #{row.title}
+                                    </p:column>
+                                    <p:column headerText="Magnitude">
+                                        #{row.warningLevel.description}
+                                    </p:column>
+                                    <p:column headerText="Date">
+                                        <h:outputText value="#{row.dateCommitted}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Narration" width="300px">
+                                        #{studentPropertyBean.truncate(row.comment)}
+                                    </p:column>
+                                    <p:column headerText="Modified By">
+                                        #{row.modifiedBy}
+                                    </p:column>
+                                    <p:column headerText="Lasted Modified">
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime dateStyle="short" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <div id="taskButtonPanel">
+                                    <p:commandButton id="addButton" value=" New " icon="ui-icon-plusthick"
+                                                     action="/schooluser/student/disciplinenew" ajax="false" />
+
+                                    <p:commandButton id="updateButton" value=" View " icon="ui-icon-zoomin"
+                                                     onclick="discDlg.show()" />
+
+                                    <p:commandButton id="doneButton" value="Done" icon="ui-icon-check" immediate="true"
+                                                     action="/schooluser/student/studentdetails" ajax="false"/>
+                                    <p:defaultCommand target="doneButton" />
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+                <p:dialog header="Student Sport Activity Details" widgetVar="discDlg" resizable="false" modal="true">  
+                    <h:form>
+                        <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        <h:panelGrid columns="1" style="margin-bottom:10px">
+                            <h:panelGroup>
+                                You are about to enter details of a disciplinary case for #{sessionBean.schoolStudentData.studentData.surname}  #{sessionBean.schoolStudentData.studentData.firstname}. <br/>
+                                Please make sure that you are entering this records for the  <br/>correct Student 
+                                because it will not be possible to delete this  <br/>information once entered. <br /><br />
+                                Also note that an SMS and Email alerts will be going to the student's Parent/Guardian
+                            </h:panelGroup>
+                            <h:panelGrid columns="3">
+                                <h:outputText value="Warning Level" />
+                                <p:selectOneMenu value="#{studentPropertyBean.studentDiscipline.warningLevel.warningLevelId}"
+                                                 style="width:200px" id="warningLevelId" required="true"
+                                                 requiredMessage="">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.warningLevelList}" var="s"
+                                                   itemLabel="#{s.description}" itemValue="#{s.warningLevelId}" />
+                                </p:selectOneMenu>
+                                <p:message for="warningLevelId" />
+                                <h:outputText value="Narration" />
+                                <h:inputTextarea value="#{studentPropertyBean.studentDiscipline.comment}"
+                                                 rows="5" cols="45" required="true" requiredMessage=""
+                                                 id="comment"/>
+                                <p:message for="comment" />
+                                <h:outputText value="Date" />
+                                <p:calendar value="#{studentPropertyBean.studentDiscipline.dateCommitted}"
+                                            required="true" requiredMessage="" id="dateCommitted"
+                                            pattern="dd/MM/yyyy" navigator="true"/>
+                                <p:message for="dateCommitted" />
+                                <h:outputText value="ID" />
+                                <p:inputText value="#{studentPropertyBean.studentDiscipline.studentDisciplineId}"
+                                             required="true" requiredMessage="" id="studentDisciplineId"/>
+                                <p:message for="studentDisciplineId" />
+                                <h:outputText value=" " />
+                                <h:panelGroup>
+                                    <p:commandButton id="updateButton2" value=" Update " icon="ui-icon-pencil"
+                                                     actionListener="#{studentPropertyBean.saveStudentDiscipline}"  
+                                                     oncomplete="handleLoginRequest(xhr, status, args)"/>
+
+                                    <p:commandButton id="doneButton2" value="Done" icon="ui-icon-check"
+                                                     onclick="discDlg.hide()"/>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </h:form>  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+    <script type="text/javascript" language="Javascript"> 
+        alert("hello");
+        /**
+         * 
+         */
+        function handleLoginRequest(xhr, status, args) {
+            if(args.validationFailed || !args.loggedIn) {  
+                discDlg.jq.effect("shake", { times:5 }, 100);  
+            }   
+            else {  
+                discDlg.hide();
+            }  
+        }  
+    </script>
+</html>

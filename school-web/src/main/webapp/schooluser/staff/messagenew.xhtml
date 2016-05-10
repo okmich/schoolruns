@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+
+            </ui:define>
+            <ui:define name="panelTitle">
+                New Message - (#{sessionBean.employeeData.fullname})
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="3"> 
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                            id="messages"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Title</td>
+                            <td>
+                                <p:inputText id="title" value="#{schoolNotificationBean.messageData.title}"
+                                             required="true" requiredMessage=""/>
+                            </td>
+                            <td><p:message for="title" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top">Messages </td>
+                            <td colspan="2">
+                                <p:inputTextarea id="content" value="#{schoolNotificationBean.messageData.content}" 
+                                                 required="true" requiredMessage="" cols="60" rows="6" counter="display"
+                                                 maxlength="160" counterTemplate="{0} characters remaining" />
+                                <br/>
+                                <h:outputText id="display" /><p:message for="content" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"> Expiry Date </td>
+                            <td>
+                                <p:calendar id="expiryDate" value="#{schoolNotificationBean.messageData.expiryDate}"
+                                            pattern="dd/MM/yyyy" required="true" requiredMessage="" navigator="true"
+                                            mindate="#{schoolSessionBean.schoolCalendarData.termStartDate}"
+                                            maxdate="#{schoolSessionBean.schoolCalendarData.yearClosingDate}"/>
+                            </td>
+                            <td> <p:message for="expiryDate" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"> Broadcast Channel </td>
+                            <td>
+                                <p:selectOneMenu id="messageChannelCode" required="true" requiredMessage="" style="width:200px"
+                                                 value="#{schoolNotificationBean.messageData.messageChannelCode}"
+                                                 onchange="$(function(){})">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.messageChannelList}" var="m"
+                                                   itemValue="#{m.messageChannelCode}" itemLabel="#{m.description}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="messageChannelCode" /> </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="addButton" value=" Send " icon="ui-icon-signal-diag" update="messages"
+                                         action="#{schoolNotificationBean.sendMessageToEmployee}" ajax="false"/>
+
+                        <p:commandButton id="doneButton" value="Done" icon="ui-icon-check" immediate="true"
+                                         action="/schooluser/staff/messageboard" ajax="false"/>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

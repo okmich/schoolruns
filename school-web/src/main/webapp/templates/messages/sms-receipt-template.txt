@@ -1,0 +1,1 @@
+Your payment of $amount has been received and the receipt number issued is $receiptNumber.\nThank you for your continued co-operation

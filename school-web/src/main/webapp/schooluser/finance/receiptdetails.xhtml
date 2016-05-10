@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Receipt
+        </ui:define>
+        <ui:define name="menu_panel">
+            <p:menu style="width: 190px" rendered="#{financeSessionBean.editMode != 'CREATE'}">
+
+                <p:menuitem value="Fee-Receipt Allocation" action="#{receiptBean.prepareForAllocation}"
+                            icon="ui-icon-zoomin" rendered="#{financeSessionBean.receipt.feeType}" ajax="false"/>
+
+                <p:menuitem id="reverseButton" value=" Reverse Receipt " icon="ui-icon-plus" ajax="false"
+                            action="/schooluser/finance/receiptreversal">
+                    <f:setPropertyActionListener target="#{financeSessionBean.receipt.narration}" value=""/>
+                </p:menuitem>
+
+                <p:menuitem value="Receipt Statement" action="#{receiptBean.findReceiptDetails}"
+                            icon="ui-icon-zoomin" ajax="false" />
+
+                <p:menuitem value="Print Receipt" action="#{financeReportBean.printReceipt}"
+                            icon="ui-icon-print" target="_blank" ajax="false" />
+            </p:menu>
+        </ui:define>
+        <ui:define name="panelTitle">
+            <h:outputText value="Receipt Details (#{receiptBean.receipt.receiptId})" 
+                          rendered="#{financeSessionBean.editMode != 'CREATE'}"/>
+
+            <h:outputText value="New Receipt" 
+                          rendered="#{financeSessionBean.editMode == 'CREATE'}"/>
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3" align="center">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                </table>
+                <h:panelGroup rendered="#{financeSessionBean.editMode != 'CREATE'}" >
+                    <table width="100%">
+                        <tr>
+                            <td align="right" width="15%">ID</td>
+                            <td width="35%">
+                                <p:inputText id="receiptId" value="#{financeSessionBean.receipt.receiptId}"
+                                             readonly="true" size="6"/>
+                            </td>
+                            <td align="right" width="15%">Receipt Number</td>
+                            <td>
+                                <p:inputText id="receiptNumber" value="#{financeSessionBean.receipt.receiptNumber}" 
+                                             readonly="true" />
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td align="right">Effective Date</td>
+                            <td>
+                                <p:calendar id="effectiveDate" value="#{financeSessionBean.receipt.effectiveDate}" 
+                                            disabled="true"  pattern="dd/MM/yyyy" />
+                            </td>
+                            <td align="right">Modified By</td>
+                            <td>
+                                <p:inputText id="modifiedBy" value="#{financeSessionBean.receipt.modifiedBy}"
+                                             readonly="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Last Modified</td>
+                            <td>
+                                <p:inputText id="modifiedTime" value="#{financeSessionBean.receipt.modifiedTime}"
+                                             readonly="true">
+                                    <f:convertDateTime pattern="dd/MM/yyyy hh:mm:ss" />
+                                </p:inputText>
+                       	    </td>
+                            <td align="right">Status</td>
+                            <td>
+                                <p:selectOneMenu id="status" style="width:200px"
+                                                 value="#{financeSessionBean.receipt.status}"
+                                                 disabled="true">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.statusList}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td>
+                       	    </td>
+                            <td align="right" class="highlight">Receipt Balance</td>
+                            <td>
+                                <p:inputText id="balance" value="#{financeSessionBean.receipt.receiptBalance}">
+                                    <f:convertNumber pattern="#,##0.00"/>
+                                </p:inputText>
+                            </td>
+                        </tr>
+                    </table>
+                    <p:separator />
+                </h:panelGroup>
+                <table width="100%">
+                    <tr>
+                        <td align="right"><p:outputLabel for="narration" value="Narration" /></td>
+                        <td>
+                            <p:inputText id="narration" value="#{financeSessionBean.receipt.narration}" 
+                                         required="true" readonly="#{financeSessionBean.editMode == 'VIEW'}"
+                                         requiredMessage="" size="50" maxlength="120" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="amount" value="Amount" /></td>
+                        <td>
+                            <p:inputText id="amount" value="#{financeSessionBean.receipt.amount}" 
+                                         required="true" requiredMessage="" 
+                                         readonly="#{financeSessionBean.editMode == 'VIEW'}">
+                                <f:convertNumber pattern="#,##0.00"/>
+                            </p:inputText>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="txnDate" value="Transaction Date" /></td>
+                        <td>
+                            <p:calendar id="txnDate" value="#{financeSessionBean.receipt.txnDate}" 
+                                        disabled="#{financeSessionBean.editMode == 'VIEW'}" 
+                                        required="true" requiredMessage="" pattern="dd/MM/yyyy"
+                                        navigator="true"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Payment for Students' fee?</td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{financeSessionBean.receipt.feeType}"
+                                                     disabled="#{financeSessionBean.editMode == 'VIEW'}"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="paymentMode" value="Payment Mode" /></td>
+                        <td>
+                            <p:selectOneMenu id="paymentMode" style="width:200px"
+                                             value="#{financeSessionBean.receipt.paymentMode}"
+                                             disabled="#{financeSessionBean.editMode == 'VIEW'}" required="true"
+                                             requiredMessage="">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.staticListMap['PAY_MODE_TYPE']}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="paymentNumber" value="Reference" /></td>
+                        <td>
+                            <p:inputText id="paymentNumber" value="#{financeSessionBean.receipt.paymentNumber}" 
+                                         readonly="#{financeSessionBean.editMode == 'VIEW'}"
+                                         size="30" maxlength="25" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="payer" value="Payer" /></td>
+                        <td>
+                            <p:inputText id="payer" value="#{financeSessionBean.receipt.payer}" 
+                                         required="true" readonly="#{financeSessionBean.editMode == 'VIEW'}"
+                                         requiredMessage="" size="50" maxlength="60" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="mobileNo" value="Contact Number" /></td>
+                        <td>
+                            <p:inputText id="mobileNo" value="#{financeSessionBean.receipt.mobileNo}" 
+                                         required="true" readonly="#{financeSessionBean.editMode == 'VIEW'}"
+                                         requiredMessage="" size="30" maxlength="30" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="txnTypeId" value="Transaction Type" /></td>
+                        <td>
+                            <p:selectOneMenu id="txnTypeId" style="width:200px"
+                                             value="#{financeSessionBean.receipt.txnType.txnTypeId}"
+                                             disabled="#{financeSessionBean.editMode == 'VIEW'}" required="true"
+                                             requiredMessage="">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeSessionBean.txnTypes}" var="t"
+                                               itemValue="#{t.txnTypeId}" itemLabel="#{t.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel"> 
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk"
+                                     action="#{receiptBean.createReceipt}" update="messages" ajax="false"
+                                     rendered="#{financeSessionBean.editMode == 'CREATE'}"/>
+                    <h:outputText value=" | " rendered="#{financeSessionBean.editMode == 'CREATE'}"/> 
+                    <p:commandButton id="doneButton" value="Done" icon="ui-icon-check" ajax="false"
+                                     action="#{receiptBean.retToSearch}" immediate="true" />
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                Staff Attendance Register
+            </ui:define>
+            <ui:define name="menu_panel">
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td> 
+                                <p:dataTable scrollable="true" scrollHeight="400" value="#{sessionBean.employeeAttendanceList}" var="row" 
+                                             rowKey="#{row.type}" selectionMode="single" id="dataTable">
+                                    <p:column headerText="Student ID">
+                                        #{row.type.employeeId}
+                                    </p:column> 
+                                    <p:column width="200" headerText="Name">
+                                        #{row.type.fullname} 
+                                    </p:column>
+                                    <p:column headerText="Staff #">
+                                        #{row.type.staffNumber} 
+                                    </p:column>
+                                    <p:column headerText="Date">
+                                        <h:outputText value="#{row.attendDate}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Present?">
+                                        <p:selectBooleanCheckbox value="#{row.present}" />
+                                    </p:column>
+                                </p:dataTable>  
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk" ajax="false"
+                                         action="#{staffAttendanceBean.saveAttendanceList}"/>
+
+                        <p:commandButton id="doneButton" value=" Done " icon="ui-icon-check"
+                                         action="/schooluser/attendance/staffattendance" ajax="false" />   
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

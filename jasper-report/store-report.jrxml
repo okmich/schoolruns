@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="store-report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6029ad54-3405-49c0-ba01-56b6bc3adf03">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="schoolName" class="java.lang.String"/>
+	<parameter name="schoolEmail" class="java.lang.String"/>
+	<parameter name="schoolPhoneNumber" class="java.lang.String"/>
+	<parameter name="schoolWebsite" class="java.lang.String"/>
+	<parameter name="schoolAddress" class="java.lang.String"/>
+	<parameter name="schoolMotto" class="java.lang.String"/>
+	<parameter name="logo_url" class="java.lang.String"/>
+	<parameter name="schoolId" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT store_id, name, school_id, address, store_keeper, modified_time, store_value FROM v_stores v where v.school_id = 5]]>
+	</queryString>
+	<field name="store_id" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="school_id" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="store_keeper" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="modified_time" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="store_value" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="store_value_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{store_value}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="110" splitType="Stretch">
+			<textField>
+				<reportElement uuid="6f6cba34-6a1f-4e20-8b5c-5c2bfb6c1d46" x="93" y="37" width="462" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolAddress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ecbeda53-a040-45ed-b6fb-63b006a7048f" x="93" y="26" width="462" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolMotto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cfd2074c-7e3c-4401-bf84-5cd45d5f37e2" x="93" y="1" width="462" height="26"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0be53e51-a5e6-402a-b703-d5db6f168b55" x="356" y="63" width="199" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Contact Number: " + $P{schoolPhoneNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b337a432-9e8b-48f1-9e05-352f0f3ad243" x="296" y="76" width="259" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolWebsite} == null || $P{schoolWebsite}.trim().isEmpty() ? "" : "Website: " +  $P{schoolWebsite}]]></textFieldExpression>
+			</textField>
+			<image onErrorType="Blank">
+				<reportElement uuid="160cfb0a-0c80-4dc9-bb42-ddf81362795d" x="1" y="0" width="91" height="87"/>
+				<imageExpression><![CDATA[$P{logo_url}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="9692293d-f5d8-4e6d-b4b6-e51d2e0ea46a" x="1" y="89" width="554" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STORES]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="1c9e4072-9cec-49f5-b6ed-2b08905bfa16" x="356" y="50" width="199" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Email: " + $P{schoolEmail}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="d7843e2c-fdbe-4d61-b961-427c049adc96" mode="Opaque" x="0" y="0" width="142" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STORE NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="935b528f-709e-4eed-a5f4-e5d65f246ce6" mode="Opaque" x="142" y="0" width="42" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REF #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="48f9cee3-e0b9-4248-a1e0-78786386dba0" mode="Opaque" x="184" y="0" width="190" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LOCATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="689a0adf-c60a-467f-a966-d2c80dbb7cf2" mode="Opaque" x="374" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STAFF IN CHARGE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="01c92fc8-2d24-4cf6-9ea1-eea47c3213e1" mode="Opaque" x="474" y="0" width="81" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALUE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="62963d37-01db-45fa-8939-e80fa362472d" x="0" y="0" width="142" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4ac172ca-deb7-4b6e-9581-40fb93bb7564" x="142" y="0" width="42" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{store_id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="fae6dac4-f2f9-4bab-b3c9-e6f624f7dded" x="184" y="0" width="190" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="d7db784b-d763-431e-8530-a311d443b596" x="374" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{store_keeper}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="74c4f747-2cfa-402b-be1f-b8eed1d40248" x="474" y="0" width="81" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{store_value}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="1" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="12" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement uuid="be4d71fa-1ee6-430c-9777-8bc6981dc1b4" x="1" y="0" width="128" height="12"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5fdceb53-0efa-4186-95df-f01937ed4ad4" x="424" y="0" width="131" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="21" splitType="Stretch">
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="41e64235-b62f-4734-b1d8-545fbf715f20" x="455" y="1" width="100" height="20"/>
+				<box>
+					<pen lineStyle="Double"/>
+					<topPen lineStyle="Double"/>
+					<leftPen lineStyle="Double"/>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+					<rightPen lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{store_value_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b016ffcc-1195-4fcc-a8a8-bc066f8b456b" x="355" y="1" width="100" height="20"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[All Stores Value:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

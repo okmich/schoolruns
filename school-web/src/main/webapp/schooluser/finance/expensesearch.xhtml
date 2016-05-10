@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Expense(s)
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="4">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="20%">Description</td>
+                        <td width="30%"><p:inputText value="#{expenseBean.description}" /></td>
+                        <td align="right" width="20%">Txn Type</td>
+                        <td>
+                            <p:selectOneMenu id="pCategory" value="#{expenseBean.txnTypeId}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{financeSessionBean.txnTypes}" var="t" 
+                                               itemLabel="#{t.description}" itemValue="#{t.txnTypeId}" />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Transaction Date.</td>
+                        <td>
+                            <p:calendar value="#{expenseBean.fromDate}" size="15" navigator="true" pattern="dd/MM/yyyy"/>
+                            <h:outputText value=" to " />
+                            <p:calendar value="#{expenseBean.toDate}" size="15" navigator="true" pattern="dd/MM/yyyy"/>
+                        </td>
+                        <td align="right" width="20%">Status</td>
+                        <td>
+                            <p:selectOneMenu id="mChannel" value="#{expenseBean.status}">
+                                <f:selectItem itemLabel="--------------------" itemValue="" />
+                                <f:selectItems value="#{applicationListBean.statusList}"/>
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <p:commandButton id="searchButton" value="Search" icon="ui-icon-search"
+                                             update="messageTab" action="#{expenseBean.findExpenses}"/>
+                            <p:defaultCommand target="searchButton" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable id="messageTab" var="row" value="#{financeSessionBean.expenseModel}"
+                                         selection="#{expenseBean.expense}" rowKey="#{row.expenseId}"
+                                         selectionMode="single" style="overflow: scroll;width: 100%;height: 330px">
+                                <p:column headerText="ID">
+                                    #{row.expenseId}
+                                </p:column>
+                                <p:column headerText="Description">
+                                    <h:outputText value="#{row.narration}" />
+                                </p:column>
+                                <p:column headerText="Txn. Date" >
+                                    <h:outputText value="#{row.txnDate}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Amount">
+                                    <h:outputText value="#{row.amount}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Txn Type">
+                                    <h:outputText value="#{row.txnType.description}" />
+                                </p:column>
+                                <p:column headerText="Reference">
+                                    <h:outputText value="#{row.txnRef}" />
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    <h:outputText value="#{row.modifiedBy}" />
+                                </p:column>
+                                <p:column headerText="Lasted Modified">
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="newButton" value=" New Expense " icon="ui-icon-document" ajax="false"
+                                     action="/schooluser/finance/expensedetails">
+                        <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="CREATE" />
+                    </p:commandButton>
+
+                    <p:commandButton id="viewButton" value=" View " icon="ui-icon-zoomin"
+                                     action="#{expenseBean.findExpense}">
+                        <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="VIEW" />
+                    </p:commandButton>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

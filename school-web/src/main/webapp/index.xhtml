@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>#{schoolSessionBean.appTitle}</title>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+        <style type="text/css">
+            .login {
+                margin: auto;
+                width: 570px;
+                height: 300px;
+            }
+
+            .ui-widget,.ui-widget .ui-widget {
+                font-size: 12px !important;
+            }
+
+            #headBanner {
+                height: 120px;
+                display: block;
+                vertical-align: middle;
+                min-width:300px;
+            }
+            
+            #schoolLogo {
+            	margin: 0px;
+                margin-left: 20px;
+                height: auto;
+            }
+            
+
+            #appTitle {
+                font-family: Georgia, "Times New Roman", Times, serif;
+                font-weight: bolder;
+            }
+
+            body {
+                margin: 0px;
+            }
+
+            #container {
+                width: 80%;
+                margin-top: 30px;
+                margin-right: auto;
+                margin-left: auto;
+                height: 300px;
+            }
+
+            #loginBlock {
+                width: 350px;
+                margin: 0px auto;
+                margin-top: 10px;
+                margin-bottom: 50px;
+                border-radius: 5px;
+                box-shadow: 2px 2px 2px #999999;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <div id="headBanner" class="ui-widget-header">
+            <div id="schoolLogo">
+            	<table style="height: 118px;">
+            		<tr>
+            			<td style="max-width: 250px; max-height: 100px;margin:0; padding:0;" valign="center">
+					<p:graphicImage value="#{schoolSessionBean.icon}" alt="school logo" 
+							style="max-width: 250px; max-height: 100px;"/>
+                                </td>
+            			<td id="appTitle">
+            				<h2 style="margin-left: 10px;">
+            					#{schoolSessionBean.appTitle == 'SchoolRuns.com' ? '' : schoolSessionBean.appTitle}
+            				</h2>
+            			</td>
+            		</tr>
+            	</table>
+            </div>
+        </div>
+        <div id="container">
+            <p:panel id="loginBlock" header="Login">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:panel>
+                                    <h:panelGrid columns="2">
+                                        <p:outputLabel for="username" value="Username" />
+                                        <p:inputText id="username" value="#{userLoginBean.username}"
+                                                     label="Username" required="true" requiredMessage=""/>
+                                        <p:outputLabel for="password"
+                                                       value="Password" />
+                                        <p:password id="password" value="#{userLoginBean.password}" label="Password"
+                                                    required="true"	requiredMessage=""/>
+                                    </h:panelGrid>
+                                    <f:facet name="footer">
+                                        <p:commandButton id="signBtn" action="#{userLoginBean.performLogin}"
+                                                         value="Sign in" icon="ui-icon-check" ajax="false" />
+                                    </f:facet>
+                                </p:panel>
+                                <div style="text-align: center">
+                                    <br />
+                                    <h:commandLink action="/passwordrecover" value="Reset your password">
+                                        <f:setPropertyActionListener target="#{sessionBean.editMode}" value="MAIN"/>
+                                    </h:commandLink>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="10">&nbsp;</td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:panel>
+            <p:panel id="footer">
+                Copyright 2013, powered by <a href="http://www.schoolruns.com.ng">www.schoolruns.com.ng</a>
+            </p:panel>
+        </div>
+    </h:body>
+    <script type="text/javascript" language="Javascript">
+        <!--
+        redirectLoginPage();
+
+        /**
+         * login page redirect
+         */
+        function redirectLoginPage() {
+            var parentUrl = new String(self.parent.location);
+            if (parentUrl.lastIndexOf('/index.xhtml') == -1) {
+                parentUrl = parentUrl.substring(0,  parentUrl.lastIndexOf('/common/'));
+                parentUrl = parentUrl + '/logout';
+                self.parent.location = parentUrl;
+            }
+        }
+        -->
+    </script>
+</html>

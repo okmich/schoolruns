@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Transaction Journal
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="4">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true"
+                                        showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="15%">Txn Type</td>
+                        <td width="30%">
+                            <p:selectOneMenu id="txnTypeId" style="width:200px"
+                                             value="#{txnJournalBean.txnTypeId}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeSessionBean.txnTypes}" var="t"
+                                               itemValue="#{t.txnTypeId}" itemLabel="#{t.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td align="right" width="15%">Txn Date</td>
+                        <td>
+                            <p:calendar value="#{txnJournalBean.fromDate}" />
+                            <h:outputText value=" to " />
+                            <p:calendar value="#{txnJournalBean.toDate}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Account.</td>
+                        <td>
+                            <p:selectOneMenu id="accountCode" style="width:200px"
+                                             value="#{txnJournalBean.accountCode}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeSessionBean.accounts}" var="a"
+                                               itemValue="#{a.accountCode}" itemLabel="#{a.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td align="right"></td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td colspan="3">
+                            <p:commandButton id="searchButton" value=" Search " icon="ui-icon-search"
+                                             action="#{txnJournalBean.findTxnJournalDetails}" 
+                                             update="dataTable messages downloadButton">
+                            </p:commandButton>
+                            <p:defaultCommand target="searchButton" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable id="dataTable" var="row" value="#{financeSessionBean.txnJournalDetailModel}"
+                                         rowKey="#{row.txnJournalDetailId}" selection="#{txnJournalBean.txnJournalDetail}"
+                                         selectionMode="single" style="overflow: scroll;width: 100%;height: 330px">
+                                <p:column headerText="ID">
+                                    <h:outputText value="#{row.txnJournalDetailId}" />
+                                </p:column>
+                                <p:column headerText="Account Code">
+                                    <h:outputText value="#{row.accountCode}" />
+                                </p:column>
+                                <p:column headerText="Amount">
+                                    <h:outputText value="#{row.amount}" >
+                                        <f:convertNumber pattern="#,##0.00;(#,##0.00)"  />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="D/C Sign">
+                                    <h:outputText value="#{row.dcSign == 'D' ? 'Debit' : 'Credit'}" />
+                                </p:column>
+                                <p:column headerText="Txn. Date">
+                                    <h:outputText value="#{row.txnJournal.txnDate}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Narration">
+                                    <h:outputText value="#{txnJournalBean.truncate(row.txnJournal.narration)}" />
+                                </p:column>
+                                <p:column headerText="Txn. Ref">
+                                    <h:outputText value="#{row.txnJournal.txnRef}" />
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    <h:outputText value="#{row.modifiedBy}" />
+                                </p:column>
+                                <p:column headerText="Time">
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy hh:mm:ss" />
+                                    </h:outputText>
+                                    
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">                    
+			<br />
+                    <p:commandButton id="downloadButton" value=" Download " icon="ui-icon-arrowthickstop-1-s"
+                                     action="#{txnJournalBean.findTxnJournal}" ajax="false" >
+                        <p:dataExporter target="dataTable" type="xls" fileName="txndetails - #{txnJournalBean.txnJournal.txnJournalId}" />
+                    </p:commandButton>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

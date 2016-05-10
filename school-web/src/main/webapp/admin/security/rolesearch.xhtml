@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Role(s)
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form prependId="false">
+                <p:dataTable scrollable="true" value="#{sessionBean.systemRoleModel}" var="row"
+                             rowKey="#{row.systemRoleId}"  selection="#{systemRoleBean.systemRole}" 
+                             selectionMode="single" id="dataTable">
+                    <p:column headerText="ID"> 
+                        #{row.systemRoleId}
+                    </p:column>
+                    <p:column headerText="Code"> 
+                        #{row.code}
+                    </p:column>
+                    <p:column headerText="Description">
+                        #{row.description}  
+                    </p:column>
+                    <p:column headerText="is Admin">
+                        #{row.admin}  
+                    </p:column>
+                    <p:column headerText="Last Modified">
+                        <h:outputText value="#{row.modifiedTime}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Modified By">
+                        #{row.modifiedBy}  
+                    </p:column>
+                </p:dataTable>
+                <br />
+                <div id="taskButtonPanel">
+                    <p:commandButton id="newButton" value="New" icon="ui-icon-document"
+                                     action="#{systemRoleBean.prepareToCreate}"  ajax="false"/>  
+
+                    <p:commandButton id="searchButton" value="Search" update="dataTable" 
+                                     action="#{systemRoleBean.findSystemRoles}" ajax="false"/> 
+
+                    <p:commandButton id="viewButton" value="View/Modify" ajax="false"
+                                     action="#{systemRoleBean.findSystemRole}" />  
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

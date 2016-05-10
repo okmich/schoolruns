@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                About me..
+            </ui:define>
+            <ui:define name="menu_panel">
+
+            </ui:define>
+            <ui:define name="panelTitle">
+                New User
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form prependId="false">
+                    <table width="100%">
+                        <tr>
+                            <td  colspan="2">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="25%"><p:outputLabel for="title" value="Title"/></td>
+                            <td>
+                                <p:inputText id="title" value="#{userLoginBean.userLogin.title}" required="true" size="40"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="username" value="Username"/></td>
+                            <td>
+                                <p:inputText id="username" value="#{userLoginBean.userLogin.username}" 
+                                             required="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="password" value="Password"/></td>
+                            <td>
+                                <p:inputText id="password" value="#{userLoginBean.userLogin.password}" 
+                                             required="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="email" value="Email"/></td>
+                            <td>
+                                <p:inputText id="email" value="#{userLoginBean.userLogin.email}" 
+                                             required="true" size="50"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="phoneNumber" value="Mobile Number"/></td>
+                            <td>
+                                <p:inputText id="phoneNumber" value="#{userLoginBean.userLogin.phoneNumber}"
+                                             required="true"/>
+                            </td>
+                        </tr>	
+                        <tr>
+                            <td><p:outputLabel for="systemRoleId" value="Default Role"/></td>
+                            <td>
+                                <p:selectOneMenu value="#{userLoginBean.userLogin.defaultSystemRole.systemRoleId}"
+                                                 style="width:200px" id="systemRoleId" required="true">
+                                    <f:selectItem itemLabel="Select One" />
+                                    <f:selectItems  value="#{applicationListBean.systemRoleList}" var="s"
+                                                    itemLabel="#{s.description}" itemValue="#{s.systemRoleId}"/>
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="saveButton" value="Save" icon="ui-icon-disk"
+                                         action="#{userLoginBean.createUserLogin}" ajax="false" />
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

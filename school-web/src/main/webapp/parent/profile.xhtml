@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <ui:composition template="/templates/parentportalstyle.xhtml">
+        <ui:define name="menupanel">
+            <h:form>
+                <p:menu style="width:100%">
+                    <p:menuitem id="editButton" value=" Change Password " icon="ui-icon-search"
+                                action="/parent/passwordchange" ajax="false" />
+
+                    <p:menuitem id="mergeButton" value=" Merge Duplicate account " icon="ui-icon-search"
+                                url="/parent/accountmerge.xhtml" />
+                </p:menu>
+            </h:form>
+        </ui:define>
+        <ui:define name="paneltitle">
+            Parent Portal Home ::: Profile
+        </ui:define>
+        <ui:define name="contentpanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="6" align="center">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="15%">Title</td>
+                        <td>
+                            <p:selectOneMenu id="titleCode" value="#{parentSessionBean.parent.title.titleCode}"
+                                             style="width:200px" onchange="" immediate="true"
+                                             rendered="#{parentSessionBean.editMode == 'EDIT'}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{applicationListBean.titleList}" var="t" 
+                                               itemLabel="#{t.description}" itemValue="#{t.titleCode}" />
+                            </p:selectOneMenu>
+                            <h:outputText value="#{parentSessionBean.parent.title.description}" 
+                                          rendered="#{parentSessionBean.editMode != 'EDIT'}"/>
+                        </td>
+                        <td><p:message for="surname" /></td>
+                        <td align="right" width="15%"></td>
+                        <td>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Surname</td>
+                        <td>
+                            <p:inputText id="surname" value="#{parentSessionBean.parent.surname}" 
+                                         required="true" rendered="#{parentSessionBean.editMode == 'EDIT'}"/>
+                            <h:outputText value="#{parentSessionBean.parent.surname}" 
+                                          rendered="#{parentSessionBean.editMode != 'EDIT'}"/>
+                        </td>
+                        <td><p:message for="surname" /></td>
+                        <td align="right">Othernames</td>
+                        <td>
+                            <p:inputText id="othernames" value="#{parentSessionBean.parent.othernames}" 
+                                         required="true" requiredMessage=""
+                                         rendered="#{parentSessionBean.editMode == 'EDIT'}"/>
+                            <h:outputText value="#{parentSessionBean.parent.othernames}" 
+                                          rendered="#{parentSessionBean.editMode != 'EDIT'}"/>
+                        </td>
+                        <td><p:message for="othernames" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Email</td>
+                        <td>
+                            <p:inputText id="email" value="#{parentSessionBean.parent.email}" 
+                                         required="true" requiredMessage="" size="40"
+                                         rendered="#{parentSessionBean.editMode == 'EDIT'}"/>
+                            <h:outputText value="#{parentSessionBean.parent.email}" 
+                                          rendered="#{parentSessionBean.editMode != 'EDIT'}"/>
+                        </td>
+                        <td><p:message for="email" /></td>
+                        <td align="right">Phone Number</td>
+                        <td>
+                            <p:inputText id="phoneNumber" value="#{parentSessionBean.parent.phoneNumber}" 
+                                         required="true" requiredMessage="" readonly="true" 
+                                         rendered="#{parentSessionBean.editMode == 'EDIT'}"/>
+                            <h:outputText value="#{parentSessionBean.parent.phoneNumber}" 
+                                          rendered="#{parentSessionBean.editMode != 'EDIT'}"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="relationship" value="Relationship"/></td>
+                        <td>
+                            <p:selectOneMenu id="relationship" value="#{parentSessionBean.parent.relationship}"
+                                             style="width:200px" required="true" requiredMessage=""
+                                             rendered="#{parentSessionBean.editMode == 'EDIT'}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{applicationListBean.staticListMap['RELATIONSHIP_TYPE']}" />
+                            </p:selectOneMenu>
+                            <h:outputText value="#{parentSessionBean.parent.relationship}" 
+                                          rendered="#{parentSessionBean.editMode != 'EDIT'}"/>
+                        </td>
+                        <td><p:message for="relationship" /></td>
+                        <td align="right">Alt. Phone Number</td>
+                        <td>
+                            <p:inputText id="alternateNumber" value="#{parentSessionBean.parent.alternateNumber}" 
+                                         rendered="#{parentSessionBean.editMode == 'EDIT'}"/>
+                            <h:outputText value="#{parentSessionBean.parent.relationship}" 
+                                          rendered="#{parentSessionBean.editMode != 'EDIT'}"/>
+                        </td>
+                        <td><p:message for="alternateNumber" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Res. Address</td>
+                        <td>
+                            <okrol:address address="#{parentSessionBean.parent.address1}"
+                                           required="true" requiredMessage="" streetFieldSize = "40"
+                                           id="address" viewMode="#{parentSessionBean.editMode != 'EDIT'}"/>
+                        </td>
+                        <td><p:message for="address" /></td>
+                        <td align="right">Official. Address</td>
+                        <td>
+                            <okrol:address address="#{parentSessionBean.parent.address}"
+                                           streetFieldSize = "40" id="address2"
+                                           viewMode="#{parentSessionBean.editMode != 'EDIT'}"/>
+                        </td>
+                        <td><p:message for="address2" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Industry</td>
+                        <td>
+                            <p:inputText id="jobIndustry" value="#{parentSessionBean.parent.jobIndustry}"
+                                         rendered="#{parentSessionBean.editMode == 'EDIT'}"/>
+                            <h:outputText value="#{parentSessionBean.parent.jobIndustry}" 
+                                          rendered="#{parentSessionBean.editMode != 'EDIT'}" />
+                        </td>
+                        <td><p:message for="jobIndustry" /></td>
+                        <td align="right">State of Origin</td>
+                        <td>
+                            <p:selectOneMenu id="stateMenu" value="#{parentSessionBean.parent.state.stateCode}"
+                                             style="width:200px" onchange="" immediate="true"
+                                             rendered="#{parentSessionBean.editMode == 'EDIT'}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{addressApplicationBean.statesList}" var="s" 
+                                               itemLabel="#{s.name}" itemValue="#{s.stateCode}" />
+                            </p:selectOneMenu>
+                            <h:outputText value="#{parentSessionBean.parent.state.stateCode}" 
+                                          rendered="#{parentSessionBean.editMode != 'EDIT'}" />
+                        </td>
+                        <td><p:message for="stateMenu" /></td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk"
+                                     action="#{parentServiceBean.saveParentDetails}" ajax="false"
+                                     rendered="#{parentSessionBean.editMode == 'EDIT'}"/>
+
+                    <p:commandButton id="revertButton" value=" Revert " icon="ui-icon-undo"
+                                     ajax="false" rendered="#{parentSessionBean.editMode == 'EDIT'}"
+                                     action="/parent/profile" immediate="true">
+                        <f:setPropertyActionListener target="#{parentSessionBean.editMode}" value=""/>
+                    </p:commandButton>
+
+                    <p:commandButton id="prepareButton" value=" Edit " icon="ui-icon-pencil" immediate="true"
+                                     action="#{parentServiceBean.prepareToEditAccount}" ajax="false"
+                                     rendered="#{parentSessionBean.editMode != 'EDIT'}"/>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

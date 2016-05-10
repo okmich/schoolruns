@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/searchformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                Students - Class Allocation
+            </ui:define>
+            <ui:define name="contentPanel">
+                <h:form>
+                    <table width="70%">
+                        <tr>
+                            <td colspan="4">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                            id="messages"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="10%" align="right">
+                                Year:
+                            </td>
+                            <td width="25%">
+                                <p:selectOneMenu value="#{studentAllocationBean.schoolYearId}"
+                                                 id="schoolYearId" immediate="true" onchange=""
+                                                 valueChangeListener="#{studentAllocationBean.fireSourceOnSelectYear}">
+                                    <f:ajax event="change" execute="@this schoolClassId" render="pickList" />
+                                    <f:selectItem itemLabel="---------------------" />
+                                    <f:selectItems value="#{schoolSessionBean.schoolYears}" var="s" 
+                                                   itemLabel="#{s.academicYear.description}" itemValue="#{s.schoolYearId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right">	
+                                Current Class:
+                            </td>
+                            <td width="50%">
+                                <p:selectOneMenu value="#{studentAllocationBean.schoolClassId}"
+                                                 id="schoolClassId"  immediate="true"  onchange=""
+                                                 valueChangeListener="#{studentAllocationBean.fireSourceOnSelectClass}">
+                                    <f:ajax event="change" execute="@this schoolYearId" render="pickList" />
+                                    <f:selectItem itemLabel="---------------------" itemValue="" />
+                                    <f:selectItems value="#{schoolSessionBean.schoolClasses}" var="s" 
+                                                   itemLabel="#{s.description}" itemValue="#{s.schoolClassId}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+
+                            </td>
+                            <td align="right">
+                                New Class:
+                            </td>
+                            <td> 
+                                <p:selectOneMenu value="#{studentAllocationBean.schoolStudentData.schoolClassId}"
+                                                 id="classId"  required="true" requiredMessage="" immediate="true"
+                                                 valueChangeListener="#{studentAllocationBean.fireTargetOnSelectClass}">
+                                    <f:ajax event="change" execute="@this" render="pickList" />
+                                    <f:selectItem itemLabel="---------------------"  />
+                                    <f:selectItems value="#{schoolSessionBean.schoolClasses}" var="s" 
+                                                   itemLabel="#{s.description}" itemValue="#{s.schoolClassId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <p:message for="classId" />
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <p:pickList value="#{studentAllocationBean.schoolStudentDualList}"
+                                            var="ssc" id="pickList" converter="schoolStudentConverter"
+                                            itemLabel="#{ssc.fullname}" 
+                                            itemValue="#{ssc}" >
+                                    <f:facet name="sourceCaption">Available</f:facet>
+                                    <f:facet name="targetCaption">Selected</f:facet>
+                                </p:pickList>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                New Academic Year?
+                            </td>
+                            <td>
+                                <p:selectBooleanCheckbox id="newSchoolYear"
+                                                         value="#{studentAllocationBean.newSchoolYear}"/>
+                            </td>
+                        </tr> 
+                        <tr>
+                            <td colspan="4" align="right">
+                                <p:commandButton id="actionButton" value="Save" icon="ui-icon-disk" update="messages"
+                                                 action="#{studentAllocationBean.doStudentClassAssignment}">
+                                </p:commandButton>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

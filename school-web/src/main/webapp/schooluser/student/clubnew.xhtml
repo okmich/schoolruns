@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="menu_panel">
+
+        </ui:define>
+        <ui:define name="panelTitle">
+            New Student's Club Record - #{sessionBean.schoolStudentData.fullname}
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td align="center" colspan="3">
+                            You are about to enter social activities for #{sessionBean.schoolStudentData.fullname}. <br/>
+                            Please make sure that you are entering this records for the  <br/>correct Student 
+                            because it will not be possible to delete this  <br/>information once entered.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="3">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                        id="messages"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="underline" colspan="3">
+                            Details
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="25%" align="right">School Club</td>
+                        <td>
+                            <p:selectOneMenu value="#{studentPropertyBean.studentClub.club.clubId}"
+                                             style="width:200px" id="clubId" required="true"
+                                             requiredMessage="">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{schoolSessionBean.schoolClubs}" var="c"
+                                               itemLabel="#{c.clubType.description}" itemValue="#{c.clubId}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="clubId" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top">Comments</td>
+                        <td>
+                            <h:inputTextarea value="#{studentPropertyBean.studentClub.narration}"
+                                             rows="5" cols="45" required="true" requiredMessage=""
+                                             id="narration"/>
+                        </td>
+                        <td><p:message for="narration" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Date Joined</td>
+                        <td>
+                            <p:calendar value="#{studentPropertyBean.studentClub.dateJoined}"
+                                        required="true" requiredMessage="" id="dateJoined"
+                                        pattern="dd/MM/yyyy" navigator="true"/>
+                        </td>
+                        <td><p:message for="dateJoined" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td colspan="2">
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="addButton2" value=" Save " icon="ui-icon-disk"
+                                     action="#{studentPropertyBean.saveStudentClub}" update="messages"/>
+
+                    <p:commandButton id="doneButton2" value=" Back " icon="ui-icon-seek-prev"
+                                     immediate="true" action="/schooluser/student/curricular"/>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

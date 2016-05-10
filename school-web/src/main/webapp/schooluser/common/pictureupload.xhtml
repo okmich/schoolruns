@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/searchformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                #{photoUploadBean.pageTitle}
+            </ui:define>
+            <ui:define name="contentPanel">
+                <h:form enctype="multipart/form-data">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="4">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">
+                                <p:panel style="margin-bottom:30px;" header="NOTICE">
+                                    Read the following instruction to ensure you smooth use of the data upload feature on this page.
+                                    <ul>
+                                        <li> the file must not be larger than 512kb in size</li>
+                                        <li> for a better rendering, dimension (width x height) of pictures should be 100 pixels x 200 pixels. If the dimension should exceed that, the ratio of width to height should be 1 : 2. </li>
+                                        <li> the import file must an image file of *.jpeg, *.jpg, *.png. or *.gif file type</li>
+                                    </ul>
+                                </p:panel>
+                                <table>
+                                    <tr>
+                                        <td colspan="2">
+                                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                                        id="messageBoard"/>
+                                            <p:message for="filelogo" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><br /> </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right" valign="top">File</td>
+                                        <td>
+                                            <p:fileUpload id="filelogo" value="#{photoUploadBean.uploadedFile}" mode="simple"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/" invalidFileMessage="invalid file. Use jpeg files only"
+                                                          sizeLimit="524288" invalidSizeMessage="invalid file size. Must be less than 512kb"
+                                                          required="true" requiredMessage="attach a file" 
+                                                          validatorMessage="A correct picture is required. Check side note."/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><br /> </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" id="taskButtonPanel">
+                                            <p:commandButton id="submitButton0" value="Upload" action="#{schoolStudentBean.addProfilePicToStudent}"
+                                                             ajax="false" icon="ui-icon-arrowreturnthick-1-n" 
+                                                             rendered="#{photoUploadBean.tag == 'STUDENT'}" />
+
+                                            <p:commandButton id="submitButton1" value="Upload" action="#{employeeBean.addProfilePicToEmployee}"
+                                                             ajax="false" icon="ui-icon-arrowreturnthick-1-n" 
+                                                             rendered="#{photoUploadBean.tag == 'EMPLOYEE'}" />
+
+                                            <!-- a generic button to go back to the previous page -->
+                                            <p:commandButton id="backButton" action="#{photoUploadBean.getCallingPage}"
+                                                             value=" Back " ajax="false"  immediate="true"
+                                                             icon="ui-icon-arrowreturnthick-1-w"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

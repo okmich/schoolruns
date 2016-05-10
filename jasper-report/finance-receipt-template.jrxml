@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="finance-receipt-template" language="groovy" pageWidth="576" pageHeight="417" columnWidth="536" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="da76263c-e2a1-4778-bf3e-986b8f2eb94a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="receiptId" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="schoolName" class="java.lang.String"/>
+	<parameter name="schoolEmail" class="java.lang.String"/>
+	<parameter name="schoolPhoneNumber" class="java.lang.String"/>
+	<parameter name="schoolWebsite" class="java.lang.String"/>
+	<parameter name="schoolAddress" class="java.lang.String"/>
+	<parameter name="schoolMotto" class="java.lang.String"/>
+	<parameter name="logo_url" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select vs.academic_year, vs.term, r.school_id, receipt_number, tx.description, txn_date, effective_date, payer, narration, abs(amount) amount, payment_mode, payment_number, r.fee_type,ul.title, mobile_no from receipt r join txn_type tx on tx.txn_type_id = r.txn_type_id join v_school_year_terms vs on vs.school_term_id = r.school_term_id join user_login ul on ul.username = r.modified_by and ul.school_id = r.school_id where r.receipt_id = $P{receiptId}]]>
+	</queryString>
+	<field name="academic_year" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="term" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="school_id" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="receipt_number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="txn_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="effective_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="payer" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="narration" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="amount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="payment_mode" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="payment_number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fee_type" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="title" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mobile_no" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="113" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="7ebb71b9-73b1-4aae-b15e-ffb233ebbe67" x="167" y="56" width="39" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Garamond" size="9"/>
+				</textElement>
+				<text><![CDATA[Email:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="71d5b9b2-4b9f-450a-afd4-fe672ea0798a" x="100" y="1" width="436" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Garamond" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="001be784-0d7b-4123-915f-e643533897c0" x="195" y="70" width="259" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Garamond" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolWebsite} == null || $P{schoolWebsite}.trim().isEmpty() ? "" : "Website: " +  $P{schoolWebsite}]]></textFieldExpression>
+			</textField>
+			<image onErrorType="Icon">
+				<reportElement uuid="838a11f5-2bcd-4e91-94ec-9fd15a6267b8" x="1" y="1" width="99" height="108"/>
+				<imageExpression><![CDATA[$P{logo_url}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="e7595965-68ea-44b0-a3fd-818f6e87c316" x="418" y="56" width="100" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Garamond" size="9" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolPhoneNumber}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="5e92f1de-c80a-48eb-b6c4-b3c02abda145" x="328" y="56" width="90" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Garamond" size="9"/>
+				</textElement>
+				<text><![CDATA[Contact Number:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="d5b60924-320a-4a79-b28b-741930250c9d" x="128" y="27" width="390" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Garamond" size="8" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolMotto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6b012516-7eee-41da-9b01-f5032f251833" x="100" y="42" width="436" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Garamond" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolAddress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d2e8411d-1585-415f-aa03-1e7abdc30b34" x="205" y="56" width="123" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Garamond" size="9" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{schoolEmail}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="950a0b1e-89aa-469d-a4c3-aa99dcc0c76b" x="1" y="111" width="555" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="47" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="82a3e849-6fe8-453c-b5c4-c7da0b873119" x="1" y="0" width="535" height="47"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Garamond" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECEIPT]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="137" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="20875354-8cf0-4b1f-8a0d-b94f03cbbcdb" x="318" y="2" width="100" height="20"/>
+				<textElement>
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<text><![CDATA[Receipt Number]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="b86d301a-5adb-4ec4-b0b0-fc6d707dce66" x="418" y="2" width="118" height="20"/>
+				<textElement>
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{receipt_number}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b2349881-77c0-474f-bfa3-fae71b4d8fd9" x="1" y="2" width="100" height="20"/>
+				<textElement>
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="a876e903-d9ab-4028-9598-4183bdee6177" x="101" y="2" width="147" height="20"/>
+				<textElement>
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="d39e4f32-66d6-46e5-957d-4da2f9cb684b" x="0" y="22" width="100" height="20"/>
+				<textElement>
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<text><![CDATA[Received from]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="554d62ae-cb6f-450f-84c6-9130cbe16545" x="100" y="22" width="202" height="20"/>
+				<textElement>
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payer}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="4d0d5deb-b4b5-4c5b-b9eb-2c4e1c6cb0ad" x="318" y="22" width="100" height="20"/>
+				<textElement>
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<text><![CDATA[Payer's contact]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="e3af1f60-024d-431e-aac6-609354219c2c" x="418" y="22" width="118" height="20"/>
+				<textElement>
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mobile_no}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="f7d7bc54-ab09-48c8-9a10-383a45dcdfe5" x="0" y="42" width="100" height="20"/>
+				<textElement>
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<text><![CDATA[Narration]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="7cb3ca9c-3334-488b-abc4-6dfc9e049df5" x="100" y="42" width="436" height="20"/>
+				<textElement>
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{narration}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9cbf1de6-bd1d-41d8-8f21-af3cf4596939" x="1" y="62" width="100" height="20"/>
+				<textElement>
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<text><![CDATA[Mode of payment]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="1beb70b9-7cfb-449f-9a08-1eedea8317c1" x="101" y="62" width="100" height="20"/>
+				<textElement>
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payment_mode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="69c87b51-0d9b-42a3-b237-67ef35e61fba" x="318" y="62" width="100" height="20"/>
+				<textElement>
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<text><![CDATA[Transaction Ref]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="38be9681-3d62-4df3-8aa7-4ae7b6c87458" x="418" y="62" width="118" height="20"/>
+				<textElement>
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payment_number}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="26ae446a-f014-45c3-a47b-b03338321292" x="328" y="115" width="208" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Garamond"/>
+				</textElement>
+				<text><![CDATA[for: Management]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ac6522b1-8897-4fd5-bbd2-49d6f5871e9c" x="328" y="96" width="208" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Garamond" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

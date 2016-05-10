@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div style="margin: auto;width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="Countries">
+                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <p:dataTable scrollable="true" scrollHeight="200" value="#{countryBean.countryModel}" var="row" 
+                                 rowKey="#{row.countryCode}"  selection="#{countryBean.country}" 
+                                 selectionMode="single" id="dataTable">
+                        <p:column width="100" headerText="Code"> 
+                            #{row.countryCode}
+                        </p:column> 
+                        <p:column width="200" headerText="Country Name">
+                            #{row.description} 
+                        </p:column>
+                        <p:column headerText="Last Modified">
+                            <h:outputText value="#{row.modifiedTime}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Modified By">
+                            <h:outputText value="#{row.modifiedBy}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>  
+                    <br />
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="newButton" value="New" icon="ui-icon-document" 
+                                         action="#{countryBean.prepareForCreate}" update=":detailsform:detailsPanel"  />
+
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil"
+                                         action="#{countryBean.prepareForModify}" update=":detailsform:detailsPanel" />
+
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/admin/settings/index" />   
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <h:panelGrid columns="3">
+                        <h:outputText value="Country code" />
+                        <p:inputText id="countryCode" value="#{countryBean.country.countryCode}"
+                                     required="true" requiredMessage="required"
+                                     readonly="#{countryBean.editMode != 'CREATE'}"/>
+                        <p:message for="countryCode" />
+                        <h:outputText value="Country Name" />
+                        <h:inputText id="description" value="#{countryBean.country.description}"
+                                     required="true" requiredMessage="required"/>
+                        <h:message for="description" />
+                        <h:outputText value="" />
+                        <h:panelGroup>
+                            <p:commandButton id="saveButton" value="Save" 
+                                             action="#{countryBean.saveCountry}" update=":searchform:dataTable" /> 
+
+                            <p:commandButton id="clearButton" value="Reset" update="detailsPanel"
+                                             immediate="true"  action="#{countryBean.clearForm}" /> 
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

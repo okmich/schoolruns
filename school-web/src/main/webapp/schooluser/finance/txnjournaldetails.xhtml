@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Transaction Journal Details
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="4">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true"
+                                        showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="15%">Txn Journal ID</td>
+                        <td width="35%" class="highlight">
+                            <p:inputText value="#{txnJournalBean.txnJournal.txnJournalId}" readonly="true" />
+                        </td>
+                        <td align="right" width="15%">Txn Date</td>
+                        <td width="35%" class="highlight">
+                            <p:inputText value="#{txnJournalBean.txnJournal.txnDate}" readonly="true">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:inputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Narration</td>
+                        <td class="highlight">
+                            <p:inputText value="#{txnJournalBean.txnJournal.narration}" size="60" readonly="true" />
+                        </td>
+                        <td align="right">Effective Date</td>
+                        <td class="highlight">
+                            <p:inputText value="#{txnJournalBean.txnJournal.effectiveDate}" readonly="true">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:inputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Txn Type</td>
+                        <td class="highlight">
+                            <p:inputText value="#{txnJournalBean.txnJournal.txnType.description}" readonly="true" size="40"/>
+                        </td>
+                        <td align="right">Txn. Reference</td>
+                        <td class="highlight">
+                            <p:inputText value="#{txnJournalBean.txnJournal.txnRef}" readonly="true" size="30" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Entry Date/Time</td>
+                        <td class="highlight">
+                            <p:inputText value="#{txnJournalBean.txnJournal.modifiedTime}" readonly="true">
+                                <f:convertDateTime pattern="dd/MM/yyyy hh:mm:ss" />
+                            </p:inputText>
+
+                        </td>
+                        <td align="right">Alt. Reference</td>
+                        <td class="highlight">
+                            <p:inputText value="#{txnJournalBean.txnJournal.altRef}" readonly="true" size="30"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"> </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable id="dataTable" var="row" value="#{financeSessionBean.txnJournalDetailModel}"
+                                         rowKey="#{row.txnJournalDetailId}" selection="#{txnJournalBean.txnJournalDetail}"
+                                         selectionMode="single">
+                                <f:facet name="header">
+                                    Journal Details
+                                </f:facet>
+                                <p:column headerText="ID">
+                                    #{row.txnJournalDetailId}
+                                </p:column>
+                                <p:column headerText="Account Code">
+                                    #{row.accountCode}
+                                </p:column>
+                                <p:column headerText="Amount">
+                                    #{row.amount}
+                                </p:column>
+                                <p:column headerText="D/C Sign">
+                                    #{row.dcSign == 'D' ? 'Debit' : 'Credit'}
+                                </p:column>
+                                <p:column headerText="Txn. Date">
+                                    <h:outputText value="#{row.txnJournal.txnDate}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Txn. Ref">
+                                    #{row.txnJournal.txnRef}
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    #{row.modifiedBy}
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+
+                    <p:commandButton id="viewButton" value=" Done " icon="ui-icon-check"
+                                     action="#{txnJournalBean.retToMasterSearch}" ajax="false" />
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Receipt utilization on Fees
+        </ui:define>
+        <ui:define name="menu_panel">
+            <p:menu style="width: 190px" rendered="#{financeSessionBean.editMode != 'CREATE'}">
+            </p:menu>
+        </ui:define>
+        <ui:define name="panelTitle">
+            <h:outputText value="Fee-Receipt Utilization Details (#{feeReceiptBean.feeReceipt.feeReceiptId})" 
+                          rendered="#{financeSessionBean.editMode != 'CREATE'}"/>
+
+            <h:outputText value="Utilize Receipt on Student Fee" 
+                          rendered="#{financeSessionBean.editMode == 'CREATE'}"/>
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3" align="center">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" 
+                                        showDetail="true"/>
+                        </td>
+                    </tr>
+                </table>
+                <p:fieldset>
+                    <f:facet name="legend">
+                        Receipt-Fee Allocation
+                    </f:facet>
+                    <table width="100%">
+                        <tr>
+                            <td align="right">
+                                <p:outputLabel value="Student" for="schoolStudentId" />
+                            </td>
+                            <td>
+                                <p:selectOneMenu id="schoolStudentId" style="width:200px"
+                                                 value="#{feeReceiptBean.feeReceipt.schoolStudent.schoolStudentId}"
+                                                 required="true" requiredMessage=""
+                                                 disabled="#{financeSessionBean.editMode == 'VIEW'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{financeSessionBean.schoolStudentDataList}" var="s"
+                                                   itemLabel="#{s.student.fullname}" itemValue="#{s.schoolStudentId}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="schoolStudentId" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <p:outputLabel value="Fee Type" for="feeGroupId" />
+                            </td>
+                            <td>
+                                <p:selectOneMenu id="feeGroupId" style="width:200px"
+                                                 value="#{feeReceiptBean.feeReceipt.feeGroup.feeGroupId}"
+                                                 disabled="#{financeSessionBean.editMode == 'VIEW'}" required="true"
+                                                 requiredMessage="">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{financeSessionBean.feeGroups}" var="f"
+                                                   itemValue="#{f.feeGroupId}" itemLabel="#{f.description}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="feeGroupId" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <p:outputLabel value="Amount" for="amount" />
+                            </td>
+                            <td>
+                                <p:inputText id="amount" value="#{feeReceiptBean.feeReceipt.amount}" 
+                                             required="true" requiredMessage="" 
+                                             readonly="#{financeSessionBean.editMode == 'VIEW'}">
+                                    <f:convertNumber pattern="#,##0.00"/>
+                                </p:inputText>
+                            </td>
+                            <td><p:message for="amount" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <p:outputLabel value="Narration" for="narration" />
+                            </td>
+                            <td>
+                                <p:inputText id="narration" value="#{feeReceiptBean.feeReceipt.narration}" 
+                                             required="true" readonly="#{financeSessionBean.editMode == 'VIEW'}"
+                                             requiredMessage="" size="50" maxlength="70" />
+                            </td>
+                            <td><p:message for="narration" /></td>
+                        </tr>
+                    </table>
+                </p:fieldset>
+                <p:spacer width="100" height="10" />
+                <p:fieldset rendered="#{financeSessionBean.editMode == 'VIEW'}">
+                    <f:facet name="legend">
+                        Other Info...
+                    </f:facet>
+                    <table width="100%">
+                        <tr>
+                            <td align="right">ID</td>
+                            <td>
+                                <p:inputText id="feeReceiptId" value="#{feeReceiptBean.feeReceipt.feeReceiptId}"
+                                             readonly="true"/>
+                            </td>
+                            <td align="right">Status</td>
+                            <td>
+                                <p:inputText id="status" value="#{feeReceiptBean.feeReceipt.status}"
+                                             readonly="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Modified By</td>
+                            <td>
+                                <p:inputText id="modifiedBy" value="#{feeReceiptBean.feeReceipt.modifiedBy}"
+                                             readonly="true"/>
+                            </td>
+                            <td align="right">Last Modified</td>
+                            <td>
+                                <p:inputText id="modifiedTime" value="#{feeReceiptBean.feeReceipt.modifiedTime}"
+                                             readonly="true">
+                                    <f:convertDateTime />
+                                </p:inputText>
+                            </td>
+                        </tr>
+                    </table>
+                </p:fieldset>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="revButton" value=" Reverse " icon="ui-icon-arrowreturnthick-1-w"
+                                     action="#{feeReceiptBean.reverseFeeReceipt}" ajax="false"
+                                     rendered="#{financeSessionBean.editMode == 'VIEW'}"/>
+
+                    <p:commandButton id="doneButton" value="Done" icon="ui-icon-check" ajax="false"
+                                     action="/schooluser/finance/feereceiptsearch" immediate="true" >
+                        <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="" />
+                    </p:commandButton>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

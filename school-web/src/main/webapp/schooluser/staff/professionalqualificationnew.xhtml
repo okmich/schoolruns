@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+
+            </ui:define>
+            <ui:define name="panelTitle">
+                New Professional Qualification - (#{sessionBean.employeeData.fullname})
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="3"> 
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Qualification</td>
+                            <td>
+                                <p:selectOneMenu id="professionalQualId" required="true" requiredMessage="" style="width:200px"
+                                                 value="#{employeePropertyBean.empProfQualification.professionalQualification.professionalQualId}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.professionalQualificationList}" var="p"
+                                                   itemValue="#{p.professionalQualId}" itemLabel="#{p.description}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="professionalQualId" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top">Institution </td>
+                            <td colspan="2">
+                                <p:inputText value="#{employeePropertyBean.empProfQualification.institution}"
+                                             required="true" requiredMessage="" id="institution"/>
+                            </td>
+                            <td> <p:message for="institution" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"> Date Obtained </td>
+                            <td>
+                                <p:calendar value="#{employeePropertyBean.empProfQualification.dateObtained}"
+                                            required="true" requiredMessage="" id="dateObtained"
+                                            pattern="dd/MM/yyyy" navigator="true"/>
+                            </td>
+                            <td> <p:message for="dateObtained" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"> Is Member of Institution </td>
+                            <td> 
+                                <p:selectBooleanCheckbox value="#{employeePropertyBean.empProfQualification.activeMember}"
+                                                         id="activeMember"/>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="updateButton" value=" Save " icon="ui-icon-disk"
+                                         action="#{employeePropertyBean.saveEmpProfQualification}" ajax="false"/>
+
+                        <p:commandButton id="doneButton" value=" Back " icon="ui-icon-seek-prev" immediate="true"
+                                         action="/schooluser/staff/qualifications" ajax="false"/>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

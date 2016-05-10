@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/searchformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                Parents
+            </ui:define>
+            <ui:define name="contentPanel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="4">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                            id="messages"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="20%">Surname</td>
+                            <td><p:inputText value="#{parentBean.surname}" /></td>
+                            <td align="right" width="20%">Email</td>
+                            <td>
+                                <p:inputText value="#{parentBean.email}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="20%">State of Origin</td>
+                            <td>
+                                <p:selectOneMenu id="stateCode" value="#{parentBean.stateCode}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{addressApplicationBean.statesList}" var="s" 
+                                                   itemLabel="#{s.name}" itemValue="#{s.stateCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right" width="20%">Phone Number</td>
+                            <td>
+                                <p:inputText value="#{parentBean.phoneNumber}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="3">
+                                <p:commandButton id="searchButton" value="Search" icon="ui-icon-search"
+                                                 update="parentTabs messages" action="#{parentBean.findParents}"/>
+                                <p:defaultCommand target="searchButton" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <p:dataTable id="parentTabs" var="row" value="#{sessionBean.parentModel}" rowKey="#{row.phoneNumber}"
+                                             selection="#{parentBean.parent}" selectionMode="single"
+                                             style="overflow: scroll;width: 100%;height: 330px">
+                                    <p:column headerText="ID">
+                                        #{row.phoneNumber}
+                                    </p:column>
+                                    <p:column headerText="Name">
+                                        #{row.surname}
+                                        <h:outputText value=" " /> #{row.othernames}
+                                    </p:column>
+                                    <p:column headerText="Email" >
+                                        #{row.email}
+                                    </p:column>
+                                    <p:column headerText="Relationship">
+                                        #{row.relationship}
+                                    </p:column>
+                                    <p:column headerText="Alt. Number">
+                                        #{row.alternateNumber}
+                                    </p:column>
+                                    <p:column headerText="State">
+                                        #{row.state.name}
+                                    </p:column>
+                                    <p:column headerText="Modified By">
+                                        #{row.modifiedBy}
+                                    </p:column>
+                                    <p:column headerText="Lasted Modified">
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="assignButton" value="Assign Parent" icon="ui-icon-document" ajax="false"
+                                         action="#{parentBean.assignParent}" rendered="#{sessionBean.editMode == 'PARENTSELECT'}"
+                                         update="messages" />
+
+                        <p:commandButton id="addButton" value="New Parent Record" icon="ui-icon-document" ajax="false"
+                                         action="#{parentBean.prepareForCreate}" rendered="#{sessionBean.editMode != 'PARENTSELECT'}" />
+                        <h:outputText value=" " />
+
+                        <p:commandButton id="updateButton" value="Update" icon="ui-icon-pencil"
+                                         action="#{parentBean.findParent}" rendered="#{sessionBean.editMode != 'PARENTSELECT'}">
+                            <f:param name="editMode" value="EDIT" />
+                        </p:commandButton>
+
+                        <p:commandButton id="backButton" value=" Back " icon="ui-icon-arrowthickstop-1-e"
+                                         action="#{parentBean.doDoneNewParent}" immediate="true" ajax="false"
+                                         rendered="#{sessionBean.editMode == 'PARENTSELECT'}" />
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

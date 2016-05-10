@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Fee Group Details
+        </ui:define>
+        <ui:define name="menu_panel">
+            Define a Fee Group here.
+            <br/><br />
+            A Fee group is a composition of single fee that comprises to form a single payable unit of fee.
+            Every fee group must contain at list a fee but may or may not be associated with a grade-level.
+            <br/><br />
+            Associating a fee group with a grade level means that only students that belong to that grade 
+            level will pay
+            the summing amount of all fee amount in that group.
+            <br/><br />
+            Statutory fees are fees that all students must pay. All Statutory fee must have grade levels 
+            so as to define the amount that each level must pay.
+        </ui:define>
+        <ui:define name="panelTitle">
+            <h:panelGroup rendered="#{feeGroupBean.editMode == 'CREATE'}">
+                New Fee Group
+            </h:panelGroup>
+            <h:panelGroup rendered="#{feeGroupBean.editMode != 'CREATE'}">
+                Fee Group Details (#{financeSessionBean.feeGroup.feeGroupId}) 
+            </h:panelGroup>
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3" align="center">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" 
+                                        showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="description" value="Description"/></td>
+                        <td>
+                            <p:inputText id="description" value="#{financeSessionBean.feeGroup.description}" required="true" 
+                                         requiredMessage="" size="50" maxlength="60"/>
+                        </td>
+                        <td><p:outputLabel for="feeList" value="Fees"/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="feeTypeCode" value="Fee Type"/></td>
+                        <td>
+                            <p:selectOneMenu id="feeTypeCode" style="width:240px"
+                                             value="#{financeSessionBean.feeGroup.feeType.feeTypeCode}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeApplicationBean.feeTypes}" var="f"
+                                               itemValue="#{f.feeTypeCode}" itemLabel="#{f.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td rowspan="10">
+                            <p:selectManyMenu value="#{financeSessionBean.feeGroup.feeList}" showCheckbox="true"
+                                              style="width:200px;height:200px" required="true" id="feeList">
+                                <f:selectItems value="#{financeSessionBean.fees}" var="f"
+                                               itemLabel=" #{f.description}" itemValue="#{f.feeId}" />
+                            </p:selectManyMenu>  
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Statutory</td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{financeSessionBean.feeGroup.statutory}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Grade Level</td>
+                        <td>
+                            <p:selectOneMenu id="gradeLevelId" style="width:200px"
+                                             value="#{financeSessionBean.feeGroup.gradeLevel.gradeLevelId}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.gradeLevelList}" var="g"
+                                               itemValue="#{g.gradeLevelId}" itemLabel="#{g.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top">ID</td>
+                        <td>
+                            <p:inputText id="feeGroupId" value="#{financeSessionBean.feeGroup.feeGroupId}" 
+                                         required="#{feeGroupBean.editMode != 'CREATE'}" requiredMessage=""
+                                         readonly="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Status</td>
+                        <td>
+                            <p:selectOneMenu id="status" required="true" requiredMessage="" style="width:200px"
+                                             value="#{financeSessionBean.feeGroup.status}" disabled="true">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.statusList}"/>
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Modified By</td>
+                        <td>
+                            <p:inputText id="modifiedBy" value="#{financeSessionBean.feeGroup.modifiedBy}" required="true" 
+                                         requiredMessage="" readonly="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Last Modified</td>
+                        <td>
+                            <p:inputText id="modifiedTime" value="#{financeSessionBean.feeGroup.modifiedTime}" required="true" 
+                                         requiredMessage="" readonly="true">
+                                <f:convertDateTime />
+                            </p:inputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top"></td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top"></td>
+                        <td> </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel"> 
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk" ajax="false"
+                                     action="#{feeGroupBean.saveFeeGroup}" update="messages"/>
+
+                    <p:commandButton id="doneButton" value="Done" icon="ui-icon-check" ajax="false"
+                                     action="#{feeGroupBean.goBack}" immediate="true" />
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

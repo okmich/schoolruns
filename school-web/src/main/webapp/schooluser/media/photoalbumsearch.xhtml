@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Search Photo Albums
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td width="10%" align="right"> Title</td>
+                        <td width="20%">
+                            <p:inputText value="#{picAlbumBean.title}" size="25" />
+                        </td>
+                        <td width="10%" align="right"> School Year</td>
+                        <td width="20%">
+                            <p:selectOneMenu id="schoolYearId" value="#{picAlbumBean.schoolYearId}" style="width:200px;">
+                                <f:selectItems value="#{schoolSessionBean.schoolYears}" var="sy"
+                                               itemValue="#{sy.schoolYearId}" itemLabel="#{sy.academicYear.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td> <p:commandButton id="searchButton" value="Search" icon="ui-icon-search" ajax="false"
+                                              update="pAlbumTabs" action="#{picAlbumBean.findPicAlbums}"/>
+
+                            <p:commandButton id="newButton" value="New Album" icon="ui-icon-document"
+                                             update="ebookTabs" action="/schooluser/media/photoalbumdetails"
+                                             ajax="false">
+                                <f:setPropertyActionListener target="#{sessionBean.editMode}"
+                                                             value="CREATE" />
+                            </p:commandButton>
+                            <p:defaultCommand target="searchButton" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <p:dataGrid var="row" value="#{sessionBean.picAlbumModel}" columns="3" rows="12"
+                                        paginator="true" id="pAlbumTabs">
+                                <p:column>
+                                    <p:panel header="#{row.title}">
+                                        <h:panelGrid columns="1">
+                                            <p:graphicImage value="#{row.thumbnailUrl}"/>
+                                            <h:outputText value="text" />
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </p:column>
+                            </p:dataGrid>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

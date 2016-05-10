@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div style="margin: auto;width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="Means of Identification">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <p:dataTable value="#{profileSettingBean.identificationModel}" var="row" 
+                                 rowKey="#{row.identificationMeansId}"  selection="#{profileSettingBean.identificationMeans}" 
+                                 selectionMode="single" id="dataTable">
+                        <p:column headerText="ID"> 
+                            #{row.identificationMeansId}
+                        </p:column> 
+                        <p:column headerText="Description">
+                            #{row.description} 
+                        </p:column>
+                    </p:dataTable>  
+                    <br />
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="newButton" value="New" icon="ui-icon-document" 
+                                         action="#{profileSettingBean.prepareForCreate}" update=":detailsform:detailsPanel"  />
+
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil"
+                                         action="#{profileSettingBean.prepareForModify}" update=":detailsform:detailsPanel" />
+
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/admin/settings/index" />   
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <h:panelGrid columns="3">
+                        <h:outputText value="Code" />
+                        <p:inputText id="identificationMeansId" value="#{profileSettingBean.identificationMeans.identificationMeansId}"
+                                     required="true" requiredMessage="required"
+                                     readonly="#{profileSettingBean.editMode != 'CREATE'}"/>
+                        <p:message for="identificationMeansId" />
+                        <h:outputText value="Description" />
+                        <h:inputText id="description" value="#{profileSettingBean.identificationMeans.description}"
+                                     required="true" requiredMessage="required"/>
+                        <h:message for="description" />
+                        <h:outputText value="" />
+                        <h:panelGroup>
+                            <p:commandButton id="saveButton" value="Save" 
+                                             action="#{profileSettingBean.saveIdentificationMeans}" update=":searchform:dataTable @form" /> 
+
+                            <p:commandButton id="clearButton" value="Reset" update="@form"
+                                             immediate="true"  action="#{profileSettingBean.clearForm}" /> 
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

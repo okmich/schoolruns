@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            About me..
+        </ui:define>
+        <ui:define name="menu_panel">
+            <h:form prependId="false"> 
+                <p:menu style="width: 190px" >
+                    <p:menuitem value="Menu" outcome="/admin/security/rolesmenus" icon="ui-icon-battery-1"/>
+                    <p:menuitem value="Menu Item" outcome="/admin/security/rolesmenuitems" icon="ui-icon-tag"/>
+                    <p:menuitem value="Related Task" outcome="/admin/security/rolesrelatedtasks" 
+                                icon="ui-icon-gripsmall-diagonal-se"/>
+                </p:menu>
+            </h:form>
+        </ui:define>
+        <ui:define name="panelTitle">
+            Role - Related Task Maintenance
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form prependId="false"> 
+                <table width="70%">
+                    <tr>
+                        <td  colspan="2">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                        id="messageBoard"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="underline">
+                            Related Tasks - Role mapping
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="25%">
+                            Menu Item
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="modMenu" value="#{systemRoleBean.menuId}" immediate="true"
+                                             style="width:200px" onchange=""
+                                             valueChangeListener="#{systemRoleBean.fireMenuItemValueChangeEvent()}">
+                                <f:ajax event="change" execute="@this" render="rTaskPickList messageBoard" />
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{systemRoleBean.menuItemList}"/>
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <p:pickList value="#{systemRoleBean.rolesRelatedTaskList}" var="rTask" id="rTaskPickList"
+                                        itemLabel="#{rTask.label}" itemValue="#{rTask}" converter="relatedTaskConverter" >
+                                <f:facet name="sourceCaption">Available</f:facet>
+                                <f:facet name="targetCaption">Selected</f:facet>
+                            </p:pickList>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton value="Save" icon="ui-icon-circle-disk"
+                                     action="#{systemRoleBean.assignMenuItemsToRole}" ajax="false"
+                                     rendered="#{sessionBean.editMode != 'VIEW'}" />   
+
+                    <p:commandButton value="Cancel" immediate="true" icon="ui-icon-circle-close"
+                                     action="#{systemRoleBean.backToMainContextDetails}" ajax="false" />   
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

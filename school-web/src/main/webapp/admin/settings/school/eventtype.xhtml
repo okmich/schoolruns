@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div style="margin: auto;width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="Event Types">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <p:dataTable scrollHeight="200" value="#{eventTypeBean.eventTypeModel}" var="row" 
+                                 rowKey="#{row.eventTypeId}"  selection="#{eventTypeBean.eventType}" 
+                                 selectionMode="single" id="dataTable">
+                        <p:column headerText="ID"> 
+                            #{row.eventTypeId}
+                        </p:column> 
+                        <p:column headerText="Description">
+                            #{row.description} 
+                        </p:column>
+                        <p:column headerText="Status">
+                            #{row.status} 
+                        </p:column>
+                        <p:column headerText="Last Modified">
+                            <h:outputText value="#{row.modifiedTime}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Modified By">
+                            <h:outputText value="#{row.modifiedBy}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>  
+                    <br />
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="newButton" value="New" icon="ui-icon-document" 
+                                         action="#{eventTypeBean.prepareForCreate}" update=":detailsform:detailsPanel"  />
+
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil"
+                                         action="#{eventTypeBean.prepareForModify}" update=":detailsform:detailsPanel" />
+
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/admin/settings/index" />   
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <h:panelGrid columns="6">
+                        <h:outputText value="Event Type ID" />
+                        <p:inputText id="eventTypeId" value="#{eventTypeBean.eventType.eventTypeId}"
+                                     required="true" requiredMessage="required"
+                                     readonly="#{eventTypeBean.editMode != 'CREATE'}"/>
+                        <p:message for="eventTypeId" />
+                        <h:outputText value="Description" />
+                        <p:inputText id="description" value="#{eventTypeBean.eventType.description}"
+                                     required="true" requiredMessage="required"/>
+                        <p:message for="description" />
+                        <h:outputText value="Status" />
+                        <p:selectOneMenu id="status" value="#{eventTypeBean.eventType.status}"
+                                         required="true" requiredMessage="" style="width:150px"
+                                         disabled="#{eventTypeBean.editMode != 'MODIFY'}">
+                            <f:selectItem itemValue="" itemLabel="----------------------" />
+                            <f:selectItems value="#{applicationListBean.statusList}" />
+                        </p:selectOneMenu>
+                        <p:message for="status" />
+                        <h:outputText value="Modified On" />
+                        <p:inputText id="modifiedTime" value="#{eventTypeBean.eventType.modifiedTime}"
+                                     readonly="true"/>
+                        <p:message for="modifiedTime" />
+                        <h:outputText value="Modified By" />
+                        <p:inputText id="modifiedBy" value="#{eventTypeBean.eventType.modifiedBy}"
+                                     readonly="true"/>
+                        <p:message for="modifiedBy" />
+                        <h:outputText value="" />
+                        <h:outputText value="" />
+                        <h:outputText value="" />
+                        <h:outputText value="" />
+                        <h:panelGroup>
+                            <p:commandButton id="saveButton" value="Save" 
+                                             action="#{eventTypeBean.saveEventType}" update=":searchform:dataTable,@form" /> 
+
+                            <p:commandButton id="clearButton" value="Reset" update="detailsPanel,@form"
+                                             immediate="true"  action="#{eventTypeBean.clearForm}" /> 
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

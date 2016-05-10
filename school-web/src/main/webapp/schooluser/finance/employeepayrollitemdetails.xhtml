@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Payroll Item Detail
+        </ui:define>
+        <ui:define name="menu_panel">
+
+        </ui:define>
+        <ui:define name="panelTitle">
+            <h:outputText value="Make Deduction (#{payrollBean.employeePayrollItem.employeePayroll.employeePayrollId})" 
+                          rendered="#{financeSessionBean.editMode == 'DELETE'}"/>
+
+            <h:outputText value="Add Bonus (#{payrollBean.employeePayrollItem.employeePayroll.employeePayrollId})" 
+                          rendered="#{financeSessionBean.editMode == 'CREATE'}"/>
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3" align="center">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="20%" align="right">Employee </td>
+                        <td>
+                            <p:inputText id="employeeName" required="true" requiredMessage="" readonly="true"
+                                         value="#{payrollBean.employeePayrollItem.employeePayroll.employeeName}"/>
+                        </td>
+                        <td width="20%" align="right">Employee Category </td>
+                        <td>
+                            <p:inputText id="employeeCategory"  readonly="true"
+                                         value="#{payrollBean.employeePayrollItem.employeePayroll.employeeCategory}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Pay Period </td>
+                        <td>
+                            <p:inputText id="payPeriod"  readonly="true"
+                                         value="#{payrollBean.employeePayrollItem.employeePayroll.payPeriod}"/>
+                        </td>
+                        <td align="right">Pay Structure</td>
+                        <td>
+                            <p:inputText id="payStructure"  readonly="true"
+                                         value="#{payrollBean.employeePayrollItem.employeePayroll.payStructure.title}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Gross pay</td>
+                        <td>
+                            <p:inputText id="grossAmount" value="#{payrollBean.employeePayrollItem.employeePayroll.gross}"
+                                         readonly="true">
+                                <f:convertNumber pattern="#,##0.00" />
+                            </p:inputText>
+                        </td>
+                        <td align="right">Tax</td>
+                        <td>
+                            <p:inputText id="tax" value="#{payrollBean.employeePayrollItem.employeePayroll.tax}"
+                                         readonly="true">
+                                <f:convertNumber pattern="#,##0.00" />
+                            </p:inputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                        </td>
+                        <td align="right">net</td>
+                        <td>
+                            <p:inputText id="net" value="#{payrollBean.employeePayrollItem.employeePayroll.net}"
+                                         readonly="true">
+                                <f:convertNumber pattern="#,##0.00" />
+                            </p:inputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:separator />
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="20%" align="right">
+                            <p:outputLabel for="title" value="Title " />
+                        </td>
+                        <td width="40%"> 
+                            <p:inputText id="title" value="#{payrollBean.employeePayrollItem.title}" 
+                                         required="true" requiredMessage="" />
+                        </td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="gross" value="Amount " /></td>
+                        <td width="40%">
+                            <p:inputText id="gross" value="#{payrollBean.employeePayrollItem.gross}" 
+                                         required="true" requiredMessage="">
+                                <f:validateDoubleRange minimum="0"/>
+                                <f:convertNumber pattern="#,##0.00"/>
+                            </p:inputText>
+                        </td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Taxable? </td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{payrollBean.employeePayrollItem.applyTax}" />
+                        </td>
+                        <td> </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="deductButton" value=" Save " icon="ui-icon-disk" ajax="false"
+                                     action="#{payrollBean.makeDeduction}"
+                                     rendered="#{financeSessionBean.editMode == 'DELETE'}"/>
+
+                    <p:commandButton id="addButton" value=" Save " icon="ui-icon-disk" ajax="false"
+                                     action="#{payrollBean.makeAdditions}"
+                                     rendered="#{financeSessionBean.editMode == 'CREATE'}"/>
+
+                    <p:commandButton id="doneButtons" value=" Done " icon="ui-icon-check" ajax="false"
+                                     action="/schooluser/finance/employeepayrolldetails" immediate="true"/>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

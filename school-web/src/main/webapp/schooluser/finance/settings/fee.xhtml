@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body class="ui-widget-content">
+        <h:form prependId="false" id="searchform"> 
+            <p:panel header="Fee(s)">
+                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                <table width="100%">
+                    <tr>
+                        <td width="20%" align="right">Fee Category </td>
+                        <td> 
+                            <p:selectOneMenu value="#{feeBean.feeCategory}"
+                                             style="width:200px">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.staticListMap['FEE_CAT_TYPE']}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td width="25%" align="right"> </td>
+                        <td> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" align="right"></td>
+                        <td colspan="3"> 
+                            <p:commandButton action="#{feeBean.findFees}" update="dataTable"
+                                             value=" Search " icon="ui-icon-search" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable scrollable="true" scrollHeight="200" value="#{feeBean.feeModel}" var="row" 
+                                         rowKey="#{row.feeId}"  selection="#{feeBean.fee}" 
+                                         selectionMode="single" id="dataTable">
+                                <p:column width="20"> 
+                                    <f:facet name="header">
+                                        <h:outputText value="Fee ID" />
+                                    </f:facet> 
+                                    #{row.feeId}  
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Description" />
+                                    </f:facet>   
+                                    #{row.description}  
+                                </p:column> 
+                                <p:column width="140">
+                                    <f:facet name="header">
+                                        <h:outputText value="Category" />
+                                    </f:facet>   
+                                    #{row.feeCategory}  
+                                </p:column>
+                                <p:column width="100">
+                                    <f:facet name="header">
+                                        <h:outputText value="Amount" />
+                                    </f:facet>
+                                    <h:outputText value="#{row.amount}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column> 
+                                <p:column width="80">
+                                    <f:facet name="header">
+                                        <h:outputText value="Last Modified By" />
+                                    </f:facet>
+                                    #{row.modifiedBy}
+                                </p:column> 
+                                <p:column width="80">
+                                    <f:facet name="header">
+                                        <h:outputText value="Last Modified" />
+                                    </f:facet>
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>  
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="updateButton" icon="ui-icon-pencil" value="Update"
+                                     action="#{feeBean.prepareForModify}" update=":detailsform:detailsPanel">
+                        <f:param name="editMode" value="EDIT" />
+                    </p:commandButton>
+
+                    <p:commandButton id="doneButton" value="Done" 
+                                     action="/schooluser/finance/settings/index" ajax="false" /> 
+                </div>
+            </p:panel>
+        </h:form>
+        <h:form prependId="false" id="detailsform">
+            <p:panel header="Details" id="detailsPanel">
+                <table width="100%">
+                    <tr>
+                        <td colspan="6">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Fee Category</td>
+                        <td>
+                            <p:selectOneMenu id="feeCategory" value="#{feeBean.fee.feeCategory}"
+                                             style="width:200px" disabled="#{feeBean.editMode != 'MODIFY'}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.staticListMap['FEE_CAT_TYPE']}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="feeCategory" /></td>
+                        <td>Description</td>
+                        <td>
+                            <p:inputText id="description" value="#{feeBean.fee.description}" 
+                                         readonly="#{feeBean.editMode != 'MODIFY'}"
+                                         required="true" requiredMessage=""/>
+                        </td>
+                        <td><p:message for="description" /></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel for="amount" value="Amount" /></td>
+                        <td>
+                            <p:inputText id="amount" value="#{feeBean.fee.amount}" 
+                                         readonly="#{feeBean.editMode != 'MODIFY'}"
+                                         required="true" requiredMessage="">
+                                <f:convertNumber pattern="#,##0.00" />
+                                <f:validateDoubleRange minimum="0"/>
+                            </p:inputText>
+                        </td>
+                        <td><h:message for="amount" /></td>
+                        <td><p:outputLabel for="status" value="Status" /></td>
+                        <td>
+                            <p:selectOneMenu id="status" value="#{feeBean.fee.status}"
+                                             required="false" requiredMessage="" style="width:200px"
+                                             disabled="#{feeBean.editMode != 'MODIFY'}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.statusList}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td><h:message for="status" /></td>
+                    </tr>
+                    <tr>
+                        <td>Fee ID</td>
+                        <td>
+                            <p:inputText value="#{feeBean.fee.feeId}" readonly="true" />
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <p:commandButton id="saveButton" value=" Save " action="#{feeBean.saveFee}"
+                                             disabled="#{feeBean.editMode != 'MODIFY'}" 
+                                             update=":searchform:dataTable,@form" icon="ui-icon-disk" /> 
+
+                            <p:commandButton id="clearButton" value="Reset" update="@form" icon="ui-icon-arrowrefresh-1-w"
+                                             immediate="true"  action="#{feeBean.clearForm}" /> 
+                        </td>
+                    </tr>
+                </table>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>

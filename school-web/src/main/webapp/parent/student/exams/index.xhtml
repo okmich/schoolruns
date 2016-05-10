@@ -1,0 +1,79 @@
+s<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/parentportalstyle.xhtml">
+        <ui:define name="menupanel">
+            <h:form>
+                <p:menu style="width: 100%">
+                    <p:menuitem value=" Ward's Home " icon="ui-icon-search"
+                                action="/parent/student/index" ajax="false" />
+
+                    <p:separator />
+
+                    <p:menuitem value=" Term Exam Result" icon="ui-icon-search"
+                                action="/parent/student/exams/index" ajax="false" />
+
+                </p:menu>
+            </h:form>
+        </ui:define>
+        <ui:define name="paneltitle">
+            Student Term Exam History
+        </ui:define>
+        <ui:define name="contentpanel">
+            <h:form>
+                <div style="overflow: scroll;width: 100%;height: 200px">
+                    <h:dataTable id="schoolStudentTab" var="row" styleClass="ui-datatable" style="width:100%;"
+                                 value="#{studentBean.studentTermExamModel}" >
+                        <p:column>
+                            <f:facet name="header">School</f:facet>
+                            #{row.school_name}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Academic Year</f:facet>
+                            #{row.academic_year}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Student. No.</f:facet>
+                            #{row.registration_no}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Term</f:facet>
+                            #{row.term}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Exam Type</f:facet>
+                            #{row.exam_type}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Total Score</f:facet>
+                            #{row.total_term_score}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Term Average</f:facet>
+                            #{row.cgpa}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">Class Position</f:facet>
+                            #{row.class_position}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">*</f:facet>
+                            <h:commandLink action="#{studenTermExamBean.findStudentTermExamDetails}" 
+                                           value="details">
+                                <f:param name="termExamRecordId" value="#{row.term_exam_record_id}"/>
+                            </h:commandLink>
+                        </p:column>
+                    </h:dataTable>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

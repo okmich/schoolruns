@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+                <ui:include src="/schooluser/parent/relatedtaskmenu.xhtml" 
+                            rendered=" #{sessionBean.parent.surname != ''}" />
+            </ui:define>
+            <ui:define name="panelTitle">
+                Parent Details - #{sessionBean.parent.surname} #{sessionBean.parent.othernames}
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="6" align="center">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="15%">Surname</td>
+                            <td>
+                                <p:selectOneMenu id="titleCode" value="#{sessionBean.parent.title.titleCode}"
+                                                 style="width:200px" onchange="" immediate="true">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.titleList}" var="t" 
+                                                   itemLabel="#{t.description}" itemValue="#{t.titleCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="surname" /></td>
+                            <td align="right" width="15%"></td>
+                            <td>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Surname</td>
+                            <td>
+                                <h:inputText id="surname" value="#{sessionBean.parent.surname}" 
+                                             required="true" requiredMessage="" />
+                            </td>
+                            <td><p:message for="surname" /></td>
+                            <td align="right">Othernames</td>
+                            <td>
+                                <h:inputText id="othernames" value="#{sessionBean.parent.othernames}" 
+                                             required="true" requiredMessage="" />
+                            </td>
+                            <td><p:message for="othernames" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Email</td>
+                            <td>
+                                <h:inputText id="email" value="#{sessionBean.parent.email}" 
+                                             required="true" requiredMessage="" />
+                            </td>
+                            <td><p:message for="email" /></td>
+                            <td align="right">Phone Number</td>
+                            <td>
+                                <h:inputText id="phoneNumber" value="#{sessionBean.parent.phoneNumber}" 
+                                             required="true" requiredMessage="" />
+                            </td>
+                            <td><p:message for="phoneNumber" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="relationship" value="Relationship"/></td>
+                            <td>
+                                <p:selectOneMenu id="relationship" value="#{sessionBean.parent.relationship}"
+                                                 style="width:200px" required="true" requiredMessage="">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.staticListMap['RELATIONSHIP_TYPE']}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="relationship" /></td>
+                            <td align="right">Alt. Phone Number</td>
+                            <td>
+                                <h:inputText id="alternateNumber" value="#{sessionBean.parent.alternateNumber}" 
+                                             required="true" requiredMessage="" />
+                            </td>
+                            <td><p:message for="alternateNumber" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Res. Address</td>
+                            <td>
+                                <okrol:address address="#{sessionBean.parent.address1}" viewMode="false"
+                                               required="true" requiredMessage="" streetFieldSize = "40"
+                                               id="address"/>
+                            </td>
+                            <td><p:message for="address" /></td>
+                            <td align="right">Official. Address</td>
+                            <td>
+                                <okrol:address address="#{sessionBean.parent.address}" viewMode="false"
+                                               streetFieldSize = "40" id="address2"/>
+                            </td>
+                            <td><p:message for="address2" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Industry</td>
+                            <td>
+                                <h:inputText id="jobIndustry" value="#{sessionBean.parent.jobIndustry}"/>
+                            </td>
+                            <td><p:message for="jobIndustry" /></td>
+                            <td align="right">State of Origin</td>
+                            <td>
+                                <p:selectOneMenu id="stateMenu" value="#{sessionBean.parent.state.stateCode}"
+                                                 style="width:200px" onchange="" immediate="true">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{addressApplicationBean.statesList}" var="s" 
+                                                   itemLabel="#{s.name}" itemValue="#{s.stateCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="stateMenu" /></td>
+                        </tr>
+                        <tr>
+                            <td class="underline" colspan="6">Others</td>
+                        </tr>
+                        <tr>
+                            <td align="right">Status</td>
+                            <td>
+                                <h:inputText id="status" value="#{sessionBean.parent.status}" 
+                                             readonly="true"/>
+                            </td>
+                            <td><p:message for="status" /></td>
+                            <td align="right">Modified</td>
+                            <td>
+                                <h:inputText id="modifiedTime" value="#{sessionBean.parent.modifiedTime}" 
+                                             readonly="true">
+                                    <f:convertDateTime dateStyle="long" />
+                                </h:inputText>
+                            </td>
+                            <td><p:message for="modifiedTime" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Modified by</td>
+                            <td>
+                                <h:inputText id="modifiedBy" value="#{sessionBean.parent.modifiedBy}" 
+                                             readonly="true" />
+                            </td>
+                            <td><p:message for="modifiedBy" /></td>
+                            <td align="right"></td>
+                            <td>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk"
+                                         action="#{parentBean.updateParent}" ajax="false"
+                                         rendered="#{sessionBean.editMode == 'EDIT'}"/>
+
+                        <p:commandButton id="saveAssButton" value=" Save " icon="ui-icon-disk"
+                                         action="#{parentBean.saveAndAssignParent}" ajax="false"
+                                         rendered="#{sessionBean.editMode == 'PARENTSELECT'}"/>
+
+                        <p:commandButton id="doneButton" value="Done" icon="ui-icon-check" immediate="true"
+                                         action="#{parentBean.doDoneParent}" ajax="false"
+                                         rendered="#{sessionBean.editMode == 'EDIT'}"/>
+
+                        <p:commandButton id="doneStudneButton" value=" Save " icon="ui-icon-check"
+                                         action="/schooluser/student/studentdetails" ajax="false"
+                                         rendered="#{sessionBean.editMode == 'PARENTSELECT'}"/>
+
+                        <p:defaultCommand target="doneButton" />
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Exam Session Details (#{examBatchBean.examBatch.examBatchId})
+        </ui:define>
+        <ui:define name="menu_panel">
+            <p:menu style="width: 190px">
+                <p:menuitem value="Participating Classes" action="#{examBatchBean.findClassesForExam}" icon="ui-icon-bullet" 
+                            rendered="#{sessionBean.examBatch.examType.examTypeCode != 'ADM'}" ajax="false"/>
+
+                <p:menuitem value="Kickstart Exam Sessions" action="#{examBatchBean.beginExamBatch}" icon="ui-icon-bullet" 
+                            rendered="#{sessionBean.examBatch.status == 'I'}" ajax="false"/>
+
+                <p:menuitem value="Publish Result" action="#{examBatchBean.publishExamSessionScores}"
+                            icon="ui-icon-bullet" rendered="#{sessionBean.examBatch.status == 'L'}" ajax="false"/>
+            </p:menu>
+        </ui:define>
+        <ui:define name="panelTitle">
+            Exam Session Details (#{examBatchBean.examBatch.examBatchId})
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="25%">Description </td>
+                        <td>
+                            <p:inputText id="description" value="#{sessionBean.examBatch.description}" 
+                                         required="true" requiredMessage="" size="45" readonly="#{examBatchBean.editMode == 'VIEW'}" />
+                        </td>
+                        <td width="25%">
+                            <p:message for="description" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Exam Type </td>
+                        <td>
+                            <p:selectOneMenu id="examTypeCode" required="true" requiredMessage="" style="width:200px"
+                                             value="#{sessionBean.examBatch.examType.examTypeCode}"
+                                             disabled="#{examBatchBean.editMode == 'VIEW'}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.examTypeList}" var="e"
+                                               itemValue="#{e.description}" itemLabel="#{e.examTypeCode}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="examTypeCode" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="schoolSectionId" value="School Section" /></td>
+                        <td>
+                            <p:selectOneMenu id="schoolSectionId" required="true" requiredMessage="" style="width:200px"
+                                             value="#{sessionBean.examBatch.schoolSection.schoolSectionId}">
+                                <f:selectItem itemValue="0" itemLabel="All Sections" />
+                                <f:selectItems value="#{schoolSessionBean.schoolSections}" var="s"
+                                               itemValue="#{s.schoolSectionId}" itemLabel="#{s.section.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Starts</td>
+                        <td>
+                            <p:calendar id="startDate" value="#{sessionBean.examBatch.startDate}"
+                                        pattern="dd/MM/yyyy HH:mm" required="true" requiredMessage="" navigator="true"
+                                        readonly="#{examBatchBean.editMode == 'VIEW'}"/>
+                        </td>
+                        <td> <p:message for="startDate" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Ends</td>
+                        <td>
+                            <p:calendar id="endDate" value="#{sessionBean.examBatch.endDate}"
+                                        pattern="dd/MM/yyyy HH:mm" required="true" requiredMessage="" navigator="true"
+                                        readonly="#{examBatchBean.editMode == 'VIEW'}"/>
+                        </td>
+                        <td> <p:message for="endDate" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Term</td>
+                        <td>
+                            <p:inputText value="#{sessionBean.examBatch.schoolTerm.schoolTermId}" size="5" readonly="true"/> 
+                            - <span class="highlight">#{examBatchBean.examBatch.schoolTerm.term.description} </span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Notify Parent on Assignments</td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{sessionBean.examBatch.notifyParentBegin}" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Notify Parent on Results</td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{sessionBean.examBatch.notifyParentResult}" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Status</td>
+                        <td>
+                            <p:selectOneMenu id="status" required="true" requiredMessage="" style="width:200px"
+                                             value="#{sessionBean.examBatch.status}" disabled="true">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{examBean.examStatus}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="status" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Modified By</td>
+                        <td>
+                            <p:inputText id="modifiedBy" value="#{sessionBean.examBatch.modifiedBy}" required="true" 
+                                         requiredMessage="required" readonly="true"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Last Modified</td>
+                        <td>
+                            <p:inputText id="modifiedTime" value="#{sessionBean.examBatch.modifiedTime}" required="true" 
+                                         requiredMessage="required" readonly="true">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            </p:inputText>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel"> 
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk" update="messages" ajax="false"
+                                     action="#{examBatchBean.editExamBatch}" rendered="#{sessionBean.editMode == 'EDIT'}" />
+
+                    <p:commandButton id="doneButton" value=" Done " icon="ui-icon-check" ajax="false"
+                                     action="#{examBatchBean.retToSearch}" immediate="true" />
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Class Score
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="4">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Exam Session</td>
+                        <td>
+                            <p:inputText value="#{sessionBean.examBatchClass.examBatch.description}" readonly="true" /> - 
+                            <p:inputText value="#{sessionBean.examBatchClass.examBatch.examBatchId}" readonly="true" size="5" />
+                        </td>
+                        <td>Class</td>
+                        <td>
+                            <p:inputText value="#{sessionBean.examBatchClass.schoolClass.description}" readonly="true" /> - 
+                            <p:inputText value="#{sessionBean.examBatchClass.schoolClass.schoolClassId}" readonly="true" size="5" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable var="row" value="#{sessionBean.examScoreTable.schoolStudents}" id="scoreTable">
+                                <p:column headerText="Student Name">
+                                    #{row.student.surname}
+                                    <h:outputText value=" " />
+                                    #{row.student.firstname}
+                                </p:column>
+                                <p:column headerText="Reg. #">
+                                    #{row.registrationNo}
+                                </p:column>
+                                <p:columns value="#{sessionBean.examScoreTable.schoolSubjects}" var="column" 
+                                           columnIndexVar="colIndex">
+                                    <f:facet name="header">
+                                        #{column.subjectCode}
+                                    </f:facet>
+                                    <p:inputText value="#{examBean.studentSubjectScore(row, column)}}" size="4" >
+                                        <f:convertNumber pattern="#0" />
+                                        <f:validateLongRange minimum="0" maximum="100" />
+                                    </p:inputText>
+                                </p:columns>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk"
+                                     action="#{examBean.saveClassExamScores}" ajax="false"/>
+
+                    <p:commandButton id="downloadButton" value="Download Scores" icon="ui-icon-arrowthickstop-1-s"
+                                     action="#{examBean.downloadClassScoreSheet}" ajax="false" 
+                                     rendered="#{examBean.examBatchClass.status == 'A'}" />
+
+                    <p:commandButton id="uploadButton" value="Upload Scores" icon="ui-icon-arrowthickstop-1-n"
+                                     action="/schooluser/exams/classexamscore_upload" 
+                                     rendered="#{examBean.examBatch.status == 'L' and examBean.examBatchClass.status != 'I'}"/>
+
+                    <p:commandButton id="commitButton" value=" Commit " icon="ui-icon-arrowthickstop-1-s"
+                                     action="#{examBean.commitClassExamScores}" ajax="false"/>
+
+                    <p:commandButton id="doneButton" value=" Done " icon="ui-icon-check"
+                                     action="#{examBean.retToClassExamSearch}"/>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

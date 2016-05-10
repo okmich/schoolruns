@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/searchformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                Exam(s)
+            </ui:define>
+            <ui:define name="contentPanel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="4">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="20%">Exam Session</td>
+                            <td>
+                                <p:selectOneMenu id="examBatchId" value="#{examBean.examBatchId}" style="width:200px">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{examBatchBean.examBatches}" var="e" 
+                                                   itemLabel="#{e.description}" itemValue="#{e.examBatchId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right" width="20%">Class</td>
+                            <td>
+                                <p:selectOneMenu id="schoolClassId" value="#{examBean.schoolClassId}" style="width:200px">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{schoolSessionBean.schoolClasses}" var="s" 
+                                                   itemLabel="#{s.code}" itemValue="#{s.schoolClassId}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="20%">Subject</td>
+                            <td>
+                                <p:selectOneMenu id="schoolSubjectId" value="#{examBean.schoolSubjectId}" style="width:200px">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{schoolSessionBean.schoolSubjects}" var="s" 
+                                                   itemLabel="#{s.subjectCode}" itemValue="#{s.schoolSubjectId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right" width="20%">Status</td>
+                            <td>
+                                <p:selectOneMenu id="status" value="#{examBean.status}" style="width:200px">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{examBean.examStatus}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="20%"></td>
+                            <td colspan="3">
+                                <p:commandButton id="searchButton" value=" Search " icon="ui-icon-search"
+                                                 action="#{examBean.findExams}" update="examTab" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <p:dataTable id="examTab" var="row" value="#{sessionBean.examModel}" rowKey="#{row.examId}"
+                                             selection="#{examBean.exam}" selectionMode="single" style="overflow:scroll;width: 99%;height: 310px">
+                                    <p:column headerText="ID">
+                                        #{row.examId}
+                                    </p:column>
+                                    <p:column headerText="Class">
+                                        #{row.schoolClass.description}
+                                    </p:column>
+                                    <p:column headerText="Subject">
+                                        #{row.schoolSubject.subject.description}
+                                    </p:column>
+                                    <p:column headerText="Date/Time" >
+                                        <h:outputText value="#{row.examTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Max. Score">
+                                        <h:outputText value="#{row.maxScore}"/>
+                                    </p:column>
+                                    <p:column headerText="Session ID">
+                                        #{row.examBatch.examBatchId}
+                                    </p:column>
+                                    <p:column headerText="Status">
+                                        #{row.status}
+                                    </p:column>
+                                    <p:column headerText="Modified By">
+                                        #{row.modifiedBy}
+                                    </p:column>
+                                    <p:column headerText="Lasted Modified">
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="viewButton" value=" View " icon="ui-icon-zoomin"
+                                         action="#{examBean.findExam}">
+                            <f:param name="editMode" value="VIEW" />
+                        </p:commandButton>
+                        <p:commandButton id="editButton" value=" Edit " icon="ui-icon-pencil"
+                                         action="#{examBean.findExam}">
+                            <f:param name="editMode" value="EDIT" />
+                        </p:commandButton>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

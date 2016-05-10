@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Class Timetable Entry Details
+        </ui:define>
+        <ui:define name="menu_panel">
+
+        </ui:define>
+        <ui:define name="panelTitle">
+            <h:outputText value="Timetable Entry Details (#{sessionBean.timetableEntry.timetableEntryId})" 
+                          rendered="#{sessionBean.editMode != 'CREATE'}"/>
+
+            <h:outputText value="New Timetable Entry Details" 
+                          rendered="#{sessionBean.editMode == 'CREATE'}"/>
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                <h:panelGrid columns="2" style="width:80%">
+                    <p:outputLabel for="schoolClassId" value="School Class" />
+                    <h:panelGroup>
+                        <p:inputText id="schoolClassId" readonly="true" size="10"
+                                     value="#{sessionBean.timetableEntry.schoolClass.schoolClassId}"/>
+                        <h:outputText value=" " />
+                        <p:inputText id="schoolClass" readonly="true"
+                                     value="#{sessionBean.timetableEntry.schoolClass.code}"/>
+                    </h:panelGroup>
+                    <p:outputLabel for="weekdayCode" value="Week day" />
+                    <p:selectOneMenu id="weekdayCode" style="width:150px"
+                                     value="#{sessionBean.timetableEntry.weekday.code}"
+                                     disabled="true">
+                        <f:selectItem itemValue="" itemLabel="----------------------" />
+                        <f:selectItems value="#{applicationListBean.weekdayList}" var="w"
+                                       itemValue="#{w.code}" itemLabel="#{w.description}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="classPeriodId" value="Class Period" />
+                    <h:panelGroup>
+                        <p:inputText id="classPeriodId" readonly="true" size="10"
+                                     value="#{sessionBean.timetableEntry.classPeriod.classPeriodId}"/>
+                        <h:outputText value=" " />
+                        <p:inputText id="classPeriod" readonly="true"
+                                     value="#{sessionBean.timetableEntry.classPeriod.periodNumber}"/>
+                    </h:panelGroup>
+                    <p:outputLabel for="startTime" value="Starts" />
+                    <p:inputText id="startTime" value="#{sessionBean.timetableEntry.classPeriod.startTime}"
+                                 readonly="true" >
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </p:inputText>
+                    <p:outputLabel for="endTime" value="Ends" />
+                    <p:inputText id="endTime" value="#{sessionBean.timetableEntry.classPeriod.endTime}"
+                                 readonly="true" >
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </p:inputText>
+                    <p:outputLabel for="breakTime" value="Break Time" />
+                    <p:selectBooleanCheckbox id="breakTime" disabled="true"
+                                             value="#{sessionBean.timetableEntry.classPeriod.breakTime}" />
+                </h:panelGrid>
+                <p:separator />
+                <h:panelGrid columns="2" style="width:80%">
+                    <p:outputLabel for="schoolSubjectId" value="Subject " />
+                    <p:selectOneMenu id="schoolSubjectId" style="width:200px" required="true"
+                                     value="#{sessionBean.timetableEntry.schoolSubject.schoolSubjectId}" >
+                        <f:selectItem itemValue="" itemLabel="----------------------" />
+                        <f:selectItems value="#{schoolSessionBean.schoolSubjectByGrade}" var="s"
+                                       itemLabel="#{s.subjectCode}" itemValue="#{s.schoolSubjectId}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="subjectTeacherId" value="Subject Teacher " />
+                    <p:selectOneMenu id="subjectTeacherId" style="width:200px" 
+                                     value="#{sessionBean.timetableEntry.employee.employeeId}">
+                        <f:selectItem itemValue="" itemLabel="----------------------" />
+                        <f:selectItems value="#{schoolSessionBean.teachingStaffs}" var="s"
+                                       itemLabel="#{s.fullname}" itemValue="#{s.employeeId}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="classroomId" value="Classroom " />
+                    <p:selectOneMenu id="classroomId" style="width:200px"
+                                     value="#{sessionBean.timetableEntry.classroom.classroomId}" >
+                        <f:selectItem itemValue="" itemLabel="----------------------" />
+                        <f:selectItems value="#{schoolSessionBean.classrooms}" var="c"
+                                       itemLabel="#{c.description}" itemValue="#{c.classroomId}"/>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <div id="taskButtonPanel"> 
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk"
+                                     action="#{classTimeTableBean.createTimeTableEntry}" update="messages" ajax="false"
+                                     rendered="#{sessionBean.editMode == 'CREATE'}"
+                                     disabled="#{sessionBean.timetableEntry.classPeriod.breakTime}"/>
+
+                    <p:commandButton id="deleteButton" value=" Delete " icon="ui-icon-cancel"
+                                     action="#{classTimeTableBean.deleteTimeTableEntry}" update="messages" ajax="false"
+                                     rendered="#{sessionBean.editMode == 'VIEW'}"/>
+
+                    <p:commandButton id="doneButton" value="Done" icon="ui-icon-check" ajax="false"
+                                     action="#{classTimeTableBean.goBack}" immediate="true" />
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>	

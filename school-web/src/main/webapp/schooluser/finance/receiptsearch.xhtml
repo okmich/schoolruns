@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Receipt(s)
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="6">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                        id="messages"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="15%">Receipt Number</td>
+                        <td width="23%">
+                            <p:inputText id="name" value="#{receiptBean.receiptNumber}"/>
+                        </td>
+                        <td align="right" width="15%">This Term only ?</td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{receiptBean.currentTerm}" />
+                        </td>
+                        <td align="right" width="10%">Type</td>
+                        <td>
+                            <p:selectOneMenu id="txnTypeId" style="width:150px"
+                                             value="#{receiptBean.txnTypeId}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeSessionBean.txnTypes}" var="t"
+                                               itemValue="#{t.txnTypeId}" itemLabel="#{t.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Fees only ?</td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{receiptBean.feeType}" />
+
+                        </td>
+                        <td align="right">This Year only ?</td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{receiptBean.currentYear}" />
+                        </td>
+                        <td align="right">Txn. Date</td>
+                        <td>
+                            <p:calendar value="#{receiptBean.fromDate}" size="9" pattern="dd/MM/yyyy" navigator="true"/>
+                            <h:outputText value=" to " />
+                            <p:calendar value="#{receiptBean.toDate}" size="9" pattern="dd/MM/yyyy" navigator="true"/>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td colspan="3">
+                            <p:commandButton id="searchButton" value=" Search " icon="ui-icon-search"
+                                             action="#{receiptBean.findReceipts}" update="dataTable">
+                            </p:commandButton>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <p:dataTable id="dataTable" var="row" value="#{financeSessionBean.receiptModel}"
+                                         rowKey="#{row.receiptId}" selection="#{receiptBean.receipt}"
+                                         selectionMode="single" style="overflow: scroll;width: 100%;height: 300px">
+                                <p:column headerText="ID">
+                                    #{row.receiptId}
+                                </p:column>
+                                <p:column headerText="Receipt #">
+                                    #{row.receiptNumber}
+                                </p:column>
+                                <p:column headerText="Payer">
+                                    #{row.payer}
+                                </p:column>
+                                <p:column headerText="Amount">
+                                    <h:outputText value="#{row.amount}">
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Eff. Date">
+                                    <h:outputText value="#{row.effectiveDate}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Txn Type">
+                                    #{row.txnType.description}
+                                </p:column>
+                                <p:column headerText="Status">
+                                    #{row.status}
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    #{row.modifiedBy}
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="newButton" value=" New Receipt " icon="ui-icon-plusthick"
+                                     action="#{receiptBean.prepareForCreate}" ajax="false" />
+                    | 
+                    <p:commandButton id="viewButton" value=" Views " icon="ui-icon-zoomin" ajax="false"
+                                     action="#{receiptBean.findReceipt}" />
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

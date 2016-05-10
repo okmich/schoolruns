@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div style="margin: auto;width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="Employee Category">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <p:dataTable scrollable="true" scrollHeight="200" value="#{employeeCategoryBean.employeeCategoryModel}" var="row" 
+                                 rowKey="#{row.employeeCategoryId}"  selection="#{employeeCategoryBean.employeeCategory}" 
+                                 selectionMode="single" id="dataTable">
+                        <p:column width="100" headerText="Code"> 
+                            #{row.employeeCategoryId}
+                        </p:column> 
+                        <p:column width="200" headerText="Description">
+                            #{row.description}  
+                        </p:column>
+                        <p:column width="200" headerText="Teaching Role?">
+                            #{row.academic}  
+                        </p:column>
+                        <p:column headerText="Last Modified">
+                            <h:outputText value="#{row.modifiedTime}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Modified By">
+                            <h:outputText value="#{row.modifiedBy}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>  
+                    <br />
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="newButton" value="New" icon="ui-icon-document" 
+                                         action="#{employeeCategoryBean.prepareForCreate}" update=":detailsform:detailsPanel"  />
+
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil"
+                                         action="#{employeeCategoryBean.prepareForModify}" update=":detailsform:detailsPanel" />
+
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/admin/settings/index" />   
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <h:panelGrid columns="3">
+                        <h:outputText value="Code" />
+                        <p:inputText id="employeeCategoryCode" value="#{employeeCategoryBean.employeeCategory.employeeCategoryId}"
+                                     required="true" requiredMessage="required"
+                                     readonly="#{employeeCategoryBean.editMode != 'CREATE'}"/>
+                        <p:message for="employeeCategoryCode" />
+                        <h:outputText value="Description" />
+                        <p:inputText id="description" value="#{employeeCategoryBean.employeeCategory.description}"
+                                     required="true" requiredMessage="required" size="30"/>
+                        <h:message for="description" />
+                        <h:outputText value="Teaching Role?" />
+                        <p:selectBooleanCheckbox id="academic" value="#{employeeCategoryBean.employeeCategory.academic}"/>
+                        <h:message for="academic" />
+                        <h:outputText value="" />
+                        <h:panelGroup>
+                            <p:commandButton id="saveButton" value="Save" 
+                                             action="#{employeeCategoryBean.saveEmployeeCategory}" update=":searchform:dataTable detailsPanel" /> 
+
+                            <p:commandButton id="clearButton" value="Reset" update="detailsPanel"
+                                             immediate="true"  action="#{employeeCategoryBean.clearForm}" /> 
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

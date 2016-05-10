@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <h:form prependId="false" id="searchform">
+            <p:panel header="Class Activity Timetable">
+                <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                <table width="100%">
+                    <tr>
+                        <td width="30%" align="right">Class</td>
+                        <td>                                
+                            <p:selectOneMenu value="#{classTimeTableBean.schoolClassId}" onchange=""
+                                             style="width:200px" immediate="true"
+                                             valueChangeListener="#{classTimeTableBean.changeSchoolClassEvent}">
+                                <f:ajax event="change" execute="@this" render="dataTable"/>
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{schoolSessionBean.schoolClasses}" var="s" 
+                                               itemLabel="#{s.description}" itemValue="#{s.schoolClassId}" />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <p:dataTable selectionMode="single" id="dataTable"
+                                         value="#{sessionBean.ttEntryTable.weekdays}" var="row" 
+                                         rowKey="#{row}" >
+                                <p:column headerText="Week days">
+                                    #{row.description}
+                                </p:column>
+                                <p:columns value="#{sessionBean.ttEntryTable.classPeriods}" var="cpd" 
+                                           columnIndexVar="colIndex">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{cpd.periodNumber}" />
+                                    </f:facet>
+                                    <okrol:ttentry value="#{sessionBean.ttEntryTable.getTimetableEntry(row, cpd)}" />
+                                </p:columns>
+                            </p:dataTable>  
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                </div>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>

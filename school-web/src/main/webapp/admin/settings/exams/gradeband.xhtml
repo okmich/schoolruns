@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div style="margin: auto;width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="Grade Bands">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <p:dataTable  value="#{immutableListTypeBean.gradeBandModel}" id="dataTable"
+                                  var="row" rowKey="#{row.gradeBandCode}" selectionMode="single">
+                        <p:column headerText="Code"> 
+                            #{row.gradeBandCode}
+                        </p:column> 
+                        <p:column headerText="Description">
+                            #{row.description} 
+                        </p:column>
+                        <p:column headerText="Min. Score">
+                            #{row.minScore} 
+                        </p:column>
+                        <p:column headerText="Max. Score">
+                            #{row.maxScore} 
+                        </p:column>
+                        <p:column headerText="Credit Weight">
+                            #{row.creditPower} 
+                        </p:column>
+                        <p:column headerText="Status">
+                            #{row.status} 
+                        </p:column>
+                    </p:dataTable>  
+                    <br />
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/admin/settings/index" />   
+                    </div>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

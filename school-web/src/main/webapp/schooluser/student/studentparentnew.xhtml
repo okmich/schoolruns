@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+
+            </ui:define>
+            <ui:define name="panelTitle">
+                New Student Registration
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="4" align="center">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="underline">Personal Details: </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="surname" value="Surname" /></td>
+                            <td>
+                                <p:inputText id="surname" value="#{schoolStudentBean.schoolStudentData.surname}"
+                                             required="true" requiredMessage=""/>
+                            </td>
+                            <td align="right"><p:outputLabel for="firstname" value="First name" /></td>
+                            <td>
+                                <p:inputText id="firstname" value="#{schoolStudentBean.schoolStudentData.firstname}"
+                                             required="true" requiredMessage=""/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="othernames" value="Othernames" /></td>
+                            <td>
+                                <p:inputText id="othernames" value="#{schoolStudentBean.schoolStudentData.othernames}"
+                                             required="false" requiredMessage=""/>
+                            </td>
+                            <td  align="right"><p:outputLabel for="address" value="Address" /></td>
+                            <td rowspan="4" align="left">
+                                <okrol:address address="#{schoolStudentBean.schoolStudentData.address}" viewMode="false"
+                                               required="true" requiredMessage="" streetFieldSize = "40"
+                                               id="address"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="gender" value="Gender" /></td>
+                            <td>
+                                <p:selectOneMenu value="#{schoolStudentBean.schoolStudentData.gender}"
+                                                 style="width:200px" id="gender" required="true"
+                                                 requiredMessage="">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.genderList}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="birthDate" value="Date of Birth" /></td>
+                            <td>
+                                <p:calendar id="birthDate" value="#{schoolStudentBean.schoolStudentData.birthDate}" mindate="1/1/1890"
+                                            pattern="dd/MM/yyyy" required="true" requiredMessage="" navigator="true"/>
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="bloodGroup" value="Blood Group" /></td>
+                            <td>
+                                <p:selectOneMenu value="#{schoolStudentBean.schoolStudentData.bloodGroup}"
+                                                 style="width:200px" id="bloodGroup">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.bloodGroupList}" var="b" 
+                                                   itemLabel="#{b.description}" itemValue="#{b.bloodGroupCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="genotype" value="Genotype" /></td>
+                            <td>
+                                <p:selectOneMenu id="genotype" value="#{schoolStudentBean.schoolStudentData.genotype}"
+                                                 style="width:200px">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.staticListMap['GENO_TYPE']}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right"><p:outputLabel for="stateMenu" value="State of Origin" /></td>
+                            <td>
+                                <p:selectOneMenu id="stateMenu" value="#{schoolStudentBean.schoolStudentData.stateOriginCode}"
+                                                 style="width:200px" onchange="" immediate="true">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{addressApplicationBean.statesList}" var="s" 
+                                                   itemLabel="#{s.name}" itemValue="#{s.stateCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="countryCode" value="Nationality" /></td>
+                            <td>
+                                <p:selectOneMenu id="countryCode" value="#{schoolStudentBean.schoolStudentData.countryCode}"
+                                                 style="width:200px">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.countryList}" var="c" 
+                                                   itemLabel="#{c.description}" itemValue="#{c.countryCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right"><p:outputLabel for="languageId" value="Language" /></td>
+                            <td>
+                                <p:selectOneMenu value="#{schoolStudentBean.schoolStudentData.languageId}"
+                                                 style="width:200px" id="languageId">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.languageList}" var="l" 
+                                                   itemLabel="#{l.language}" itemValue="#{l.languageId}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="underline">School Information </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="registrationNo" value="Reg. No." /></td>
+                            <td>
+                                <p:inputText id="registrationNo" value="#{schoolStudentBean.schoolStudentData.registrationNo}"
+                                             required="#{!schoolSessionBean.schoolPref.systemGenStudentRegNo}" requiredMessage=""
+                                             readonly="#{schoolSessionBean.schoolPref.systemGenStudentRegNo}"/>
+                            </td>
+                            <td align="right">Current Year: </td>
+                            <td>
+                                <h:outputText value="#{schoolSessionBean.schoolCalendarData.academicYear}"
+                                              styleClass="highlight"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="schoolClassId" value="Class" /></td>
+                            <td>
+                                <p:selectOneMenu value="#{schoolStudentBean.schoolStudentData.schoolClassId}"
+                                                 style="width:200px" id="schoolClassId" required="true"
+                                                 requiredMessage="">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{schoolSessionBean.schoolClasses}" var="s" 
+                                                   itemLabel="#{s.description}" itemValue="#{s.schoolClassId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right"><p:outputLabel for="admissionDate" value="Admission Date" /></td>
+                            <td>
+                                <p:calendar id="admissionDate" value="#{schoolStudentBean.schoolStudentData.admissionDate}" 
+                                            mindate="1/1/1890" pattern="dd/MM/yyyy" required="true" 
+                                            requiredMessage="" navigator="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="prefectFlag" value="Prefect Flag" /></td>
+                            <td>
+                                <p:selectBooleanCheckbox id="prefectFlag" 
+                                                         value="#{schoolStudentBean.schoolStudentData.prefectFlag}" />
+                            </td>
+                            <td align="right"><p:outputLabel for="prefectTypeId" value="Prefect Type" /></td>
+                            <td>
+                                <p:selectOneMenu value="#{schoolStudentBean.schoolStudentData.prefectTypeId}"
+                                                 style="width:200px" id="prefectTypeId">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.prefectTypeList}" var="p" 
+                                                   itemLabel="#{p.description}" itemValue="#{p.prefectTypeId}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="underline">Parent Information </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="15%"><p:outputLabel for="titleCode" value="Title" /></td>
+                            <td>
+                                <p:selectOneMenu id="titleCode" value="#{schoolStudentBean.parent.title.titleCode}"
+                                                 style="width:200px" immediate="true" required="true">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.titleList}" var="t" 
+                                                   itemLabel="#{t.description}" itemValue="#{t.titleCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right"><p:outputLabel for="phoneNumber" value="Phone #" /></td>
+                            <td>
+                                <p:inputText id="phoneNumber" value="#{schoolStudentBean.parent.phoneNumber}" 
+                                             required="true" requiredMessage="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="15%"><p:outputLabel for="parentsurname" value="Surname" /></td>
+                            <td>
+                                <p:inputText id="parentsurname" value="#{schoolStudentBean.parent.surname}" 
+                                             required="true" requiredMessage="" />
+                            </td>
+                            <td align="right"><p:outputLabel for="parentothernames" value="Other names" /></td>
+                            <td>
+                                <p:inputText id="parentothernames" value="#{schoolStudentBean.parent.othernames}" 
+                                             required="true" requiredMessage="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="15%"><p:outputLabel for="parentemail" value="Email" /></td>
+                            <td>
+                                <p:inputText id="parentemail" value="#{schoolStudentBean.parent.email}" size="30"/>
+                            </td>
+                            <td align="right"><p:outputLabel for="relationship" value="Relationship"/></td>
+                            <td>
+                                <p:selectOneMenu id="relationship" value="#{schoolStudentBean.parent.relationship}"
+                                                 style="width:200px" required="true" requiredMessage="">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.staticListMap['RELATIONSHIP_TYPE']}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="saveButton" value="Save" icon="ui-icon-disk"
+                                         action="#{schoolStudentBean.createSchoolStudentWithParent}" ajax="false"/>
+                        <p:defaultCommand target="saveButton" />
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

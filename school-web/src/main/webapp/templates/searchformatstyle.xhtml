@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <body class="ui-widget-content">
+        <p:panel id="bodypanel" style="margin:0;padding:0;width: 100%;">
+            <f:facet name="header">
+                <ui:insert name="panelTitle">
+                    headerText
+                </ui:insert>
+            </f:facet>
+            <ui:insert name="contentPanel" >
+                <h:form id="form">
+                    <p:editor id="editor" value="#{editorBean.value}"/>
+                    <h:panelGrid columns="2" style="margin-top:10px">
+                        <p:commandButton id="submitButton" value="Submit" update="display" oncomplete="dlg.show()"
+                                         icon="ui-icon-disk" />
+                        <p:commandButton id="clearButton" type="button" value="Clear" onclick="editor.clear()"
+                                         icon="ui-icon-close" />
+                    </h:panelGrid>
+
+                    <p:dialog header="Content" widgetVar="dlg" showEffect="fade" hideEffect="fade" modal="true">
+                        <h:outputText id="display" value="#{editorBean.value}" escape="false" />
+                    </p:dialog>
+                </h:form>
+            </ui:insert>
+        </p:panel>
+    </body>
+</f:view>

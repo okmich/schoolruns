@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body class="ui-widget-content">
+        <h:form prependId="false" id="searchform"> 
+            <p:panel header="Transaction Types">
+                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                <table width="100%">
+                    <tr>
+                        <td width="20%" align="right">Transaction Type Code </td>
+                        <td> 
+                            <p:inputText value="#{txnTypeBean.txnTypeCode}" />
+                        </td>
+                        <td width="25%" align="right">Transaction Category </td>
+                        <td> 
+                            <p:selectOneMenu value="#{txnTypeBean.txnCategoryCode}" 
+                                             style="width:200px" immediate="true">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeApplicationBean.txnCategories}" var="t" 
+                                               itemLabel="#{t.description}" itemValue="#{t.txnCategoryCode}" />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" align="right"></td>
+                        <td colspan="3"> 
+                            <p:commandButton action="#{txnTypeBean.findTxnTypes}" update="dataTable"
+                                             value=" Search " icon="ui-icon-search" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable scrollable="true" scrollHeight="200" value="#{txnTypeBean.txnTypeDataModel}" var="row" 
+                                         rowKey="#{row.txnTypeId}"  selection="#{txnTypeBean.txnType}" 
+                                         selectionMode="single" id="dataTable">
+                                <p:column width="50"> 
+                                    <f:facet name="header">
+                                        <h:outputText value="Txn Type ID" />
+                                    </f:facet> 
+                                    #{row.txnTypeId}  
+                                </p:column> 
+                                <p:column width="130">
+                                    <f:facet name="header">
+                                        <h:outputText value="Code" />
+                                    </f:facet>   
+                                    #{row.txnTypeCode}  
+                                </p:column> 
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Description" />
+                                    </f:facet>   
+                                    #{row.description}  
+                                </p:column> 
+                                <p:column width="110">
+                                    <f:facet name="header">
+                                        <h:outputText value="Debit Acct." />
+                                    </f:facet>   
+                                    #{row.debitAccount.accountCode}  
+                                </p:column> 
+                                <p:column width="110">
+                                    <f:facet name="header">
+                                        <h:outputText value="Credit Acct." />
+                                    </f:facet>   
+                                    #{row.creditAccount.accountCode}
+                                </p:column> 
+                                <p:column width="100">
+                                    <f:facet name="header">
+                                        <h:outputText value="Category" />
+                                    </f:facet>   
+                                    #{row.txnCategory.description}
+                                </p:column> 
+                                <p:column width="60">
+                                    <f:facet name="header">
+                                        <h:outputText value="Create On" />
+                                    </f:facet>
+                                    <h:outputText value="#{row.createDate}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column> 
+                                <p:column width="60">
+                                    <f:facet name="header">
+                                        <h:outputText value="Last Modified" />
+                                    </f:facet>
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>  
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="updateButton" icon="ui-icon-pencil" value="Update"
+                                     action="#{txnTypeBean.prepareForModify}" update=":detailsform:detailsPanel">
+                        <f:param name="editMode" value="EDIT" />
+                    </p:commandButton>
+
+                    <p:commandButton id="doneButton" value="Done" 
+                                     action="/schooluser/finance/settings/index" ajax="false" /> 
+                </div>
+            </p:panel>
+        </h:form>
+        <h:form prependId="false" id="detailsform">
+            <p:panel header="Details" id="detailsPanel">
+                <table width="100%">
+                    <tr>
+                        <td colspan="6">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Code</td>
+                        <td>
+                            <h:inputText id="txnTypeCode" value="#{txnTypeBean.txnType.txnTypeCode}" 
+                                         readonly="#{txnTypeBean.editMode != 'MODIFY'}"
+                                         required="true" requiredMessage=""/>
+                        </td>
+                        <td><h:message for="code" /></td>
+                        <td>Description</td>
+                        <td>
+                            <h:inputText id="description" value="#{txnTypeBean.txnType.description}" 
+                                         readonly="#{txnTypeBean.editMode != 'MODIFY'}"
+                                         required="true" requiredMessage=""/>
+                        </td>
+                        <td><h:message for="description" /></td>
+                    </tr>
+                    <tr>
+                        <td>Debit Account </td>
+                        <td>
+                            <p:selectOneMenu id="debitAccountId" value="#{txnTypeBean.txnType.debitAccount.accountId}"
+                                             style="width:200px" disabled="#{txnTypeBean.editMode != 'MODIFY'}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeSessionBean.accounts}" var="a" 
+                                               itemLabel="#{a.accountCode}" itemValue="#{a.accountId}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td><h:message for="debitAccountId" /></td>
+                        <td>Credit Account</td>
+                        <td>
+                            <p:selectOneMenu id="creditAccountId" value="#{txnTypeBean.txnType.creditAccount.accountId}"
+                                             style="width:200px" disabled="#{txnTypeBean.editMode != 'MODIFY'}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeSessionBean.accounts}" var="a" 
+                                               itemLabel="#{a.accountCode}" itemValue="#{a.accountId}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td><h:message for="creditAccountId" /></td>
+                    </tr>
+                    <tr>
+                        <td>Category</td>
+                        <td>
+                            <p:selectOneMenu id="txnCategoryCode" value="#{txnTypeBean.txnType.txnCategory.txnCategoryCode}"
+                                             required="true" requiredMessage="" style="width:200px"
+                                             disabled="#{txnTypeBean.editMode != 'MODIFY'}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeApplicationBean.txnCategories}" var="t" 
+                                               itemLabel="#{t.description}" itemValue="#{t.txnCategoryCode}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td><h:message for="txnCategoryCode" /></td>
+                        <td>Status</td>
+                        <td>
+                            <p:selectOneMenu id="status" value="#{txnTypeBean.txnType.status}"
+                                             required="false" requiredMessage="" style="width:200px"
+                                             disabled="#{txnTypeBean.editMode != 'MODIFY'}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.statusList}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td><h:message for="status" /></td>
+                    </tr>
+                    <tr>
+                        <td>Txn Type ID</td>
+                        <td>
+                            <h:inputText id="txnTypeId" value="#{txnTypeBean.txnType.txnTypeId}" 
+                                         readonly="true"/>
+                        </td>
+                        <td><p:message for="txnTypeId" /></td>
+                        <td>Modified by</td>
+                        <td>
+                            <h:inputText id="modifiedBy" value="#{txnTypeBean.txnType.modifiedBy}" 
+                                         readonly="true"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <p:commandButton id="saveButton" value=" Save " action="#{txnTypeBean.saveTxnType}"
+                                             disabled="#{txnTypeBean.editMode != 'MODIFY'}" 
+                                             update=":searchform:dataTable,@form" icon="ui-icon-disk" /> 
+
+                            <p:commandButton id="clearButton" value="Reset" update="@form" icon="ui-icon-arrowrefresh-1-w"
+                                             immediate="true"  action="#{txnTypeBean.clearForm}" /> 
+                        </td>
+                    </tr>
+                </table>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>

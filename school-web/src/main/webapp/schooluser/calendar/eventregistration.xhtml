@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/searchformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                Event Registration
+            </ui:define>
+            <ui:define name="contentPanel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="3">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="25%"> Title </td>
+                            <td>
+                                <p:inputText id="title" value="#{schoolCalendarBean.event.title}" 
+                                             required="true" requiredMessage="" size="45" />
+                            </td>
+                            <td width="25%"><p:message for="description" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top"> Description </td>
+                            <td>
+                                <p:inputTextarea id="description" value="#{schoolCalendarBean.event.description}" 
+                                                 required="true" requiredMessage="" cols="45" rows="6"/>
+                            </td>
+                            <td valign="top"><p:message for="description" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"> Starts </td>
+                            <td>
+                                <p:calendar id="startDate" value="#{schoolCalendarBean.event.startDate}"
+                                            pattern="dd/MM/yyyy HH:mm" required="true" requiredMessage="" navigator="true"/>
+                            </td>
+                            <td><p:message for="startDate" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"> Ends </td>
+                            <td>
+                                <p:calendar id="endDate" value="#{schoolCalendarBean.event.endDate}"
+                                            pattern="dd/MM/yyyy HH:mm" required="true" requiredMessage="" navigator="true"/>
+                            </td>
+                            <td> <p:message for="endDate" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"> Event Category </td>
+                            <td>
+                                <p:selectOneMenu id="eventTypeId" value="#{schoolCalendarBean.event.eventType.eventTypeId}"
+                                                 required="true" requiredMessage="" style="width:200px">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.eventTypeList}" var="e"
+                                                   itemValue="#{e.eventTypeId}" itemLabel="#{e.description}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="eventTypeId" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"> Participant Category </td>
+                            <td>
+                                <p:selectOneMenu id="participantCategoryCode" required="true" requiredMessage="" style="width:200px"
+                                                 value="#{schoolCalendarBean.event.participantCategory.participantCategoryCode}" >
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.participantCategoryList}" var="p"
+                                                   itemValue="#{p.participantCategoryCode}" itemLabel="#{p.description}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="participantCategoryCode" /> </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Status </td>
+                            <td>
+                                <p:selectOneMenu id="status" required="true" requiredMessage="" 
+                                                 value="#{schoolCalendarBean.event.status}" >
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.statusList}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="status" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">ID</td>
+                            <td>
+                                <p:inputText id="eventId" value="#{schoolCalendarBean.event.eventId}" 
+                                             readonly="true" size="10"/>
+                            </td>
+                            <td><p:message for="description" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Last Modified </td>
+                            <td>
+                                <p:inputText id="modifiedTime" value="#{schoolCalendarBean.event.modifiedTime}" 
+                                             readonly="true" >
+                                    <f:convertDateTime />
+                                </p:inputText>
+                            </td>
+                            <td><p:message for="modifiedTime" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"> Modified By </td>
+                            <td>
+                                <p:inputText id="modifiedBy" value="#{schoolCalendarBean.event.modifiedBy}" 
+                                             readonly="true"/>
+                            </td>
+                            <td><p:message for="modifiedBy" /></td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="addButton" value=" Save " icon="ui-icon-disk"
+                                         action="#{schoolCalendarBean.saveEvent}" ajax="false"/>
+
+                        <p:commandButton id="backButton" value=" Back " icon="ui-icon-arrowreturnthick-1-w"
+                                         action="/schooluser/calendar/schoolcalendar" ajax="false"/>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

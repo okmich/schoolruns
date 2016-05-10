@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:form>
+        <p:menu style="width: 100%;">
+            <p:menuitem value=" Home " icon="ui-icon-home"
+                        action="#{studentBean.goHome}" ajax="false" />
+
+            <p:separator />
+            <p:menuitem value=" Ward's Home " icon="ui-icon-search"
+                        action="/parent/student/index" ajax="false" />
+            <p:separator />
+            <p:menuitem value=" Assignments " icon="ui-icon-search"
+                        action="#{studentBean.findAssignmentHistory}" ajax="false" />
+
+            <p:menuitem value=" Attendance " icon="ui-icon-search"
+                        action="#{studentBean.findAttendanceHistory}" ajax="false" />
+
+            <p:menuitem value=" Awards " icon="ui-icon-search"
+                        action="#{studentBean.findAwards}" ajax="false" />
+
+            <p:menuitem value=" Biodata " icon="ui-icon-search"
+                        action="#{studentBean.findBiodata}" ajax="false" />
+
+            <p:menuitem value=" Clubs " icon="ui-icon-search"
+                        action="#{studentBean.findStudentClubs}" ajax="false" />
+
+            <p:menuitem value=" Disciplinary issues " icon="ui-icon-search"
+                        action="#{studentBean.findDisciplinaryIssues}" ajax="false" />
+
+            <p:menuitem value=" Finances " icon="ui-icon-search"
+                        action="#{studentFinanceBean.findStudentPaymentSummary}" ajax="false" />
+
+            <p:menuitem value=" Sports " icon="ui-icon-search"
+                        action="#{studentBean.findSportActivities}" ajax="false" />
+
+            <p:menuitem value=" Term Exams " icon="ui-icon-search"
+                        action="#{studentBean.findTermExamHistory}" ajax="false" />
+            <p:separator />
+            <p:menuitem value=" Duplicate Ward " icon="ui-icon-search"
+                        action="/parent/student/duplicate_merge" ajax="false" />
+            <p:separator />
+
+            <p:menuitem value=" Ward access " icon="ui-icon-search"
+                        action="/parent/student/studentaccess" ajax="false" />
+        </p:menu>
+    </h:form>
+</f:view>

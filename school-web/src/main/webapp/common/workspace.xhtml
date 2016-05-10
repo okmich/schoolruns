@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>#{schoolSessionBean.appTitle}</title>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+        <style type="text/css">
+            <!--
+            #headerTitle {
+                text-align: center;
+                height: 40px;
+                display: table-cell;
+                font-size: xx-large;
+                font-family: Garamond, Georgia, Times New Roman, serif;
+                font-weight: bold;
+                bottom: 13px;
+                cursor: crosshair;
+            }
+
+            #slogan {
+                font-size: small;
+                text-decoration: underline;
+            }
+
+            .styledSelect {
+                border: 0 none;
+                -moz-appearance: none;
+                -webkit-appearance: none;
+                font-size: medium;
+                font-family: "Times New Roman", Times, serif;
+                font-weight: bold;
+            }
+
+            .labl {
+                font-size: small;
+            }
+
+            -->
+        </style>
+    </h:head>
+    <body class="ui-widget-content">
+        <h:form prependId="false">
+            <table width="100%" height="50px">
+                <tr>
+                    <td width="15%">
+                        <p:graphicImage value="#{schoolSessionBean.icon}" height="50px"  title="School Logo"/>
+                    </td>
+                    <td width="60%" align="center">
+                        <div id="headerTitle">
+                            #{schoolSessionBean.appTitle}
+                        </div>
+                        <div id="slogan">
+                            #{schoolSessionBean.schoolSlogan}
+                        </div>
+                    </td>
+                    <td align="right">
+                        <table>
+                            <tr>
+                                <td width="50%" class="labl">Current user</td>
+                                <td class="labl">
+                                    #{userLoginSessionBean.userLogin.username}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="labl">Academic Year</td>
+                                <td>
+                                    <h:selectOneMenu id="year" value="#{schoolSessionBean.schoolCalendarData.schoolYearId}"
+                                                     valueChangeListener="#{schoolSessionBean.changeSchoolYearEvent}"
+                                                     styleClass="styledselect ui-widget" immediate="true" onchange="">
+                                        <f:selectItems value="#{schoolSessionBean.schoolYears}" var="sy"
+                                                       itemValue="#{sy.schoolYearId}" itemLabel="#{sy.academicYear.description}"/>
+                                    </h:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="labl">Term</td>
+                                <td>
+                                    <h:selectOneMenu id="term" value="#{schoolSessionBean.schoolCalendarData.schoolTermId}"
+                                                     valueChangeListener="#{schoolSessionBean.changeSchoolTermEvent}" 
+                                                     styleClass="styledselect  ui-widget" onchange="">
+                                        <f:selectItems value="#{schoolSessionBean.schoolTerms}" var="st"
+                                                       itemValue="#{st.schoolTermId}" itemLabel="#{st.term.description}"/>
+                                    </h:selectOneMenu>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <p:menubar> 
+                <p:submenu label="About" icon="ui-icon-contact">
+                    <p:menuitem value="Profile" url="/common/userprofile.xhtml" icon="ui-icon-clipboard" target="mainframe" />
+                    <p:menuitem value="Password Change" url="/passwordchange.xhtml" icon="ui-icon-refresh" target="mainframe" />
+                    <p:menuitem value="School" url="/schooluser/common/schoolprofile.xhtml" icon="ui-icon-suitcase" target="mainframe" />
+                    <p:menuitem value="Logout" action="#{userLoginBean.performLogout}" icon="ui-icon-power" ajax="false"/>
+                </p:submenu>
+
+                <p:submenu label="Students" icon="ui-icon-person">
+                    <p:menuitem value="Search..." url="/schooluser/student/studentsearch.xhtml" icon="ui-icon-search" target="mainframe" />
+                    <p:separator /> 
+                    <p:menuitem value="New Student" url="/schooluser/student/studentnew.xhtml" icon="ui-icon-circle-document" target="mainframe" />
+                    <p:menuitem value="New Student/Parent" url="/schooluser/student/studentparentnew.xhtml" icon="ui-icon-newwin" target="mainframe" />
+                    <p:menuitem value="Bulk Data Upload" url="/schooluser/student/studentupload.xhtml" icon="ui-icon-cart" target="mainframe" />
+                    <p:separator />
+                    <p:menuitem value="Student Class" url="/schooluser/student/studentclass.xhtml" icon="ui-icon-transfer-e-w" target="mainframe" /> 
+                    <p:menuitem value="Student Subject" url="/schooluser/student/studentsubject.xhtml" icon="ui-icon-transfer-e-w" target="mainframe" />
+                    <p:separator />
+                    <p:menuitem value="Parents" actionListener="#{parentBean.nullifyEditMode}" url="/schooluser/parent/parentsearch.xhtml"
+                                icon="ui-icon-person" target="mainframe" />
+                    <p:separator />
+                    <p:menuitem value="Attendance" url="/schooluser/attendance/studentattendance.xhtml" icon="ui-icon-circle-plus" target="mainframe"/>
+                    <p:separator />
+                    <p:menuitem value="Reports Center" url="#" icon="ui-icon-print" />
+                </p:submenu>
+
+                <p:submenu label="Staff" icon="ui-icon-person">
+                    <p:menuitem value="Search..." url="/schooluser/staff/employeesearch.xhtml" icon="ui-icon-search" target="mainframe" /> 
+                    <p:separator />
+                    <p:menuitem value="New Staff" url="/schooluser/staff/employeenew.xhtml" icon="ui-icon-circle-document" target="mainframe" />
+                    <p:menuitem value="Bulk Data Upload" url="/schooluser/staff/employeeupload.xhtml" icon="ui-icon-cart" target="mainframe" />
+                    <p:separator />
+                    <p:menuitem value="Teacher Class" url="/schooluser/staff/teacherclass.xhtml" icon="ui-icon-transfer-e-w" target="mainframe" />
+                    <p:menuitem value="Teacher Subject" url="/schooluser/staff/teachersubject.xhtml" icon="ui-icon-transfer-e-w" target="mainframe" />
+                    <p:separator />
+                    <p:menuitem value="Attendance" url="/schooluser/attendance/staffattendance.xhtml" icon="ui-icon-circle-plus" target="mainframe"/>
+                    <p:menuitem value="Reports Center" url="#" icon="ui-icon-print" />
+                </p:submenu>
+
+                <p:submenu label="Calendar" icon="ui-icon-calculator">
+                    <p:menuitem value="School Calendar" url="/schooluser/calendar/schoolcalendar.xhtml" icon="ui-icon-document" target="mainframe"/>
+                    <p:menuitem value="Event Registration" url="/schooluser/calendar/eventregistration.xhtml" icon="ui-icon-document-b" target="mainframe"/>
+                    <p:separator />
+                    <p:menuitem value="Class Timetable" url="/schooluser/calendar/classtimetablesearch.xhtml" icon="ui-icon-calculator" target="mainframe"/>
+                </p:submenu>
+
+                <p:submenu label="Exams/Records" icon="ui-icon-bookmark">
+                    <p:menuitem value="New Exam Session" url="/schooluser/exams/exambatchnew.xhtml" icon="ui-icon-document" target="mainframe"  />  
+                    <p:menuitem value="Exam Sessions" url="/schooluser/exams/exambatchsearch.xhtml" icon="ui-icon-search" target="mainframe" />
+                    <p:menuitem value="Exams" url="/schooluser/exams/examsearch.xhtml" icon="ui-icon-bookmark" target="mainframe" />
+                    <p:menuitem value="Class Score Entry" url="/schooluser/exams/classexamsearch.xhtml" icon="ui-icon-script" target="mainframe" />
+                    <p:separator />
+                    <p:menuitem value="New Assignment" url="/schooluser/exams/assignmentnew.xhtml" icon="ui-icon-plusthick" target="mainframe"  /> 
+                    <p:menuitem value="Assignments" url="/schooluser/exams/assignmentsearch.xhtml" icon="ui-icon-suitcase" target="mainframe" />  
+                    <p:separator />
+                    <p:menuitem value="Term Record" url="/schooluser/exams/termexamrecordsearch.xhtml" icon="ui-icon-tag" target="mainframe"  /> 
+                    <p:menuitem value="Term Record Details" url="/schooluser/exams/termexamrecorddetailssearch.xhtml" icon="ui-icon-newwin" target="mainframe" />  
+                    <p:separator />
+                    <p:menuitem value="Report Center" url="/schooluser/exams/report/index.xhtml" icon="ui-icon-print" target="mainframe"/> 
+                </p:submenu>
+
+                <p:submenu label="Settings" icon="ui-icon-gear">  
+                    <p:menuitem value="Preference" url="/schooluser/settings/index.xhtml" icon="ui-icon-wrench" target="mainframe" />
+                </p:submenu>
+
+                <p:submenu label="Notification" icon="ui-icon-comment">
+                    <p:menuitem value="New Message" url="/schooluser/notification/newnotification.xhtml" icon="ui-icon-extlink" target="mainframe"/>  
+                    <p:menuitem value="Search..." url="/schooluser/notification/notificationsearch.xhtml" icon="ui-icon-search" target="mainframe"/>  
+                </p:submenu>
+
+                <p:submenu label="Finance" icon="ui-icon-clipboard">
+                    <p:menuitem value="Receipt" url="/schooluser/finance/receiptsearch.xhtml" icon="ui-icon-cart" target="mainframe"/>
+                    <p:separator />
+                    <p:menuitem value="Fees Record" url="/schooluser/finance/feereceiptsearch.xhtml" icon="ui-icon-suitcase" target="mainframe"/>
+                    <p:separator />
+                    <p:menuitem value="Expenses" url="/schooluser/finance/expensesearch.xhtml" icon="ui-icon-arrowstop-1-w" target="mainframe"/>
+                    <p:menuitem value="Payslip" url="/schooluser/finance/payrollsearch.xhtml" icon="ui-icon-script" target="mainframe"/>
+                    <p:separator />
+                    <p:menuitem value="Acct. Transfer" url="/schooluser/finance/accounttxnfer.xhtml" icon="ui-icon-transferthick-e-w" target="mainframe"/>
+                    <p:menuitem value="Txn Journal" url="/schooluser/finance/txnjournalsearch.xhtml" icon="ui-icon-note" target="mainframe"/>
+                    <p:menuitem value="Journal Details" url="/schooluser/finance/txnjournaldetailssearch.xhtml" icon="ui-icon-note" target="mainframe"/>
+                    <p:separator />
+                    <p:menuitem value="Store" url="/schooluser/finance/storesearch.xhtml" icon="ui-icon-home" target="mainframe"/>
+                    <p:separator />
+                    <p:menuitem value="Asset" url="/schooluser/finance/assetsearch.xhtml" icon="ui-icon-key" target="mainframe"/>
+                    <p:menuitem value="Liability" url="/schooluser/finance/liabilitysearch.xhtml" icon="ui-icon-battery-0" target="mainframe"/>
+                    <p:separator />
+                    <p:menuitem value="Settings" url="/schooluser/finance/settings/index.xhtml" icon="ui-icon-wrench" target="mainframe"/>
+                    <p:separator />
+                    <p:menuitem value="Reports Center" url="/schooluser/finance/reports/index.html" icon="ui-icon-print" target="mainframe"/>
+                </p:submenu>
+
+                <p:submenu label="Media Gallery" icon="ui-icon-star">
+                    <p:menuitem value="Photo Albums" url="/schooluser/media/photoalbumsearch.xhtml" icon="ui-icon-image" target="mainframe"/>
+                    <p:menuitem value="Video Gallery" url="/schooluser/media/videoalbumsearch.xhtml" icon="ui-icon-video" target="mainframe"/>
+                </p:submenu>
+
+                <p:menuitem value="Logout" ajax="false" action="#{userLoginBean.performLogout}" 
+                            icon="ui-icon-power" />
+            </p:menubar>
+            <iframe scrolling="auto" name="mainframe" id="mainframe">
+                <!-- ui:include src="/schooluser/notification/mainboard.xhtml" / -->
+            </iframe>
+        </h:form>
+    </body>
+    <script language="javascript" type="text/javascript">
+        var _fconsole = document.getElementById("mainframe");
+        _fconsole.height = window.innerHeight - 50;
+        _fconsole.width = window.innerWidth - 20;
+    </script>
+</html>

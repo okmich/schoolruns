@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans.xsd
+                    http://www.springframework.org/schema/context
+                    http://www.springframework.org/schema/context/spring-context.xsd
+                    http://www.springframework.org/schema/tx
+                    http://www.springframework.org/schema/tx/spring-tx.xsd
+                    http://www.springframework.org/schema/data/jpa
+                    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+
+    <context:component-scan base-package="com.okmich.schoolruns.common.entity" />
+    <jpa:repositories base-package="com.okmich.common.entity.repo" 
+                      factory-class="com.okmich.common.entity.repo.BaseRepositoryFactoryBean"  />
+    <tx:annotation-driven />
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan" value="com.okmich.schoolruns.common.entity" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="database" value="MYSQL" />
+                <property name="generateDdl" value="false" />
+                <property name="showSql" value="false" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="postProcessor" class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+    <!-- hibernate exception translator -->
+    <bean class="org.springframework.orm.hibernate4.HibernateExceptionTranslator"/>
+    <!-- ######################### DATASOURCE BEANS ######################## -->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/schoolruns" />
+        <property name="username" value="root" />
+        <property name="password" value="password" />
+    </bean>
+    
+    <bean id="dataConfigPropertyConfigurer" 
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="searchSystemEnvironment" value="true" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+    </bean>
+    
+    <!-- bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://${OPENSHIFT_MYSQL_DB_HOST}:${OPENSHIFT_MYSQL_DB_PORT}/${OPENSHIFT_APP_NAME}" />
+        <property name="username" value="${OPENSHIFT_MYSQL_DB_USERNAME}" />
+        <property name="password" value="${OPENSHIFT_MYSQL_DB_PASSWORD}" />
+    </bean -->
+</beans>

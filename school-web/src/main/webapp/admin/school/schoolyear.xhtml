@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                School Academic Year
+            </ui:define>
+            <ui:define name="menu_panel">
+                <ui:include src="/admin/school/relatedtaskmenu.xhtml" />
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form prependId="false" id="searchform"> 
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <table width="100%">
+                        <tr>
+                            <td class="highlight">
+                                School: #{sessionBean.school.name}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:dataTable scrollHeight="200" id="dataTable" var="row"
+                                             value="#{schoolBean.schoolCalendarModel}" rowKey="#{row.schoolYearId}"
+                                             selection="#{schoolBean.schoolCalendarData}" selectionMode="single">
+                                    <p:column> 
+                                        <f:facet name="header">
+                                            <h:outputText value="ID" />
+                                        </f:facet> 
+                                        #{row.schoolYearId}  
+                                    </p:column>  
+                                    <p:column> 
+                                        <f:facet name="header">
+                                            <h:outputText value="Year ID" />
+                                        </f:facet> 
+                                        #{row.yearId}  
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Description" />
+                                        </f:facet>   
+                                        #{row.academicYear}
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Start Date" />
+                                        </f:facet>
+                                        <h:outputText value="#{row.yearStartDate}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Closing Date" />
+                                        </f:facet>
+                                        <h:outputText value="#{row.yearClosingDate}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="In force??" />
+                                        </f:facet>
+                                        #{row.currentYear}
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Status" />
+                                        </f:facet>   
+                                        #{row.status}  
+                                    </p:column> 
+                                    <p:column width="100">
+                                        <f:facet name="header">
+                                            <h:outputText value="Last Modified" />
+                                        </f:facet>   
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Modified By" />
+                                        </f:facet>   
+                                        #{row.modifiedBy}  
+                                    </p:column> 
+                                </p:dataTable>  
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="newButton" icon="ui-icon-pencil" value="New Year"
+                                         action="#{schoolBean.prepareSchoolYearForModify}" 
+                                         update=":detailsform">
+                            <f:setPropertyActionListener target="#{schoolBean.editMode}" value="CREATE"/>
+                        </p:commandButton>
+
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil" value="Update"
+                                         action="#{schoolBean.prepareSchoolYearForModify}" 
+                                         update=":detailsform"/>
+
+                        <p:commandButton id="doneButton" value="Done" immediate="true"
+                                         action="/admin/school/schooldetails" ajax="false" /> 
+                    </div>
+                </h:form>
+                <h:form prependId="false" id="detailsform">
+                    <p:panel header="Details" id="detailsPanel">
+                        <table width="100%">
+                            <tr>
+                                <td colspan="6">
+                                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    <p:outputLabel value="Year" for="yearId" />
+                                </td>
+                                <td>
+                                    <p:selectOneMenu id="yearId" value="#{schoolBean.schoolCalendarData.yearId}"
+                                                     required="true" requiredMessage="" style="width:200px"
+                                                     disabled="#{schoolBean.editMode != 'MODIFY'}">
+                                        <f:selectItem itemValue="" itemLabel="----------------------" />
+                                        <f:selectItems value="#{applicationListBean.academicYearList}" var="y"
+                                                       itemValue="#{y.yearId}" itemLabel="#{y.description}"/>
+                                    </p:selectOneMenu>
+                                </td>
+                                <td><h:message for="yearId" /></td>
+                                <td align="right">Is Current Period</td>
+                                <td>
+                                    <p:selectBooleanCheckbox id="currentYear" disabled="#{schoolBean.editMode != 'MODIFY'}"
+                                                             value="#{schoolBean.schoolCalendarData.currentYear}"/>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><p:outputLabel value="Start Date" for="startDate" /></td>
+                                <td>
+                                    <p:calendar id="startDate" value="#{schoolBean.schoolCalendarData.yearStartDate}" mindate="1/1/1890"
+                                                pattern="dd/MM/yyyy" required="true" requiredMessage="" navigator="true"
+                                                disabled="#{schoolBean.editMode != 'MODIFY'}"/>
+                                </td>
+                                <td><p:message for="startDate" /></td>
+                                <td align="right"><p:outputLabel value="Closing Date" for="closingDate" /></td>
+                                <td>
+                                    <p:calendar id="closingDate" value="#{schoolBean.schoolCalendarData.yearClosingDate}" mindate="1/1/1890"
+                                                pattern="dd/MM/yyyy" required="true" requiredMessage="" navigator="true"
+                                                disabled="#{schoolBean.editMode != 'MODIFY'}"/>
+                                </td>
+                                <td><p:message for="closingDate" /></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><p:outputLabel value="First Term Ends" for="tClosingDate" /></td>
+                                <td>
+                                    <p:calendar id="tClosingDate" value="#{schoolBean.schoolCalendarData.termClosingDate}"
+                                                mindate="1/1/1890" pattern="dd/MM/yyyy" required="true" 
+                                                requiredMessage="" navigator="true" />
+                                </td>
+                                <td>
+                                </td>
+                                <td align="right">Status</td>
+                                <td>
+                                    <p:selectOneMenu id="status" value="#{schoolBean.schoolCalendarData.status}"
+                                                     required="true" requiredMessage="" style="width:150px"
+                                                     disabled="#{schoolBean.editMode != 'MODIFY'}">
+                                        <f:selectItem itemValue="" itemLabel="----------------------" />
+                                        <f:selectItems value="#{applicationListBean.statusList}" />
+                                    </p:selectOneMenu>
+                                </td>
+                                <td><h:message for="status" /></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="5">
+                                    <p:commandButton id="createButton" value="Save" disabled="#{schoolBean.editMode != 'CREATE'}"
+                                                     action="#{schoolBean.saveSchoolYearAndTerm}" update=":searchform:dataTable,@form" /> 
+
+                                    <p:commandButton id="saveButton" value="Save" disabled="#{schoolBean.editMode != 'MODIFY'}"
+                                                     action="#{schoolBean.saveSchoolYear}" update=":searchform:dataTable,@form" /> 
+
+                                    <p:commandButton id="clearButton" value="Reset" update="detailsPanel,@form"
+                                                     immediate="true"  action="#{schoolBean.clearSchoolYearForm}" /> 
+                                </td>
+                            </tr>
+                        </table>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

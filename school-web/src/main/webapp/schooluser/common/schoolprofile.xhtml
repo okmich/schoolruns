@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+
+            </ui:define>
+            <ui:define name="panelTitle">
+                About #{schoolSessionBean.school.name}
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="2" align="center">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="20%">Name</td>
+                            <td>
+                                <h:outputText id="name" value="#{schoolSessionBean.school.name}" 
+                                              styleClass="highlight"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top">Address</td>
+                            <td>
+                                <okrol:address address="#{schoolSessionBean.school.address}" viewMode="true"
+                                               streetFieldSize = "40"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Email</td>
+                            <td valign="top">
+                                <h:outputText id="emailAddress" value="#{schoolSessionBean.school.emailAddress}" 
+                                              styleClass="highlight"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Contact Number</td>
+                            <td valign="top">
+                                <h:outputText id="contactNo" value="#{schoolSessionBean.school.contactNo}"
+                                              styleClass="highlight"/>
+                            </td>
+                            <td><p:message for="contactNo" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Fax Number</td>
+                            <td valign="top">
+                                <h:outputText id="faxNo" value="#{schoolSessionBean.school.faxNo}"
+                                              styleClass="highlight"/>
+                            </td>
+                            <td><p:message for="faxNo" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Web site</td>
+                            <td valign="top">
+                                <h:outputText id="webSite" value="#{schoolSessionBean.school.webSite}" 
+                                              styleClass="highlight"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Date Founded</td>
+                            <td valign="top">
+                                <h:outputText id="startDate" value="#{schoolSessionBean.school.startedDate}" 
+                                              styleClass="highlight">
+                                    <f:convertDateTime dateStyle="medium" />
+                                </h:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">National Affiliation</td>
+                            <td valign="top">
+                                <p:selectOneMenu id="countryCode" value="#{schoolSessionBean.school.country.countryCode}"
+                                                 style="width:200px" disabled="true">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.countryList}" var="c" 
+                                                   itemLabel="#{c.description}" itemValue="#{c.countryCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Slogan</td>
+                            <td valign="top">
+                                <h:outputText id="slogan" value="#{schoolSessionBean.school.slogan}" 
+                                              styleClass="highlight"/>
+                            </td>
+                            <td><p:message for="slogan" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top">Facilities</td>
+                            <td valign="top">
+                                <div style="height: 200px;overflow: scroll">
+                                    <p:selectManyCheckbox value="#{schoolSessionBean.facilities}" layout="pageDirection"
+                                                          id="schoolFacilityList" style="width:200px;height:50px">
+                                        <f:selectItems value="#{applicationListBean.facilityList}" var="f"
+                                                       itemLabel="#{f.description}" itemValue="#{f.facilityId}" />
+                                    </p:selectManyCheckbox>
+                                </div>
+                            </td>
+                            <td> </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body class="ui-widget-content">
+        <div style="margin: auto;min-width: 860px;">
+            <h:form>
+                <table style="width: 100%">
+                    <tr>
+                        <td width="50%" valign="top">
+                            <p:panel header="School Calendar Settings">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/schooluser/settings/schoolterm" value="Calendar Term" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/settings/holiday" value="Holiday" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/settings/classperiod" value="Teaching Period (Timetable)" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                        <td valign="top">
+                            <p:panel header="School Settings">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/schooluser/settings/classroom" value="Classrooms" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/settings/schoolclasses">
+                                            <h:outputText value ="Classes" />
+                                        </h:commandLink>
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/settings/schoolsubject" value="Subjects" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/settings/schoolsection" value="Sections" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <p:panel header="Other Settings">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/schooluser/settings/club" value="Clubs" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                        <td valign="top">
+                            <p:panel header="Bulk operation sample excel sheet templates">
+                                <ul>
+                                    <li>
+                                        <a href="../../templates/sample_excel_sheets/sample_upload_file_format_staff.xlsx"> Employees</a>
+                                    </li>
+                                    <li>
+                                        <a href="../../templates/sample_excel_sheets/sample_upload_file_format_parents.xlsx">Parents</a>
+                                    </li>
+                                    <li>
+                                        <a href="../../templates/sample_excel_sheets/sample_upload_file_format_students.xlsx">Students</a>
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </div>
+    </h:body>
+</f:view>

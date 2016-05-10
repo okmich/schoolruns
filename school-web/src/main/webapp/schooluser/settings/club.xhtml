@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div style="margin: auto;min-width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="School Club(s)">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                <p:dataTable scrollable="true" scrollHeight="200" id="dataTable" var="row"
+                                             value="#{clubBean.clubModel}" rowKey="#{row.clubId}"
+                                             selection="#{clubBean.club}" selectionMode="single">
+                                    <p:column> 
+                                        <f:facet name="header">
+                                            <h:outputText value="ID" />
+                                        </f:facet> 
+                                        #{row.clubId}  
+                                    </p:column>
+                                    <p:column> 
+                                        <f:facet name="header">
+                                            <h:outputText value="Club Type" />
+                                        </f:facet> 
+                                        #{row.clubType.description}  
+                                    </p:column>
+                                    <p:column> 
+                                        <f:facet name="header">
+                                            <h:outputText value="Date Started" />
+                                        </f:facet>
+                                        <h:outputText value="#{row.dateStarted}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Club Adviser" />
+                                        </f:facet> 
+                                        #{row.employee.surname}  
+                                        #{row.employee.othernames}
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Status" />
+                                        </f:facet>   
+                                        #{row.status}  
+                                    </p:column> 
+                                    <p:column width="100">
+                                        <f:facet name="header">
+                                            <h:outputText value="Last Modified" />
+                                        </f:facet>   
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Modified By" />
+                                        </f:facet>   
+                                        #{row.modifiedBy}  
+                                    </p:column> 
+                                </p:dataTable>  
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil" value="Update"
+                                         action="#{clubBean.prepareForModify}" 
+                                         update=":detailsform:detailsPanel"/>
+
+                        <p:commandButton id="doneButton" value="Done" immediate="true"
+                                         action="/schooluser/settings/index" ajax="false" /> 
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="6">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                Club Type
+                            </td>
+                            <td>
+                                <p:selectOneMenu id="clubTypeId" value="#{clubBean.club.clubType.clubTypeId}"
+                                                 required="true" requiredMessage="" style="width:200px"
+                                                 disabled="#{clubBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.clubTypeList}" var="c"
+                                                   itemValue="#{c.clubTypeId}" itemLabel="#{c.description}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><h:message for="clubTypeId" /></td>
+                            <td align="right">Date Started</td>
+                            <td>
+                                <p:calendar id="dateStarted" value="#{clubBean.club.dateStarted}" mindate="1/1/1950"
+                                            pattern="dd/MM/yyyy" required="true" requiredMessage="" 
+                                            navigator="true" disabled="#{clubBean.editMode != 'MODIFY'}"/>
+                            </td>
+                            <td><p:message for="dateStarted" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Club Adviser</td>
+                            <td>
+                                <p:selectOneMenu id="employeeId" value="#{clubBean.club.employee.employeeId}"
+                                                 style="width:200px"
+                                                 disabled="#{clubBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{schoolSessionBean.employees}" var="e"
+                                                   itemValue="#{e.employeeId}" itemLabel="#{e.surname} #{e.othernames}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="employeeId" /></td>
+                            <td align="right"></td>
+                            <td>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Club Id</td>
+                            <td>
+                                <p:inputText id="clubId" value="#{clubBean.club.clubId}" 
+                                             readonly="true"/>
+                            </td>
+                            <td><p:message for="clubId" /></td>
+                            <td align="right">Status</td>
+                            <td>
+                                <p:selectOneMenu id="status" value="#{clubBean.club.status}"
+                                                 required="true" requiredMessage="" style="width:150px"
+                                                 disabled="#{clubBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.statusList}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="status" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Last Modified at</td>
+                            <td>
+                                <p:inputText id="modifiedTime" value="#{clubBean.club.modifiedTime}" 
+                                             readonly="true">
+                                    <f:convertDateTime />
+                                </p:inputText>
+                            </td>
+                            <td><h:message for="modifiedTime" /></td>
+                            <td align="right">Last Modified By</td>
+                            <td>
+                                <p:inputText id="modifiedBy" value="#{clubBean.club.modifiedBy}" 
+                                             readonly="true" />
+                            </td>
+                            <td><h:message for="modifiedBy" /></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="5">
+                                <p:commandButton id="saveButton" value="Save" disabled="#{clubBean.editMode != 'MODIFY'}"
+                                                 action="#{clubBean.saveSchoolClub}" update=":searchform:dataTable,@form" /> 
+
+                                <p:commandButton id="clearButton" value="Reset" update="detailsPanel,@form"
+                                                 immediate="true"  action="#{clubBean.clearForm}" /> 
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

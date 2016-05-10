@@ -1,0 +1,1 @@
+You've been confirmed as guardian of ${student} on our system. Begin to view his/her school details on our SchoolRuns.com portal. Thanks you

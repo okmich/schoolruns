@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Employees' Payroll
+        </ui:define>
+        <ui:define name="menu_panel">
+            <p:menu style="width: 190px">
+                <p:menuitem id="summaryButton" value="Payroll Summary " icon="ui-icon-clipboard"
+                            action="/schooluser/finance/payrolldetails" ajax="false"
+                            rendered="#{financeSessionBean.payroll.status == 'A'}"/>
+
+                <p:menuitem id="approveButton" value=" Approve " icon="ui-icon-circle-check"
+                            action="#{payrollBean.approvePayroll}" ajax="false"
+                            rendered="#{financeSessionBean.payroll.status == 'I'}"/>
+
+                <p:menuitem id="rejectButton" value=" Reject " icon="ui-icon-circle-close"
+                            action="#{payrollBean.approvePayroll}" ajax="false"
+                            rendered="#{financeSessionBean.payroll.status == 'I'}"/>
+            </p:menu>
+        </ui:define>
+        <ui:define name="panelTitle">
+            <h:outputText value="Employee Pay Schedule - #{financeSessionBean.payroll.payrollId})"/>
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td align="center">
+                            <p:messages id="messages" rendered="true" globalOnly="true" 
+                                        showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <p:dataTable id="dataTab" var="row" value="#{financeSessionBean.employeePayrollModel}"
+                                         selection="#{payrollBean.employeePayroll}" rowKey="#{row.employeePayrollId}"
+                                         selectionMode="single" style="overflow: scroll;width: 100%;height: 400px">
+                                <p:column headerText="ID">
+                                    <h:outputText value="#{row.employeePayrollId}"/>
+                                </p:column>
+                                <p:column headerText="Employee">
+                                    <h:outputText value="#{row.employeeName}"/>
+                                </p:column>
+                                <p:column headerText="Period">
+                                    <h:outputText value="#{row.payPeriod}"/>
+                                </p:column>
+                                <p:column headerText="Gross Pay">
+                                    <h:outputText value="#{row.gross}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Tax">
+                                    <h:outputText value="#{row.tax}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Net Pay">
+                                    <h:outputText value="#{row.net}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Scheme">
+                                    <h:outputText value="#{row.payStructure.title}"/>
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    #{row.modifiedBy}
+                                </p:column>
+                                <p:column headerText="Lasted Modified">
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel"> 
+                    <p:commandButton id="viewButton" value=" View " icon="ui-icon-zoomin"
+                                     action="#{payrollBean.findEmployeePayroll}" ajax="false"/>
+
+                    <p:commandButton id="doneButton" value=" Done " icon="ui-icon-check"  ajax="false"
+                                     action="#{payrollBean.backToPayrollHome}" immediate="true"/>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

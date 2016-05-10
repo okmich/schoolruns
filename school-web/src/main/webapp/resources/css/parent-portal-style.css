@@ -1,0 +1,125 @@
+/* 
+    Document   : parent-portal-style
+    Created on : Aug 10, 2013, 1:42:58 PM
+    Author     : Michael
+    Description:
+        Purpose of the stylesheet follows.
+*/
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+#headbanner {
+    height: 70px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-style: normal;
+    background-repeat: no-repeat;
+}
+
+/* ~~ Element/tag selectors ~~ */
+ul, ol, dl {
+    padding: 0;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin-top: 0;
+    padding-right: 15px;
+    padding-left: 15px; 
+}
+
+a img { /* this selector removes the default blue border displayed in some browsers around an image when it is surrounded by a link */
+    border: none;
+}
+
+/* ~~ Styling for your site's links must remain in this order - including the group of selectors that create the hover effect. ~~ */
+a:link {
+    color:#414958;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #4E5869;
+    text-decoration: underline;
+}
+
+a:hover, a:active, a:focus {
+    text-decoration: none;
+}
+
+/* ~~ this container surrounds all other divs giving them their percentage-based width ~~ */
+#container {
+    width: 100%;
+    /*max-width: 1260px;/* a max-width may be desirable to keep this layout from getting too wide on a large monitor. This keeps line 	length more readable. IE6 does not respect this declaration. */
+    min-width: 600px;/* a min-width may be desirable to keep this layout from getting too narrow. This keeps line length more 									readable in the side columns. IE6 does not respect this declaration. */
+    overflow: hidden; /* this declaration makes the .container clear all floated columns within it. */
+}
+
+#sidebar1 {
+    float: left;
+    width: 20%;
+    padding-bottom: 10px;
+    min-height: 200px;
+}
+
+#content {
+    width: 80%;
+    float: left;
+}
+
+#footer {
+    clear: both;
+    padding: 5px 25px;
+    border-radius: 25px;
+    text-align : center;
+    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    min-width: 600px;
+    font: 14px PTSansItalic;
+}
+
+#footer a {
+    text-decoration: none;
+}
+
+#navdiv {
+    background-color: #D3E3FA;
+    height: 25px;
+    color: #000;
+    text-align: right;
+    vertical-align: middle;
+}
+
+#navdiv div {
+    padding: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 60px;
+}
+
+#navdiv div a, #navdiv div a:visited {
+    padding: 0px 5px 5px 5px;
+    width: 160px;
+    text-decoration: none;
+}
+
+#navdiv div a:active, #navdiv div a:hover, #navdiv div a:focus {
+    background-color: #BED6F8;
+    color: #FFF;
+}
+
+.ui-widget {
+    font-size: 12px !important;
+}
+
+.sidemenu_class {
+    width: 100%;
+    min-width: 190px;
+}
+
+.evenRow {
+    background-color: #DDD;
+}

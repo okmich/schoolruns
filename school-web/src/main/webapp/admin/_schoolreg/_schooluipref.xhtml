@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+
+            </ui:define>
+            <ui:define name="panelTitle">
+                School Preference Settings
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form enctype="multipart/form-data">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="4" align="center">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                            id="messageBoard"/>
+                                <h:inputHidden value="#{schoolRegBean.schoolPref.schoolId}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="20%">Name</td>
+                            <td colspan="3">
+                                <p:outputLabel value="#{sessionBean.school.name}"/>
+                            </td>                         
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top">School Logo</td>
+                            <td width="30%">
+                                <p:fileUpload id="filelogo" value="#{schoolRegBean.logoFile}" mode="simple"
+                                              allowTypes="/(\.|\/)(jpe?g)$/" invalidFileMessage="invalid file. Use jpeg files only"
+                                              sizeLimit="512000" invalidSizeMessage="invalid file size. Must be less than 512kb"/>
+                            </td>
+                            <td align="right" width="20%">Page theme</td>
+                            <td>
+                                <p:themeSwitcher style="width:165px" id="defaultSwitcher" value="#{schoolRegBean.schoolPref.webpageTheme}"
+                                                 required="true" requiredMessage="required" disabled="#{sessionBean.editMode == 'VIEW'}">  
+                                    <f:selectItem itemLabel="Choose Theme" itemValue="" />  
+                                    <f:selectItems value="#{schoolRegBean.availableThemes}" />  
+                                </p:themeSwitcher> 			
+                                <br />
+                                <p:message for="defaultSwitcher" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="underline" colspan="4">Reg. Number generation policy</td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td colspan="3">
+                                <p:selectBooleanCheckbox value="#{schoolRegBean.schoolPref.systemGenStaffRegNo}" 
+                                                         disabled="#{sessionBean.editMode == 'VIEW'}" /> 
+                                System-generated Staff Registration Number (format is YYYY/9999)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td colspan="3">
+                                <p:selectBooleanCheckbox value="#{schoolRegBean.schoolPref.systemGenStudentRegNo}" 
+                                                         disabled="#{sessionBean.editMode == 'VIEW'}" /> 
+                                System-generated Student Registration Number (format is YYYY/9999)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="underline" colspan="4">In-term test/assignment/quizes preference</td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td colspan="3">
+                                <p:selectBooleanCheckbox value="#{schoolRegBean.schoolPref.quizContAssessment}" 
+                                                         disabled="#{sessionBean.editMode == 'VIEW'}" /> 
+                                Quizes/tests/assignments comprise students continous assessment
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Term score weight</td>
+                            <td>
+                                <p:inputText value="#{schoolRegBean.schoolPref.finalQuizWeight}" id="finalQuizWeight"
+                                             required="" requiredMessage="" size="10">
+                                    <f:convertNumber pattern="#0.00" />
+                                </p:inputText> %
+                            </td>
+                            <td align="right">Exam Max Score </td>
+                            <td>
+                                <p:inputText value="#{schoolRegBean.schoolPref.subMaxScore}" id="subMaxScore"
+                                             required="" requiredMessage="" size="10" validatorMessage="" >
+                                    <f:convertNumber pattern="#0.00" />
+                                    <f:validateLongRange minimum="0" maximum="100" />
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="underline" colspan="4">Calendar/Time setting</td>
+                        </tr>
+                        <tr>
+                            <td align="right"><h:outputLabel for="availDays" value="Days of Classes" /></td>
+                            <td>
+                                <p:selectOneMenu id="availDays" value="#{schoolRegBean.schoolPref.availDays}"
+                                                 style="width:170px" disabled="#{sessionBean.editMode == 'VIEW'}"
+                                                 required="true" requiredMessage="">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.staticListMap['AVAIL_DAY_TYPE']}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right"><h:outputLabel for="staffAvailDays" value="Days for Staff" /></td>
+                            <td>
+                                <p:selectOneMenu id="staffAvailDays" value="#{schoolRegBean.schoolPref.staffAvailDays}"
+                                                 style="width:170px" disabled="#{sessionBean.editMode == 'VIEW'}"
+                                                 required="true" requiredMessage="">
+                                    <f:selectItem itemLabel="Select One"/>
+                                    <f:selectItems value="#{applicationListBean.staticListMap['AVAIL_DAY_TYPE']}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><h:outputLabel for="classStart" value="Daily Class starts" /></td>
+                            <td>
+                                <p:calendar id="classStart" value="#{schoolRegBean.schoolPref.classStart}" timeOnly="true"
+                                            pattern="hh:mm a" required="true" requiredMessage=""  minHour="6" maxHour="19"
+                                            readonly="#{sessionBean.editMode == 'VIEW'}"/>
+                            </td>
+                            <td align="right"><h:outputLabel for="classEnd" value="Daily Class ends" /></td>
+                            <td>
+                                <p:calendar id="classEnd" value="#{schoolRegBean.schoolPref.classEnd}" timeOnly="true"
+                                            pattern="hh:mm a" required="true" requiredMessage=""  minHour="6" maxHour="19"
+                                            readonly="#{sessionBean.editMode == 'VIEW'}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="underline" colspan="4">Timetable preference</td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td colspan="3">
+                                <p:selectBooleanCheckbox value="#{schoolRegBean.schoolPref.ttableContainTeacher}" 
+                                                         disabled="#{sessionBean.editMode == 'VIEW'}" /> 
+                                Class Timetable should contain Class teachers
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td colspan="3">
+                                <p:selectBooleanCheckbox value="#{schoolRegBean.schoolPref.ttableContainClassroom}" 
+                                                         disabled="#{sessionBean.editMode == 'VIEW'}" /> 
+                                Class Timetable should contain Classroom labels
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td colspan="3">
+                                <p:selectBooleanCheckbox value="#{schoolRegBean.schoolPref.ttableResolveSubTeacher}" 
+                                                         disabled="#{sessionBean.editMode == 'VIEW'}" /> 
+                                Resolve teacher-subject assignments on timetable
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="underline" colspan="4">Finance preference</td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td>
+                                <p:selectBooleanCheckbox value="#{schoolRegBean.schoolPref.taxationEnabled}"/> 
+                                Taxation Enabled on Payslip
+                            </td>
+                            <td align="right"><h:outputLabel for="taxRate" value="Tax Rate(%)" /></td>
+                            <td>
+                                <p:inputText value="#{schoolRegBean.schoolPref.taxRate}" id="taxRate"
+                                             size="10" validatorMessage="" >
+                                    <f:convertNumber pattern="#0.00" />
+                                    <f:validateLongRange minimum="0" maximum="100" />
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="underline" colspan="4">Media preference</td>
+                        </tr>
+                        <tr>
+                            <td align="right">Google Username</td>
+                            <td>
+                                <p:inputText value="#{schoolRegBean.schoolPref.googleUsername}"/>
+                            </td>
+                            <td align="right">Google password</td>
+                            <td>
+                                <p:inputText value="#{schoolRegBean.schoolPref.googlePassword}"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="saveButton" value="Next >>" icon="ui-icon-search"
+                                         action="#{schoolRegBean.saveSchoolPref}" ajax="false"/>
+
+                        <p:commandButton id="skipButton" value=" Skip >> " icon="ui-icon-circle-arrow-e"
+                                         action="/admin/_schoolreg/_schoolmodule" ajax="false" immediate="true"/>
+
+                        <p:commandButton id="finishButton" value="Finish" icon="ui-icon-search"
+                                         action="#{schoolRegBean.finish}" ajax="false"/>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

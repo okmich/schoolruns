@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div style="margin: auto;width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="Exam Types">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <p:dataTable value="#{examTypeBean.examTypeModel}" var="row" 
+                                 rowKey="#{row.examTypeCode}"  selection="#{examTypeBean.examType}" 
+                                 selectionMode="single" id="dataTable">
+                        <p:column headerText="Code"> 
+                            #{row.examTypeCode}
+                        </p:column> 
+                        <p:column headerText="Country Name">
+                            #{row.description} 
+                        </p:column>
+                    </p:dataTable>  
+                    <br />
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="newButton" value="New" icon="ui-icon-document" 
+                                         action="#{examTypeBean.prepareForCreate}" update=":detailsform:detailsPanel"  />
+
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil"
+                                         action="#{examTypeBean.prepareForModify}" update=":detailsform:detailsPanel" />
+
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/admin/settings/index" />   
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <h:panelGrid columns="3">
+                        <h:outputText value="Code" />
+                        <p:inputText id="examTypeCode" value="#{examTypeBean.examType.examTypeCode}"
+                                     required="true" requiredMessage="required"
+                                     readonly="#{examTypeBean.editMode != 'CREATE'}"/>
+                        <p:message for="examTypeCode" />
+                        <h:outputText value="Description" />
+                        <h:inputText id="description" value="#{examTypeBean.examType.description}"
+                                     required="true" requiredMessage="required"/>
+                        <h:message for="description" />
+                        <h:outputText value="" />
+                        <h:panelGroup>
+                            <p:commandButton id="saveButton" value="Save" 
+                                             action="#{examTypeBean.saveExamType}" update=":searchform:dataTable" /> 
+
+                            <p:commandButton id="clearButton" value="Reset" update="detailsPanel"
+                                             immediate="true"  action="#{examTypeBean.clearForm}" /> 
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

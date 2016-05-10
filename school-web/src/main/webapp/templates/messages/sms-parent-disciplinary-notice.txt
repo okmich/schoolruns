@@ -1,0 +1,3 @@
+A disciplinary case has been raised for ${student}. 
+Title: ${title}
+Severity: ${severity}

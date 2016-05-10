@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/parentportalstyle.xhtml">
+        <ui:define name="menupanel">
+            <h:form>
+                <p:menu style="width: 100%">
+                    <p:menuitem value=" Ward's Home " icon="ui-icon-home"
+                                action="/parent/student/index" ajax="false" />
+                    <p:separator />
+                    <p:menuitem value=" Finance Home " icon="ui-icon-search"
+                                action="#{studentFinanceBean.findStudentPaymentSummary}" ajax="false" />
+                </p:menu>
+            </h:form>
+        </ui:define>
+        <ui:define name="paneltitle">
+            Student's Fee Payment History
+        </ui:define>
+        <ui:define name="contentpanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td align="center">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:dataTable id="studentFinTab" var="row" styleClass="ui-datatable" style="width:100%"
+                                         value="#{studentBean.studentFinanceModel}">
+                                <p:column>
+                                    <f:facet name="header" class="ui-datatable-header">Academic year</f:facet>
+                                    #{row.academic_year}
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Term</f:facet>
+                                    #{row.term}
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Receipt Number</f:facet>
+                                    #{row.receipt_number}
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Utilized Amount</f:facet>
+                                    <h:outputText value="#{row.amount}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Receipt Amount</f:facet>
+                                    <h:outputText value="#{row.receipt_amount}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Fee</f:facet>
+                                    #{row.fee_type}
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Txn Date</f:facet>
+                                    <h:outputText value="#{row.txn_date}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Mode</f:facet>
+                                    #{row.payment_mode}
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header"></f:facet>
+                                    <h:commandLink action="#{studentFinanceBean.findFeePaymentDetails}"
+                                                   value="details" >
+                                        <f:param name="feeReceiptId" value=""/>
+                                    </h:commandLink>
+                                </p:column>
+                            </h:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <p:panel header="Detail" id="detailsPanel">
+                    <table width="100%">
+                        <tr>
+                            <td align="right">
+                                <p:outputLabel value="Student" for="schoolStudentId" />
+                            </td>
+                            <td>
+                                <h:inputText id="schoolStudentId" size="30"
+                                             value="#{studentFinanceBean.feeReceipt.schoolStudent.student.fullname}"
+                                             readonly="true" />
+                            </td>
+                            <td align="right"><p:outputLabel value="Fee Type" for="feeGroupId" /></td>
+                            <td>
+                                <h:inputText id="feeGroupId"
+                                             value="#{studentFinanceBean.feeReceipt.feeGroup.description}"
+                                             readonly="true" size="30"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <p:outputLabel value="Amount" for="amount" />
+                            </td>
+                            <td>
+                                <h:inputText id="amount" value="#{studentFinanceBean.feeReceipt.amount}" 
+                                             required="true" requiredMessage="" readonly="true">
+                                    <f:convertNumber pattern="#,##0.00"/>
+                                </h:inputText>
+                            </td>
+                            <td align="right"><p:outputLabel value="Narration" for="narration" /></td>
+                            <td>
+                                <h:inputText id="narration" value="#{studentFinanceBean.feeReceipt.narration}" 
+                                             required="true" readonly="true"
+                                             requiredMessage="" size="40" maxlength="70" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">ID</td>
+                            <td>
+                                <h:inputText id="feeReceiptId" value="#{studentFinanceBean.feeReceipt.feeReceiptId}"
+                                             readonly="true"/>
+                            </td>
+                            <td align="right">Status</td>
+                            <td>
+                                <h:inputText id="status" value="#{studentFinanceBean.feeReceipt.status}"
+                                             readonly="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Modified By</td>
+                            <td>
+                                <h:inputText id="modifiedBy" value="#{studentFinanceBean.feeReceipt.modifiedBy}"
+                                             readonly="true"/>
+                            </td>
+                            <td align="right">Last Modified</td>
+                            <td>
+                                <h:inputText id="modifiedTime" value="#{studentFinanceBean.feeReceipt.modifiedTime}"
+                                             readonly="true">
+                                    <f:convertDateTime />
+                                </h:inputText>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

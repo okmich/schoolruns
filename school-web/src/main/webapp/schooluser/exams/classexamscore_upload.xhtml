@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Class Exam Scores Data upload
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form enctype="multipart/form-data">
+                <table width="100%">
+                    <tr>
+                        <td valign="top">
+                            <p:panel style="float:right;width:220pt;" header="NOTICE">
+                                Read the following instruction to ensure you smooth use of the data upload feature on this page.
+                                <ul>
+                                    <li> the import file must be saved as an *.xls file type</li>
+                                    <li> the file must not be larger than 4mb in size</li>
+                                    <li> the structure of data import must follow a strict set described by the file downloaded using the class exam score download feature.</li>
+                                    <li> Users should not try to formulate the exam score by hand but by first downloading the class exam.</li>
+                                </ul>
+                            </p:panel>
+                            <table width="360pt" style="float:left;">
+                                <tr>
+                                    <td colspan="2">Read the instruction to the right to how best to use the data upload facility</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                                    id="messageBoard"/>
+                                        <p:message for="filelogo" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><br /> </td>
+                                </tr>
+                                <tr>
+                                    <td align="right" valign="top">File</td>
+                                    <td>
+                                        <p:fileUpload id="filelogo" value="#{excelFileImportBean.uploadedFile}" mode="simple"
+                                                      allowTypes="/(\.|\/)(jpe?g)$/" invalidFileMessage="invalid file. Use jpeg files only"
+                                                      sizeLimit="4096000" invalidSizeMessage="invalid file size. Must be less than 4MB"
+                                                      required="true" requiredMessage="" validatorMessage="A correct document is required. Check side note."/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><br /> </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" id="taskButtonPanel">
+                                        <p:commandButton id="submitButton" value="Submit" action="#{excelFileImportBean.doExcelImport}" ajax="false"
+                                                         icon="ui-icon-cart">
+                                            <f:param name="ACTIONCODE" value="CLSSXAMSCR" />
+                                            <f:param name="ACTIONDESC" value="Bulk loading of Class Exams Scoresheet" />
+                                            <f:param name="BACKPATH" value="/schooluser/exams/classexamsearch" />
+                                        </p:commandButton>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

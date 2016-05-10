@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+
+            </ui:define>
+            <ui:define name="panelTitle">
+                School Module Settings
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="3" align="center">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                            id="messageBoard"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="20%">Name</td>
+                            <td>
+                                <p:outputLabel value="#{schoolRegBean.school.name}"/>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top">Module selection</td>
+                            <td valign="top">
+                                <div style="height: 300px;overflow: scroll">
+                                    <p:selectManyCheckbox value="#{schoolRegBean.moduleList}" layout="pageDirection"
+                                                          rendered="true" id="schoolModuleList" style="width:200px;height:50px"
+                                                          required="false" requiredMessage="required" converter="moduleConverter" >
+                                        <f:selectItems value="#{applicationListBean.moduleList}" var="m"
+                                                       itemValue="#{m}" itemLabel="#{m.name}" />
+                                    </p:selectManyCheckbox>
+                                </div>
+                            </td>
+                            <td><p:message for="schoolModuleList" /></td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="saveButton" value="Next >>" icon="ui-icon-search"
+                                         action="#{schoolRegBean.saveSchoolModules}" ajax="false"/>
+
+                        <p:commandButton id="skipButton" value=" Skip >> " icon="ui-icon-circle-arrow-e"
+                                         action="/admin/_schoolreg/_academicyear" ajax="false" immediate="true"/>
+                        
+                        <p:commandButton id="finishButton" value="Finish" icon="ui-icon-search"
+                                         action="#{schoolRegBean.finish}" ajax="false"/>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

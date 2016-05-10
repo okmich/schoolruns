@@ -1,0 +1,1 @@
+${student} has been registered as a student of ${school}. Check your registered mail for more on how to user our platform.

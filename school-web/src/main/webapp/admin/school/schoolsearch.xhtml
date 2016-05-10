@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/searchformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                School(s)
+            </ui:define>
+            <ui:define name="contentPanel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="4">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="20%">Name</td>
+                            <td><p:inputText value="#{schoolBean.schoolName}" /></td>
+                            <td align="right" width="20%">State</td>
+                            <td>
+                                <p:selectOneMenu id="stateMenu" value="#{schoolBean.stateCode}" onchange="" immediate="true"
+                                                 valueChangeListener="#{addressApplicationBean.fireStateChangedEvent}" style="width:200px">
+                                    <f:ajax event="change" execute="@this" render="cityMenu"/>
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{addressApplicationBean.statesList}" var="s" 
+                                                   itemLabel="#{s.name}" itemValue="#{s.stateCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Status</td>
+                            <td><p:inputText value="#{schoolBean.status}" /></td>
+                            <td align="right">Town</td>
+                            <td>
+                                <p:selectOneMenu id="cityMenu" value="#{schoolBean.cityId}" style="width:200px"
+                                                 >
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{addressApplicationBean.citiesList}" 
+                                                   var="c" itemLabel="#{c.name}" itemValue="#{c.cityId}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="3">
+                                <p:commandButton id="searchButton" value="Search" icon="ui-icon-search"
+                                                 update="schoolTabs" action="#{schoolBean.findSchools}"/>
+                                <p:defaultCommand target="searchButton" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <p:dataTable id="schoolTabs" var="row" value="#{sessionBean.schoolModel}" rowKey="#{row.schoolId}"
+                                             selection="#{schoolBean.school}" selectionMode="single"
+                                             scrollable="true" scrollHeight="340" >
+                                    <p:column headerText="ID" width="50">
+                                        #{row.schoolId}
+                                    </p:column>
+                                    <p:column headerText="Name">
+                                        #{row.name}
+                                    </p:column>
+                                    <p:column headerText="Location" >
+                                        #{row.address.city.name}, 
+                                        <h:outputText value=" " />
+                                        #{row.address.state.name}
+                                    </p:column>
+                                    <p:column headerText="Email">
+                                        #{row.emailAddress}
+                                    </p:column>
+                                    <p:column headerText="Contact No" width="80">
+                                        #{row.contactNo}
+                                    </p:column>
+                                    <p:column headerText="Status" width="40">
+                                        #{row.status}
+                                    </p:column>
+                                    <p:column headerText="Updated" width="60">
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="" width="80">
+                                        <p:commandButton id="viewButton" icon="ui-icon-zoomin"
+                                                         action="#{schoolBean.findSchool}" ajax="false">
+                                            <f:param name="viewMode" value="VIEW" />
+                                            <f:param name="schoolId" value="#{row.schoolId}" />
+                                        </p:commandButton>
+                                        <p:commandButton id="updateButton" icon="ui-icon-pencil"
+                                                         action="#{schoolBean.findSchool}" ajax="false">
+                                            <f:param name="viewMode" value="UPDATE" />
+                                            <f:param name="schoolId" value="#{row.schoolId}" />
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel"> 
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

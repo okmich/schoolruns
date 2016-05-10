@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+                <ui:include src="/schooluser/staff/relatedtaskmenu.xhtml" />
+            </ui:define>
+            <ui:define name="panelTitle">
+                Message History - (#{sessionBean.employeeData.fullname})
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:dataTable id="msgTabs" var="row" value="#{employeePropertyBean.messageDataModel}"
+                                             rowKey="#{row.messageId}" style="overflow: scroll;width: 100%;height: 150px"
+                                             selection="#{employeePropertyBean.messageData}" selectionMode="single">
+                                    <p:column headerText="ID">
+                                        #{row.messageId}
+                                    </p:column>
+                                    <p:column headerText="Title">
+                                        #{row.title}
+                                    </p:column>
+                                    <p:column headerText="Channel" >
+                                        #{row.messageChannel}
+                                    </p:column>
+                                    <p:column headerText="Effect From">
+                                        <h:outputText value="#{row.liveDate}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Expire">
+                                        <h:outputText value="#{row.expiryDate}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Content Preview" >
+                                        #{studentPropertyBean.truncate(row.content)}
+                                    </p:column>
+                                    <p:column headerText="Modified By">
+                                        #{row.modifiedBy}
+                                    </p:column>
+                                    <p:column headerText="Lasted Modified">
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime dateStyle="short" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="newButton" value=" New " icon="ui-icon-plusthick" 
+                                         action="/schooluser/staff/messagenew" ajax="false"/>
+
+                        <p:commandButton id="viewButton" value=" View " icon="ui-icon-zoomin"
+                                         onclick="viewDlg.show()"/>
+
+                        <p:commandButton id="doneButton" value="Done" icon="ui-icon-check" immediate="true"
+                                         action="/schooluser/staff/employeedetails" ajax="false"/>
+                    </div>
+                </h:form>
+                <p:dialog header="Message - #{employeePropertyBean.messageData.messageId}" widgetVar="viewDlg" resizable="false" modal="true">  
+                    <h:form>
+                        <table width="500px">
+                            <tr>
+                                <td width="30%" align="right">Title</td>
+                                <td>
+                                    #{employeePropertyBean.messageData.title}
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td align="right" valign="top">Messages </td>
+                                <td colspan="2">
+                                    #{employeePropertyBean.messageData.content}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right"> Expiry Date </td>
+                                <td>
+                                    <h:outputText value="#{employeePropertyBean.messageData.expiryDate}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                    </h:outputText>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td align="right"> Recipient Category </td>
+                                <td>
+                                    #{employeePropertyBean.messageData.participantCategory}
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Broadcast Channel </td>
+                                <td>
+                                    #{employeePropertyBean.messageData.messageChannel}
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Message Sent on</td>
+                                <td>
+                                    <h:outputText value="#{employeePropertyBean.messageData.modifiedTime}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                    </h:outputText>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Message Sent by</td>
+                                <td>
+                                    #{employeePropertyBean.messageData.modifiedBy}
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <p:commandButton id="doneButton2" value="Done" icon="ui-icon-check"
+                                                     onclick="viewDlg.hide()"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </h:form>  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

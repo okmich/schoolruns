@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Class Assignment(s)
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="4">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="20%">Grade</td>
+                        <td>
+                            <p:selectOneMenu id="gradeLevelId" value="#{assignmentBean.gradeLevelId}" style="width:200px"
+                                             valueChangeListener="#{schoolSessionBean.changeGradeEvent}" immediate="true" onchange="">
+                                <f:ajax event="valueChange" execute="@this" render="schoolSubjectId schoolClassId" />
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{applicationListBean.gradeLevelList}" var="g" 
+                                               itemLabel="#{g.description}" itemValue="#{g.gradeLevelId}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td align="right" width="20%">Subject</td>
+                        <td>
+                            <p:selectOneMenu id="schoolSubjectId" value="#{assignmentBean.schoolSubjectId}"
+                                             style="width:200px">
+                                <f:selectItem itemLabel="Select One" itemValue=""/>
+                                <f:selectItems value="#{schoolSessionBean.schoolSubjectByGrade}" var="s" 
+                                               itemLabel="#{s.subjectCode}" itemValue="#{s.schoolSubjectId}" />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="20%">Class</td>
+                        <td>
+                            <p:selectOneMenu id="schoolClassId" value="#{assignmentBean.schoolClassId}" style="width:200px">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{schoolSessionBean.schoolClassByGrade}" var="s" 
+                                               itemLabel="#{s.code}" itemValue="#{s.schoolClassId}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td align="right" width="20%">Status</td>
+                        <td>
+                            <p:selectOneMenu id="status" value="#{assignmentBean.status}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{examBean.examStatus}" />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="20%"></td>
+                        <td colspan="3">
+                            <p:commandButton id="searchButton1" value=" Search " icon="ui-icon-search"
+                                             action="#{assignmentBean.findAssignments}" update="assignmentTab" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable id="assignmentTab" var="row" value="#{sessionBean.assignmentModel}" rowKey="#{row.assignmentId}"
+                                         selection="#{assignmentBean.assignment}" selectionMode="single"
+                                         style="overflow: scroll;width: 96%;height: 250px">
+                                <p:column headerText="ID">
+                                    #{row.assignmentId}
+                                </p:column>
+                                <p:column headerText="Grade">
+                                    #{row.gradeLevel.description}
+                                </p:column>
+                                <p:column headerText="Class">
+                                    #{row.schoolClass.code}
+                                </p:column>
+                                <p:column headerText="Subject">
+                                    #{row.schoolSubject.subjectCode}
+                                </p:column>
+                                <p:column headerText="Date/Time" >
+                                    <h:outputText value="#{row.createDate}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Submission">
+                                    <h:outputText value="#{row.submissionDate}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Type">
+                                    #{row.assignmentType.description}
+                                </p:column>
+                                <p:column headerText="Full Score">
+                                    #{row.maxScore}
+                                </p:column>
+                                <p:column headerText="Status">
+                                    #{row.status}
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    #{row.modifiedBy}
+                                </p:column>
+                                <p:column headerText="Lasted Modified">
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="viewButton" value=" View " icon="ui-icon-zoomin"
+                                     action="#{assignmentBean.findAssignment}">
+                        <f:param name="editMode" value="VIEW" />
+                        <f:param name="url" value="/schooluser/exams/assignmentdetails" />
+                    </p:commandButton>
+
+                    <p:commandButton id="editButton" value=" Edit " icon="ui-icon-pencil"
+                                     action="#{assignmentBean.findAssignment}">
+                        <f:param name="editMode" value="EDIT" />
+                        <f:param name="url" value="/schooluser/exams/assignmentdetails" />
+                    </p:commandButton>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

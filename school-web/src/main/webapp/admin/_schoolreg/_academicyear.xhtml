@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                School Academic Year
+            </ui:define>
+            <ui:define name="menu_panel">
+
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form prependId="false" id="searchform"> 
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="3">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="25%">
+                                Year
+                            </td>
+                            <td>
+                                <p:selectOneMenu id="yearId" value="#{schoolRegBean.schoolCalendarData.yearId}"
+                                                 required="true" requiredMessage="" style="width:200px">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.academicYearList}" var="y"
+                                                   itemValue="#{y.yearId}" itemLabel="#{y.description}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><h:message for="yearId" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">School Year Starts</td>
+                            <td>
+                                <p:calendar id="startDate" value="#{schoolRegBean.schoolCalendarData.yearStartDate}" 
+                                            mindate="1/1/1890" pattern="dd/MM/yyyy" required="true" 
+                                            requiredMessage="" navigator="true"/>
+                            </td>
+                            <td><p:message for="startDate" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">School Year Ends</td>
+                            <td>
+                                <p:calendar id="closingDate" value="#{schoolRegBean.schoolCalendarData.yearClosingDate}" 
+                                            mindate="1/1/1890" pattern="dd/MM/yyyy" required="true" 
+                                            requiredMessage="" navigator="true"/>
+                            </td>
+                            <td><p:message for="closingDate" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">First Term Ends</td>
+                            <td>
+                                <p:calendar id="tClosingDate" value="#{schoolRegBean.schoolCalendarData.termClosingDate}"
+                                            mindate="1/1/1890" pattern="dd/MM/yyyy" required="true" 
+                                            requiredMessage="" navigator="true" />
+                            </td>
+                            <td><p:message for="tClosingDate" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td colspan="2">
+                                Note that the academic year and the term created with this page will automatically
+                                become the school current year and the first term for that year respectively.
+                                <br/>
+                                However, the school calendar can be changed by the administrator logs into the school admin
+                                portal to create more terms. Setting the actual current term for the school is also done 
+                                on the same screen.
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="updateButton" icon="ui-icon-disk" value=" Save "
+                                         action="#{schoolRegBean.saveSchoolYearAndTerm}" />
+
+                        <p:commandButton id="skipButton" value=" Skip >> " icon="ui-icon-circle-arrow-e"
+                                         action="/admin/_schoolreg/_schoolsections" ajax="false" immediate="true"/>
+
+                        <p:commandButton id="doneButton" value=" Finish " immediate="true"
+                                         action="#{schoolRegBean.finish}" ajax="false" /> 
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

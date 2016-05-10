@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/parentportalstyle.xhtml">
+        <ui:define name="menupanel">
+            <h:form>
+                <p:menu style="width: 100%">
+                    <p:menuitem value=" Ward's Home " icon="ui-icon-home"
+                                action="/parent/student/index" ajax="false" />
+                    <p:separator />
+                    <p:menuitem value=" Finance Home " icon="ui-icon-search"
+                                action="#{studentFinanceBean.findStudentPaymentSummary}" ajax="false" />
+                </p:menu>
+            </h:form>
+        </ui:define>
+        <ui:define name="paneltitle">
+            Receipt Details
+        </ui:define>
+        <ui:define name="contentpanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td align="right" width="15%"><p:outputLabel for="narration" value="Narration" /></td>
+                        <td>
+                            <h:inputText id="narration" value="#{studentFinanceBean.receipt.narration}" 
+                                         readonly="true" size="50" maxlength="120" />
+                        </td>
+                        <td align="right" width="15%">Receipt Number</td>
+                        <td>
+                            <h:inputText id="receiptNumber" value="#{studentFinanceBean.receipt.receiptNumber}" 
+                                         readonly="true" />
+                        </td>
+                    </tr>
+                    <tr class="evenRow">
+                        <td align="right"><p:outputLabel for="amount" value="Receipt Amount" /></td>
+                        <td>
+                            <h:inputText id="amount" value="#{studentFinanceBean.receipt.amount}" 
+                                         readonly="true">
+                                <f:convertNumber pattern="#,##0.00"/>
+                            </h:inputText>
+                        </td>
+                        <td align="right" class="highlight">Receipt Balance</td>
+                        <td style="color: #{studentFinanceBean.receipt.receiptBalance lt 0 ? 'green' : 'red'}; font-weight: bold">
+                            <h:outputText value="#{studentFinanceBean.receipt.receiptBalance}">
+                                <f:convertNumber pattern="#,##0.00"/>
+                            </h:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="txnDate" value="Transaction Date" /></td>
+                        <td>
+                            <h:inputText id="txnDate" value="#{studentFinanceBean.receipt.txnDate}"
+                                         readonly="true">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:inputText>
+                        </td>
+                        <td align="right">Effective Date</td>
+                        <td>
+                            <h:inputText id="effectiveDate" value="#{studentFinanceBean.receipt.effectiveDate}"
+                                         readonly="true">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:inputText>
+                        </td>
+                    </tr>
+                    <tr class="evenRow">
+                        <td align="right">Payment for Students' fee?</td>
+                        <td>
+                            <p:selectBooleanCheckbox value="#{studentFinanceBean.receipt.feeType}"
+                                                     disabled="true"/>
+                        </td>
+                        <td align="right">Data Entry</td>
+                        <td>
+                            <h:inputText id="modifiedBy" value="#{studentFinanceBean.receipt.modifiedBy}"
+                                         readonly="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="paymentMode" value="Payment Mode" /></td>
+                        <td>
+                            <h:inputText id="paymentMode" value="#{studentFinanceBean.receipt.paymentMode}"
+                                         readonly="true"/>
+                        </td>
+                        <td align="right">Transaction Type</td>
+                        <td>
+                            <h:inputText id="txnType" value="#{studentFinanceBean.receipt.txnType.description}" 
+                                         readonly="true" size="50" maxlength="60" />
+                        </td>
+                    </tr>
+                    <tr class="evenRow">
+                        <td align="right"><p:outputLabel for="paymentNumber" value="Payment Reference" /></td>
+                        <td>
+                            <h:inputText id="paymentNumber" value="#{studentFinanceBean.receipt.paymentNumber}" 
+                                         readonly="true" size="30" maxlength="25" />
+                        </td>
+                        <td align="right">Entry Date</td>
+                        <td>
+                            <h:inputText id="modifiedTime" value="#{studentFinanceBean.receipt.modifiedTime}"
+                                         readonly="true">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                            </h:inputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><p:outputLabel for="payer" value="Payer" /></td>
+                        <td>
+                            <h:inputText id="payer" value="#{studentFinanceBean.receipt.payer}" 
+                                         readonly="true" size="50" maxlength="60" />
+                        </td>
+                        <td align="right" width="15%">Ref.</td>
+                        <td>
+                            <h:inputText id="receiptId" value="#{studentFinanceBean.receipt.receiptId}"
+                                         readonly="true" />
+                        </td>
+                    </tr>
+                    <tr class="evenRow">
+                        <td align="right"><p:outputLabel for="type" value="Type" /></td>
+                        <td>
+                            <h:inputText id="type" value="#{studentFinanceBean.receipt.reversal ? 'Reversal' : 'Original Document'}" 
+                                         readonly="true"/>
+                        </td>
+                        <td align="right" width="15%">Term</td>
+                        <td>
+                            <h:commandLink action="#{studentFinanceBean.findTermPaymentDetails}" 
+                                           value="#{studentFinanceBean.receipt.schoolTerm.term.description}">
+                                <f:param name="schoolTermId" value="#{studentFinanceBean.receipt.schoolTerm.schoolTermId}"/>
+                            </h:commandLink>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <h:commandLink action="/parent/student/finance/index" target="_blank"
+                                   value="Print Receipt">
+                        <f:param name="receiptId" value="#{studentFinanceBean.receipt.receiptId}"/>
+                    </h:commandLink>
+                </div>
+                <p:panel header="Utilization Statement" id="detailsPanel">
+                    <table width="100%">
+                        <tr>
+                            <td align="right">
+                                <p:dataTable id="dataTable" var="row" value="#{studentFinanceBean.receiptModel}">
+                                    <p:column headerText="ID">
+                                        #{row.receiptId}
+                                    </p:column>
+                                    <p:column headerText="Receipt #">
+                                        #{row.receiptNumber}
+                                    </p:column>
+                                    <p:column headerText="Payer">
+                                        #{row.payer}
+                                    </p:column>
+                                    <p:column headerText="Amount">
+                                        <h:outputText value="#{row.amount}">
+                                            <f:convertNumber pattern="#,##0.00" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Eff. Date">
+                                        <h:outputText value="#{row.effectiveDate}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Txn Type">
+                                        #{row.txnType.description}
+                                    </p:column>
+                                    <p:column headerText="Status">
+                                        #{row.status}
+                                    </p:column>
+                                    <p:column headerText="Modified By">
+                                        #{row.modifiedBy}
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

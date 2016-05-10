@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Store Items(s)
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="4">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                        id="messages"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="20%">Name</td>
+                        <td width="30%">
+                            <p:inputText id="name" value="#{storeBean.itemName}"/>
+                        </td>
+                        <td align="right" width="20%">Type</td>
+                        <td>
+                            <p:selectOneMenu id="storeItemTypeCode" style="width:150px"
+                                             value="#{storeBean.itemTypeId}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeApplicationBean.storeItemTypes}" var="s"
+                                               itemValue="#{s.storeItemTypeCode}" itemLabel="#{s.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                        </td>
+                        <td align="right">Status</td>
+                        <td>
+                            <p:selectOneMenu id="status" style="width:150px"
+                                             value="#{storeBean.status}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.statusList}" />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td colspan="3">
+                            <p:commandButton id="searchButton" value=" Search " icon="ui-icon-search"
+                                             action="#{storeBean.findStoreItems}" update="dataTable">
+                            </p:commandButton>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable id="dataTable" var="row" value="#{financeSessionBean.storeItemDataModel}"
+                                         rowKey="#{row.storeItemId}" selection="#{storeBean.storeItem}"
+                                         selectionMode="single" style="overflow: scroll;width: 100%;height: 330px">
+                                <p:column headerText="ID">
+                                    #{row.storeItemId}
+                                </p:column>
+                                <p:column headerText="Name">
+                                    #{row.name}
+                                </p:column>
+                                <p:column headerText="Description">
+                                    #{row.description}
+                                </p:column>
+                                <p:column headerText="Quantity">
+                                    #{row.quantity}
+                                </p:column>
+                                <p:column headerText="Type">
+                                    #{row.storeItemType.description}
+                                </p:column>
+                                <p:column headerText="Status">
+                                    #{row.status}
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    #{row.modifiedBy}
+                                </p:column>
+                                <p:column headerText="Lasted Modified">
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="newButton" value=" New Store Item " icon="ui-icon-plusthick"
+                                     action="/schooluser/finance/storeitemdetails" ajax="false">
+                        <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="CREATE"/>
+                        <f:setPropertyActionListener target="#{financeSessionBean.storeItem}" value="#{storeBean.storeItem}"/>
+                    </p:commandButton>
+
+                    <p:commandButton id="viewButton" value=" Views " icon="ui-icon-zoomin"
+                                     action="#{storeBean.findStoreItem}" ajax="false"/>
+
+                    <p:commandButton id="checkButton" value=" Done " icon="ui-icon-check" ajax="false"
+                                     action="/schooluser/finance/storedetails" immediate="true"/>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

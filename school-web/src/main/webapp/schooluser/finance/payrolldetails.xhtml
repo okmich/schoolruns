@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Payroll Detail
+        </ui:define>
+        <ui:define name="menu_panel">
+
+        </ui:define>
+        <ui:define name="panelTitle">
+            <h:outputText value="Payroll Summary Details (#{payrollBean.payroll.payrollId})" 
+                          rendered="#{financeSessionBean.editMode != 'CREATE'}"/>
+
+            <h:outputText value="New Payroll" 
+                          rendered="#{financeSessionBean.editMode == 'CREATE'}"/>
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3" align="center">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                </table>
+                <h:panelGroup rendered="true">
+                    <table width="100%">
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel for="paymentDate" value="Date" />
+                            </td>
+                            <td>
+                                <p:calendar id="paymentDate" value="#{financeSessionBean.payroll.paymentDate}" 
+                                            required="true" readonly="#{financeSessionBean.editMode == 'VIEW'}"
+                                            requiredMessage="" navigator="true" pattern="dd/MM/yyyy" />
+                            </td>
+                            <td>
+                                <span style="font-size: x-small;font-style: italic">
+                                    (the date chosen implies payroll for its entire month).
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{financeSessionBean.editMode != 'CREATE'}">
+                    <table width="100%">
+                        <tr>
+                            <td width="20%" align="right">Total Gross pay</td>
+                            <td width="40%">
+                                <p:inputText id="totalGross" value="#{financeSessionBean.payroll.totalGross}" 
+                                             readonly="true">
+                                    <f:validateDoubleRange minimum="0"/>
+                                    <f:convertNumber pattern="#,##0.00"/>
+                                </p:inputText>
+                            </td>
+                            <td> </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Total Tax payable </td>
+                            <td>
+                                <p:inputText id="totalTax" value="#{financeSessionBean.payroll.totalTax}" 
+                                             readonly="true" >
+                                    <f:validateDoubleRange minimum="0"/>
+                                    <f:convertNumber pattern="#,##0.00"/>
+                                </p:inputText>
+                            </td>
+                            <td> </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Total Net pay</td>
+                            <td> 
+                                <p:inputText id="totalNet" value="#{financeSessionBean.payroll.totalNet}" 
+                                             readonly="true" >
+                                    <f:validateDoubleRange minimum="0"/>
+                                    <f:convertNumber pattern="#,##0.00"/>
+                                </p:inputText>
+                            </td>
+                            <td> </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Status</td>
+                            <td class="highlight" style="color: red"> 
+                                #{financeSessionBean.payroll.status == 'A' ? 'Approved' : 'Pending'}
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Payroll ID</td>
+                            <td> 
+                                <p:inputText id="payrollId" value="#{financeSessionBean.payroll.payrollId}" 
+                                             readonly="true" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Modified By</td>
+                            <td> 
+                                <p:inputText id="modifiedBy" value="#{financeSessionBean.payroll.modifiedBy}" 
+                                             readonly="true" />
+                            </td>
+                            <td> </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Modified Time</td>
+                            <td> 
+                                <p:inputText id="modifiedTime" value="#{financeSessionBean.payroll.modifiedTime}" 
+                                             readonly="true" size="30" />
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </h:panelGroup>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="doneButton" value=" Done " icon="ui-icon-check" ajax="false"
+                                     action="/schooluser/finance/employeepayrollsearch" immediate="true" 
+                                     rendered="#{financeSessionBean.editMode != 'CREATE'}"/>
+
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk" ajax="false"
+                                     action="#{payrollBean.createPayroll}"
+                                     rendered="#{financeSessionBean.editMode == 'CREATE'}"/>
+
+                    <p:commandButton id="doneButton1" value=" Done " icon="ui-icon-check" ajax="false"
+                                     action="#{payrollBean.backToPayrollHome}" immediate="true" 
+                                     rendered="#{financeSessionBean.editMode == 'CREATE'}"/>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

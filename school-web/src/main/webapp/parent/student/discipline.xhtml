@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/parentportalstyle.xhtml">
+        <ui:define name="menupanel">
+            <ui:include src="/parent/student/student_menu.xhtml" />
+        </ui:define>
+        <ui:define name="paneltitle">
+            Parent Portal Home ::: Student Disciplinary Activity Log
+        </ui:define>
+        <ui:define name="contentpanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td align="center">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:dataTable id="schoolClubTabs" var="row" value="#{studentBean.studentDisciplineModel}" 
+                                         rowKey="#{row.studentDisciplineId}"  selectionMode="single"
+                                         selection="#{studentBean.studentDiscipline}"
+                                         style="overflow: scroll;width: 100%;height: 350px">
+                                <p:column headerText="ID">
+                                    #{row.studentDisciplineId}
+                                </p:column>
+                                <p:column headerText="Title">
+                                    #{row.title}
+                                </p:column>
+                                <p:column headerText="Magnitude">
+                                    #{row.warningLevel.description}
+                                </p:column>
+                                <p:column headerText="Date">
+                                    <h:outputText value="#{row.dateCommitted}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Narration" width="300px">
+                                    #{studentPropertyBean.truncate(row.comment)}
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    #{row.modifiedBy}
+                                </p:column>
+                                <p:column headerText="Lasted Modified">
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime dateStyle="short" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                            <div id="taskButtonPanel">
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/searchformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                Employee(s)
+            </ui:define>
+            <ui:define name="contentPanel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="4">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="20%">Surname</td>
+                            <td><p:inputText value="#{employeeBean.surname}" /></td>
+                            <td align="right" width="20%">Other names</td>
+                            <td>
+                                <p:inputText value="#{employeeBean.othernames}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="20%">Employee Category</td>
+                            <td>
+                                <p:selectOneMenu id="employeeCategory" value="#{employeeBean.employeeCategory}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.employeeCategoryList}" var="e" 
+                                                   itemLabel="#{e.description}" itemValue="#{e.employeeCategoryId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right" width="20%">Employee Type</td>
+                            <td>
+                                <p:selectOneMenu id="employeeType" value="#{employeeBean.employeeType}">
+                                    <f:selectItem itemLabel="--------------------" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.employeeTypeList}"  var="e" 
+                                                   itemLabel="#{e.description}" itemValue="#{e.employeeTypeId}"/>
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td>
+                            </td>
+                            <td align="right">Gender</td>
+                            <td>
+                                <p:selectOneMenu id="sex" value="#{employeeBean.gender}">
+                                    <f:selectItem itemLabel="All" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.genderList}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="3">
+                                <p:commandButton id="searchButton" value="Search" icon="ui-icon-search"
+                                                 update="employeeTabs" action="#{employeeBean.findEmployees}"/>
+                                <p:defaultCommand target="searchButton" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <p:dataTable id="employeeTabs" var="row" value="#{sessionBean.employeeModel}" rowKey="#{row.employeeId}"
+                                             selection="#{employeeBean.employeeData}" selectionMode="single" 
+                                             scrollable="true" scrollHeight="300" resizableColumns="true">
+                                    <p:column headerText="ID" width="30">
+                                        #{row.employeeId}
+                                    </p:column>
+                                    <p:column headerText="Name" >
+                                        #{row.fullname}
+                                    </p:column>
+                                    <p:column headerText="Gender"  width="50">
+                                        #{row.gender}
+                                    </p:column>
+                                    <p:column headerText="Reg. No" width="80">
+                                        #{row.staffNumber}
+                                    </p:column>
+                                    <p:column headerText="Mobile No." width="100">
+                                        #{row.mobileNo}
+                                    </p:column>
+                                    <p:column headerText="Email">
+                                        #{row.email}
+                                    </p:column>                                    
+                                    <p:column headerText="Modified By" width="70">
+                                        #{row.modifiedBy}
+                                    </p:column>
+                                    <p:column headerText="Lasted Modified" width="80">
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="updateButton" value="Update" icon="ui-icon-pencil"
+                                         action="#{employeeBean.findEmployee}" ajax="false">
+                            <f:param name="viewMode" value="MODIFY" />
+                        </p:commandButton>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

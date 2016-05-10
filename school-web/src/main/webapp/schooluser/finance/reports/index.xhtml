@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body class="ui-widget-content">
+        <div style="margin: auto;width: 860px;">
+            <h:form>
+                <table style="width: 100%">
+                    <tr>
+                        <td width="50%" valign="top">
+                            <p:panel header="Receipts">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/dailycashlist" value="Cash List(daily)" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/periodcashlist" value="Cash List(period)" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/feepaymentschedule" value="Fee Payments" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/parentaccountstatement" value="Parents Account Statement" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/receiptstatement" value="Receipt Statement" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                        <td valign="top">
+                            <p:panel header="Store Inventory">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/storeitemsschedule" value="Store Items" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/storesummary"
+                                                       value="Store Summary" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/storeactivitylog" value="Store Activity Log" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <p:panel header="Payments">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/dailypaymentlist" value="Payment Listing(daily)" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/periodpaymentlist" value="Payment Listing(period)" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                        <td valign="top">
+                            <p:panel header="Payroll">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/monthlypayregister" value="Monthly Pay Register" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/staffpayregister"
+                                                       value="Employee Pay Register" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/staffpayslip" value="Staff Payslip" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/monthlypayslip" value="Monthly payslip (All Employees)" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <p:panel header="Assets / Liabilities">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/assetlisting" value="Asset Listing" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/liabilities" value="Liabilities" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                        <td valign="top">
+                            <p:panel header="General Account">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/accountjournalperiod" value="Account Journal (Period)" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/accountjournalcutoff" value="Account Journal (Cut off)" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/accountjournalperiodsummary" 
+                                                       value="Account Journal Summary (Period)" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/accountjournalcutoffsummary" value="Account Journal Summary (Cut off)" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/finance/reports/trialbalance" value="Trial Balance" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </div>
+    </h:body>
+</f:view>

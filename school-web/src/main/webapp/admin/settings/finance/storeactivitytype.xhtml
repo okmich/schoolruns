@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div style="margin: auto;width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="Store Event Types">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <p:dataTable scrollable="true" scrollHeight="200" value="#{storeActivityTypeBean.storeActivityTypeModel}" var="row" 
+                                 rowKey="#{row.storeActivityTypeCode}"  selection="#{storeActivityTypeBean.storeActivityType}" 
+                                 selectionMode="single" id="dataTable">
+                        <p:column width="100" headerText="Code"> 
+                            #{row.storeActivityTypeCode}
+                        </p:column> 
+                        <p:column width="200" headerText="Name">
+                            #{row.description} 
+                        </p:column>
+                    </p:dataTable>  
+                    <br />
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/admin/settings/index" />   
+                    </div>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

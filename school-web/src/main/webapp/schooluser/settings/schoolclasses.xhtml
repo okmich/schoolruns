@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body class="ui-widget-content">
+        <div style="margin: auto;min-width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="Classes">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <table width="100%">
+                        <tr>
+                            <td width="15%" align="right">School Section</td>
+                            <td> 
+                                <p:selectOneMenu value="#{schoolClassBean.schoolSectionId}" onchange=""
+                                                 style="width:200px" immediate="true">
+                                    <f:ajax event="change" execute="@this" render="dataTable"/>
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{schoolSessionBean.schoolSections}" var="s" 
+                                                   itemLabel="#{s.section.description}" itemValue="#{s.schoolSectionId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right">Grade Level </td>
+                            <td> 
+                                <p:selectOneMenu value="#{schoolClassBean.gradeLevelId}" onchange=""
+                                                 style="width:200px" immediate="true">
+                                    <f:ajax event="change" execute="@this" render="dataTable"/>
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.gradeLevelList}" var="g" 
+                                                   itemLabel="#{g.description}" itemValue="#{g.gradeLevelId}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <p:dataTable scrollable="true" scrollHeight="200" value="#{schoolClassBean.schoolClassModel}" var="row" 
+                                             rowKey="#{row.schoolClassId}"  selection="#{schoolClassBean.schoolClass}" 
+                                             selectionMode="single" id="dataTable">
+                                    <p:column> 
+                                        <f:facet name="header">
+                                            <h:outputText value="Class ID" />
+                                        </f:facet> 
+                                        #{row.schoolClassId}  
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Code" />
+                                        </f:facet>   
+                                        #{row.code}  
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Description" />
+                                        </f:facet>   
+                                        #{row.description}  
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Same Subject" />
+                                        </f:facet>   
+                                        #{row.sameSubjectFlag}  
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Grade Level" />
+                                        </f:facet>   
+                                        #{row.gradeLevel.description}
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Section" />
+                                        </f:facet>   
+                                        #{row.schoolSection.section.description}
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Stream" />
+                                        </f:facet>   
+                                        #{row.stream.description} 
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Last Modified" />
+                                        </f:facet>   
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>  
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil" value="Update"
+                                         action="#{schoolClassBean.prepareForModify}" update=":detailsform:detailsPanel">
+                            <f:param name="editMode" value="EDIT" />
+                        </p:commandButton>
+
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/schooluser/settings/index" ajax="false" /> 
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="6">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Code</td>
+                            <td>
+                                <h:inputText id="code" value="#{schoolClassBean.schoolClass.code}" maxlength="15"
+                                             readonly="#{schoolClassBean.editMode != 'MODIFY'}"
+                                             required="true" requiredMessage=""/>
+                            </td>
+                            <td><h:message for="code" /></td>
+                            <td>Description</td>
+                            <td>
+                                <h:inputText id="description" value="#{schoolClassBean.schoolClass.description}" 
+                                             readonly="#{schoolClassBean.editMode != 'MODIFY'}" maxlength="45"
+                                             required="true" requiredMessage=""/>
+                            </td>
+                            <td><h:message for="description" /></td>
+                        </tr>
+                        <tr>
+                            <td>Same subject?? </td>
+                            <td>
+                                <p:selectBooleanCheckbox id="flag" value="#{schoolClassBean.schoolClass.sameSubjectFlag}"
+                                                         />
+                            </td>
+                            <td><h:message for="flag" /></td>
+                            <td>Grade Level </td>
+                            <td>
+                                <p:selectOneMenu id="gradeLevelId" value="#{schoolClassBean.schoolClass.gradeLevel.gradeLevelId}"
+                                                 required="true" requiredMessage="" style="width:200px"
+                                                 disabled="#{schoolClassBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.gradeLevelList}" var="g" 
+                                                   itemLabel="#{g.description}" itemValue="#{g.gradeLevelId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><h:message for="gradeLevelId" /></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Stream" for="streamId" /></td>
+                            <td>
+                                <p:selectOneMenu id="streamId" value="#{schoolClassBean.schoolClass.stream.streamId}"
+                                                 required="true" requiredMessage="" style="width:200px"
+                                                 disabled="#{schoolClassBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{applicationListBean.streamList}" var="s" 
+                                                   itemLabel="#{s.description}" itemValue="#{s.streamId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><h:message for="streamId" /></td>
+                            <td><p:outputLabel value="Section" for="schoolSectionId" /></td>
+                            <td>
+                                <p:selectOneMenu id="schoolSectionId" value="#{schoolClassBean.schoolClass.schoolSection.schoolSectionId}"
+                                                 style="width:200px" required="true" requiredMessage=""
+                                                 disabled="#{schoolClassBean.editMode != 'MODIFY'}">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{schoolSessionBean.schoolSections}" var="s" 
+                                                   itemLabel="#{s.section.description}" itemValue="#{s.schoolSectionId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><h:message for="schoolSectionId" /></td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>
+                                <p:selectOneMenu id="status" value="#{schoolClassBean.schoolClass.status}"
+                                                 style="width:200px"
+                                                 disabled="#{schoolClassBean.editMode != 'MODIFY'}">
+                                    <f:selectItems value="#{applicationListBean.statusList}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><h:message for="status" /></td>
+                            <td>Modified by</td>
+                            <td>
+                                <h:inputText id="modifiedBy" value="#{schoolClassBean.schoolClass.modifiedBy}" 
+                                             readonly="true"/>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <p:commandButton id="saveButton" value="Save" disabled="#{schoolClassBean.editMode != 'MODIFY'}"
+                                                 action="#{schoolClassBean.saveSchoolClass}" update=":searchform:dataTable,@form" /> 
+
+                                <p:commandButton id="clearButton" value="Reset" update="@form"
+                                                 immediate="true"  action="#{schoolClassBean.clearForm}" /> 
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Schoolruns.com ::: Parents' Portal</title>
+        <h:outputStylesheet name="parent-portal-style.css" library="css"/>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div id="headbanner" class="ui-widget-header">
+            <h:graphicImage name="parents.logo.fw.png" library="images"/>
+        </div>
+        <div id="navdiv">
+            <h:form>
+                <div>
+                    <h:commandLink action="/parent/console" value=" Home " /> | 
+                    <h:commandLink action="/parent/profile" value=" Account " /> | 
+                    <h:commandLink action="#{parentServiceBean.performLogout}" value=" Sign out " />
+                </div>
+            </h:form>
+        </div>
+        <div id="container">
+            <div style="width:100%; float:left;">
+                <p:panel style="width: 100%;">
+                    <f:facet name="header">Parent Unread Messages</f:facet>
+                    <h:form>
+                        <p:dataTable id="messageTab" var="row" value="#{parentSessionBean.messageDataList}"
+                                     rowKey="#{row.messageId}" style="overflow: scroll;width: 100%;min-width:400px;height: 250px"
+                                     selection="#{schoolNotificationBean.messageData}" selectionMode="single">
+                            <p:column headerText="Title" width="220">
+                                #{row.title}
+                            </p:column>
+                            <p:column headerText="Channel" width="90">
+                                #{row.messageChannel}
+                            </p:column>
+                            <p:column headerText="Message Preview">
+                                #{studentPropertyBean.truncate(row.content)}
+                            </p:column>
+                            <p:column headerText="Date" width="60">
+                                <h:outputText value="#{row.liveDate}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Sender" width="70">
+                                #{row.sender}
+                            </p:column>
+                            <p:column headerText="*" width="70">
+                                <p:commandButton id="readBtn" action="#{parentNotificationBean.findMessageDetails}"
+                                                 icon="ui-icon-zoomin" ajax="false" >
+                                    <f:param name="messageId" value="#{row.messageId}"/>     
+                                </p:commandButton>
+                                <h:outputText value=" " />
+                                <p:commandButton id="markBtn" action="#{parentNotificationBean.markMessageAsRead}"
+                                                 icon="ui-icon-check" ajax="false" >
+                                    <f:param name="messageId" value="#{row.messageId}"/>     
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                        <ui:repeat value="#{parentSessionBean.schoolStudentDataList}" var="ss">
+                            <p:panel header="#{ss.fullname}" style="float:left; height: 200px; width: 355px; margin-top: 20px;margin-left: 10px;">
+                                <h:panelGrid columns="2" style="float:left; max-width: 250px;">
+                                    <h:outputLabel for="birthDate" value="Birth Date: " />
+                                    <h:outputText id="birthDate" value="#{ss.birthDate}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+
+                                    <h:outputLabel for="gender" value="Gender: " />
+                                    <h:outputText id="gender" value="#{ss.gender == 'M' ? 'Male' : 'Female'}" />
+
+                                    <h:outputLabel for="registrationNo" value="Admission #: " />
+                                    <h:outputText id="registrationNo" value="#{ss.registrationNo}" />
+
+                                    <h:outputLabel for="schoolYear" value="Year: " />
+                                    <h:outputText id="schoolYear" value="#{ss.schoolYear}" />
+
+                                    <h:outputLabel for="classCode" value="Class: " />
+                                    <h:outputText id="classCode" value="#{ss.schoolClassCode}" />
+
+                                    <h:outputLabel for="emptyRow" value="  " />
+                                    <h:outputText id="emptyRow" value="   " />
+
+                                    <h:commandLink action="#{studentBean.goStudentHome}" value=" view more..." >
+                                        <f:param name="studentId" value="#{ss.studentId}"/>
+                                    </h:commandLink>
+                                </h:panelGrid>
+                                <img src="#{ss.pictureUrl}" 
+                                     style="float:right;max-height: 200px; max-width: 100px;background-color:#000 "/>
+                            </p:panel>
+                        </ui:repeat>
+                    </h:form>
+                </p:panel>
+            </div>
+        </div>
+        <p:panel id="footer">
+            Copyright 2013, powered by <a href="http://www.schoolruns.com.ng">www.schoolruns.com.ng</a>
+        </p:panel>
+    </h:body>
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body class="ui-widget-content">
+        <div style="margin: 0px auto;width: 860px;">
+            <h:form>
+                <table style="width: 100%">
+                    <tr>
+                        <td valign="top" width="50%">
+                            <p:panel header="Student Reports">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/schooluser/student/reports/dailycashlist" value="School Register" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/student/reports/periodcashlist" value="Grade Level Register" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/student/reports/feepaymentschedule" value="Class Register" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/student/reports/parentaccountstatement" value="Prefect Register" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                        <td valign="top" width="50%">
+                            <p:panel header="Distribution Reports">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/schooluser/student/reports/dailycashlist" value="Class-Gender distribution" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </div>
+    </h:body>
+</f:view>

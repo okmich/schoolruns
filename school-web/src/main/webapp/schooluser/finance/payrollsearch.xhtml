@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Payroll Search
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="4">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="15%"> Date </td>
+                        <td width="40%">
+                            <p:calendar value="#{payrollBean.startDate}" navigator="true" pattern="dd/MM/yyyy"/>
+                            <h:outputText value=" to " />
+                            <p:calendar value="#{payrollBean.endDate}" navigator="true" pattern="dd/MM/yyyy"/>
+                        </td>
+                        <td colspan="2">
+                            <p:commandButton id="searchButton" value="Search" icon="ui-icon-search"
+                                             update="dataTab" action="#{payrollBean.findPayrolls}"/>
+                            <p:defaultCommand target="searchButton" />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable id="dataTab" var="row" value="#{financeSessionBean.payrollModel}"
+                                         selection="#{payrollBean.payroll}" rowKey="#{row.payrollId}"
+                                         selectionMode="single" style="overflow: scroll;width: 100%;height: 330px">
+                                <p:column headerText="ID">
+                                    #{row.payrollId}
+                                </p:column>
+                                <p:column headerText="Payment Date" >
+                                    <h:outputText value="#{row.paymentDate}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Total Gross">
+                                    <h:outputText value="#{row.totalGross}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Tax Value">
+                                    <h:outputText value="#{row.totalTax}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Total Net">
+                                    <h:outputText value="#{row.totalNet}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Status">
+                                    #{row.status == 'A' ? 'Active': 'Pending'}
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    #{row.modifiedBy}
+                                </p:column>
+                                <p:column headerText="Lasted Modified">
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="newButton" value=" New Payroll " icon="ui-icon-document" ajax="false"
+                                     action="/schooluser/finance/payrolldetails">
+                        <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="CREATE" />
+                        <f:setPropertyActionListener target="#{financeSessionBean.payroll}" value="#{payrollBean.payroll}" />
+                    </p:commandButton>
+
+                    <p:commandButton id="viewButton" value=" View " icon="ui-icon-zoomin"
+                                     action="#{payrollBean.findPayroll}">
+                        <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="VIEW" />
+                    </p:commandButton>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

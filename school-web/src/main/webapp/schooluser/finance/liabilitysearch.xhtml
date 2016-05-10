@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Liabilities
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="4">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="20%">Liability</td>
+                        <td width="20%"><p:inputText value="#{liabilityBean.name}" /></td>
+                        <td align="right" width="20%">Liability Type</td>
+                        <td>
+                            <p:selectOneMenu id="pCategory" value="#{liabilityBean.liabilityTypeId}" style="width:150px">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{financeApplicationBean.liabilityTypes}" var="a" 
+                                               itemLabel="#{a.description}" itemValue="#{a.liabilityTypeId}" />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Date.</td>
+                        <td>
+                            <p:calendar value="#{liabilityBean.fromDate}" size="10" pattern="dd/MM/yyyy" navigator="true"/>
+                            <h:outputText value=" to " />
+                            <p:calendar value="#{liabilityBean.toDate}" size="10" pattern="dd/MM/yyyy" navigator="true"/>
+                        </td>
+                        <td align="right" width="20%">Status</td>
+                        <td>
+                            <p:selectOneMenu id="mChannel" value="#{liabilityBean.status}" style="width:150px">
+                                <f:selectItem itemLabel="--------------------" itemValue="" />
+                                <f:selectItems value="#{applicationListBean.statusList}"/>
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <p:commandButton id="searchButton" value="Search" icon="ui-icon-search" ajax="false"
+                                             update="messageTab" action="#{liabilityBean.findLiabilities}"/>
+                            <p:defaultCommand target="searchButton" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable id="messageTab" var="row" value="#{financeSessionBean.liabilityModel}"
+                                         selection="#{liabilityBean.liability}" rowKey="#{row.liabilityId}"
+                                         selectionMode="single" style="overflow: scroll;width: 100%;height: 320px">
+                                <p:column headerText="ID">
+                                    #{row.liabilityId}
+                                </p:column>
+                                <p:column headerText="Description">
+                                    #{row.description}
+                                </p:column>
+                                <p:column headerText="Acquired Date" >
+                                    <h:outputText value="#{row.assumeDate}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Value">
+                                    <h:outputText value="#{row.amount}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    #{row.modifiedBy}
+                                </p:column>
+                                <p:column headerText="Lasted Modified">
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="newButton" value=" New Liability " icon="ui-icon-document"
+                                     action="/schooluser/finance/liabilitydetails" ajax="false">
+                        <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="CREATE" />
+                    </p:commandButton>
+
+                    <p:commandButton id="viewButton" value=" View " icon="ui-icon-zoomin"
+                                     action="#{liabilityBean.findLiability}" ajax="false">
+                        <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="VIEW" />
+                    </p:commandButton>
+
+                    <p:commandButton id="updateButton" value=" Update " icon="ui-icon-zoomin"
+                                     action="#{liabilityBean.findLiability}" ajax="false">
+                        <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="EDIT" />
+                    </p:commandButton>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

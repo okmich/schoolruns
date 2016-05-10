@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/parentportalstyle.xhtml">
+        <ui:define name="menupanel">
+            <ui:include src="/parent/student/student_menu.xhtml" />
+        </ui:define>
+        <ui:define name="paneltitle">
+            Parent Portal Home ::: Student's School History
+        </ui:define>
+        <ui:define name="contentpanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td align="center">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="overflow: scroll;width: 100%;height: 200px">
+                                <h:dataTable id="schoolStudentTab" var="row" styleClass="ui-datatable" style="width:100%;"
+                                             value="#{studentBean.schoolStudentModel}" >
+                                    <p:column>
+                                        <f:facet name="header" class="ui-datatable-header">Student Name</f:facet>
+                                        #{row.fullname}
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header" class="ui-datatable-header">School Name</f:facet>
+                                        #{row.school_name}
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header" class="ui-datatable-header">Reg. #</f:facet>
+                                        #{row.registration_no}
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">Academic Year</f:facet>
+                                        #{row.academic_year}
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">Grade Level</f:facet>
+                                        #{row.grade_level}
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">Class</f:facet>
+                                        #{row.class_code}
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">*</f:facet>
+                                        <h:commandLink action="#{studentBean.findSchoolStudentDetails}" 
+                                                       value="details">
+                                            <f:param name="schoolStudentId" value="#{row.school_student_id}"/>
+                                        </h:commandLink>
+                                    </p:column>
+                                </h:dataTable>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:panel header="Details" id="detailsPanel">
+                                <table width="100%">
+                                    <tr>
+                                        <td width="16%">Fullname</td>
+                                        <td width="22%">
+                                            <h:inputText readonly="true" 
+                                                         value="#{studentBean.schoolStudentData.fullname}"/>
+                                        </td>
+                                        <td width="17%">School Student ID</td>
+                                        <td width="23%">
+                                            <h:inputText readonly="true" 
+                                                         value="#{studentBean.schoolStudentData.schoolStudentId}"/>
+                                        </td>
+                                        <td width="22%" rowspan="8">
+                                            <img src="#{studentBean.schoolStudentData.pictureUrl}" 
+                                                 style="max-height: 200px; max-width: 100px; "/>
+                                        </td>
+                                    </tr>
+                                    <tr class="evenRow">
+                                        <td>School Name</td>
+                                        <td>
+                                            <h:inputText readonly="true" size="35"
+                                                         value="#{studentBean.schoolStudentData.school}"/>
+                                        </td>
+                                        <td>School ID</td>
+                                        <td>
+                                            <h:inputText readonly="true" 
+                                                         value="#{studentBean.schoolStudentData.schoolId}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>Student ID</td>
+                                        <td>
+                                            <h:inputText readonly="true" 
+                                                         value="#{studentBean.schoolStudentData.studentId}"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="evenRow">
+                                        <td>Registration #</td>
+                                        <td>
+                                            <h:inputText readonly="true" 
+                                                         value="#{studentBean.schoolStudentData.registrationNo}"/>
+                                        </td>
+                                        <td>Admission Date</td>
+                                        <td>
+                                            <h:inputText readonly="true" 
+                                                         value="#{studentBean.schoolStudentData.admissionDate}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:inputText>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Year</td>
+                                        <td>
+                                            <h:inputText readonly="true" 
+                                                         value="#{studentBean.schoolStudentData.schoolYear}"/>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr class="evenRow">
+                                        <td>Grade Level</td>
+                                        <td>
+                                            <h:inputText readonly="true" 
+                                                         value="#{studentBean.schoolStudentData.gradeLevel}"/>
+                                        </td>
+                                        <td>Class Code</td>
+                                        <td>
+                                            <h:inputText readonly="true" 
+                                                         value="#{studentBean.schoolStudentData.schoolClassCode}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Class</td>
+                                        <td>
+                                            <h:inputText readonly="true" size="35"
+                                                         value="#{studentBean.schoolStudentData.schoolClass}"/>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="evenRow">
+                                        <td>Prefect</td>
+                                        <td>&nbsp;</td>
+                                        <td>Prefect Type</td>
+                                        <td>
+                                            <h:inputText readonly="true" 
+                                                         value="#{studentBean.schoolStudentData.prefectType}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

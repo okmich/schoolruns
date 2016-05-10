@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+
+            </ui:define>
+            <ui:define name="panelTitle">
+                Staff recruitment
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="6">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" class="underline">Personal Details </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Surname</td>
+                            <td>
+                                <p:inputText id="surname" value="#{employeeBean.employeeData.surname}"
+                                             required="true" requiredMessage=""/>
+                            </td>
+                            <td width="5"><p:message for="surname" /></td>
+                            <td align="right">Othernames:</td>
+                            <td>
+                                <p:inputText id="othernames" value="#{employeeBean.employeeData.othernames}"
+                                             required="true" requiredMessage=""/>
+                            </td>
+                            <td width="5"><p:message for="othernames" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Gender:</td>
+                            <td>
+                                <p:selectOneMenu value="#{employeeBean.employeeData.gender}"
+                                                 style="width:200px" id="gender" required="true"
+                                                 requiredMessage="">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.genderList}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="gender" /></td>
+                            <td align="right">Address:</td>
+                            <td rowspan="4" colspan="2">
+                                <okrol:address address="#{employeeBean.employeeData.address}" viewMode="false"
+                                               required="true" requiredMessage="" streetFieldSize = "35"
+                                               id="address"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Mar. Status: </td>
+                            <td>
+                                <p:selectOneMenu id="maritalStatusId" value="#{employeeBean.employeeData.maritalStatusId}"
+                                                 style="width:200px" required="true" requiredMessage="">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.maritalStatusList}" var="m" 
+                                                   itemLabel="#{m.description}" itemValue="#{m.maritalStatusId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="maritalStatusId" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="right">Birth Date: </td>
+                            <td>
+                                <p:calendar id="birthDate" value="#{employeeBean.employeeData.birthDate}" mindate="1/1/1890"
+                                            pattern="dd/MM/yyyy" navigator="true"/>
+                            </td>
+                            <td><p:message for="birthDate" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="right">Email:</td>
+                            <td>
+                                <p:inputText id="email" value="#{employeeBean.employeeData.email}" size="30" />
+                            </td>
+                            <td><p:message for="email" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="right">Official No.:</td>
+                            <td>
+                                <p:inputText id="officeNo" value="#{employeeBean.employeeData.officeNo}" />
+                            </td>
+                            <td><p:message for="officeNo" /></td>
+                            <td align="right">Mobile No.: </td>
+                            <td>
+                                <p:inputText id="mobileNo" value="#{employeeBean.employeeData.mobileNo}" />
+                            </td>
+                            <td><p:message for="mobileNo" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Nationality</td>
+                            <td>
+                                <p:selectOneMenu id="countryCode" value="#{employeeBean.employeeData.countryCode}"
+                                                 style="width:200px">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.countryList}" var="c" 
+                                                   itemLabel="#{c.description}" itemValue="#{c.countryCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="countryCode" /></td>
+                            <td align="right">State of Origin:</td>
+                            <td>
+                                <p:selectOneMenu id="stateMenu" value="#{employeeBean.employeeData.stateCode}"
+                                                 style="width:200px" onchange="" immediate="true">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{addressApplicationBean.statesList}" var="s" 
+                                                   itemLabel="#{s.name}" itemValue="#{s.stateCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="stateMenu" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">ID Type: </td>
+                            <td>
+                                <p:selectOneMenu id="idMeansId" value="#{employeeBean.employeeData.identificationMeansId}"
+                                                 style="width:200px" required="true" requiredMessage="">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.identificationMeansList}" var="i" 
+                                                   itemLabel="#{i.description}" itemValue="#{i.identificationMeansId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="idMeansId" /></td>
+                            <td align="right">ID Number : </td>
+                            <td>
+                                <p:inputText id="idNumber" value="#{employeeBean.employeeData.idNumber}"/>
+                            </td>
+                            <td><p:message for="idNumber" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Language </td>
+                            <td>
+                                <p:selectOneMenu id="languageId" value="#{employeeBean.employeeData.languageId}"
+                                                 style="width:200px">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.languageList}" var="i" 
+                                                   itemLabel="#{i.language}" itemValue="#{i.languageId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="languageId" /></td>
+                            <td align="right">Home town: </td>
+                            <td>
+                                <p:inputText id="homeTown" value="#{employeeBean.employeeData.homeTown}"/>
+                            </td>
+                            <td><p:message for="homeTown" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Religion:</td>
+                            <td>
+                                <p:selectOneMenu id="religionId" value="#{employeeBean.employeeData.religionId}"
+                                                 style="width:200px">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.religionList}" var="r" 
+                                                   itemLabel="#{r.description}" itemValue="#{r.religionId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="religionId" /></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" class="underline">Employement Details </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Staff Number: </td>
+                            <td>
+                                <p:inputText id="staffNumber" value="#{employeeBean.employeeData.staffNumber}"
+                                             required="#{!schoolSessionBean.schoolPref.systemGenStaffRegNo}" requiredMessage=""
+                                             readonly="#{schoolSessionBean.schoolPref.systemGenStaffRegNo}"/>
+                            </td>
+                            <td><p:message for="staffNumber" /></td>
+                            <td align="right">Date of Hire </td>
+                            <td>
+                                <p:calendar id="dateOfHire" value="#{employeeBean.employeeData.dateOfHire}" mindate="1/1/1890"
+                                            pattern="dd/MM/yyyy" required="true" requiredMessage="" navigator="true"/>
+                            </td>
+                            <td><p:message for="dateOfHire" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Category:</td>
+                            <td>
+                                <p:selectOneMenu value="#{employeeBean.employeeData.employeeCategoryId}"
+                                                 style="width:200px" id="employeeCategoryId" required="true"
+                                                 requiredMessage="">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.employeeCategoryList}" var="e" 
+                                                   itemLabel="#{e.description}" itemValue="#{e.employeeCategoryId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="employeeCategoryId"/></td>
+                            <td align="right">Type: </td>
+                            <td>
+                                <p:selectOneMenu value="#{employeeBean.employeeData.employeeTypeId}"
+                                                 style="width:200px" id="employeeTypeId" required="true"
+                                                 requiredMessage="">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.employeeTypeList}" var="e" 
+                                                   itemLabel="#{e.description}" itemValue="#{e.employeeTypeId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="employeeTypeId"/></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Position:</td>
+                            <td>
+                                <p:selectOneMenu value="#{employeeBean.employeeData.employeePositionId}"
+                                                 style="width:200px" id="employeePositionId" required="true"
+                                                 requiredMessage="">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.employeePositionList}" var="e" 
+                                                   itemLabel="#{e.description}" itemValue="#{e.employeePositionId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="employeePositionId"/></td>
+                            <td align="right">Payroll Scheme:</td>
+                            <td>
+                                <p:selectOneMenu value="#{employeeBean.employeeData.payStructureId}"
+                                                 style="width:200px" id="payStructureId">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{financeSessionBean.payStructures}" var="p" 
+                                                   itemLabel="#{p.title}" itemValue="#{p.payStructureId}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="payStructureId"/></td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="saveButton" value="Save" icon="ui-icon-disk"
+                                         action="#{employeeBean.createEmployee}" ajax="false"/>
+                        <p:defaultCommand target="saveButton" />
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

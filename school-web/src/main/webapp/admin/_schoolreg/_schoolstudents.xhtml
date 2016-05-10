@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/searchformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                Students' Data upload
+            </ui:define>
+            <ui:define name="contentPanel">
+                <h:form enctype="multipart/form-data">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="4">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">
+                                <p:panel style="float:right;width:220pt;" header="NOTICE">
+                                    Read the following instruction to ensure you smooth use of the data upload feature on this page.
+                                    <ul>
+                                        <li> the import file must be saved as an *.xls file type</li>
+                                        <li> the file must not be larger than 4mb in size</li>
+                                        <li> the structure of data import must follow a strict set described in the downloadable file below.</li>
+                                        <li> if school does not give students a unique registration number, the column for registration number could be left blank. However it should not be deleted from the worksheet.</li>
+                                        <li> <a href="../../templates/sample_excel_sheets/sample_upload_file_format_students.xlsx">click here</a> for a sample template.</li>
+                                    </ul>
+                                </p:panel>
+                                <table width="360pt" style="float:left;">
+                                    <tr>
+                                        <td colspan="2">Read the instruction to the right to how best to use the student data upload facility</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                                        id="messageBoard"/>
+                                            <p:message for="filelogo" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><br /> </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right" valign="top">File</td>
+                                        <td>
+                                            <p:fileUpload id="filelogo" value="#{excelFileImportBean.uploadedFile}" mode="simple"
+                                                          allowTypes="/(\.|\/)(jpe?g)$/" invalidFileMessage="invalid file. Use jpeg files only"
+                                                          sizeLimit="512000" invalidSizeMessage="invalid file size. Must be less than 512kb"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><br /> </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" id="taskButtonPanel">
+                                            <p:commandButton id="submitButton" value="Submit" action="#{excelFileImportBean.doExcelImport}" ajax="false"
+                                                             icon="ui-icon-cart">
+                                                <f:param name="ACTIONCODE" value="_SCHSTDNS" />
+                                                <f:param name="ACTIONDESC" value="Bulk loading of school students" />
+                                                <f:param name="BACKPATH" value="/admin/_schoolreg/_schoolstudents" />
+                                            </p:commandButton>
+
+                                            <p:commandButton id="finishButton" value="Finish" icon="ui-icon-search"
+                                                             action="#{schoolRegBean.finish}" ajax="false"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <div > 
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

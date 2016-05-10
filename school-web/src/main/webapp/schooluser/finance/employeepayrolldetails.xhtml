@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Employees' Payroll
+        </ui:define>
+        <ui:define name="menu_panel">
+            <p:menu style="width: 190px">
+                <p:menuitem id="deductButton" value="Make Deduction " icon="ui-icon-minus"
+                            action="#{payrollBean.prepareForDeduction}" ajax="false"
+                            rendered="#{financeSessionBean.payroll.status == 'I'}"/>
+
+                <p:menuitem id="addButton" value="Add Bonus " icon="ui-icon-plus"
+                            action="#{payrollBean.prepareForAdditions}" ajax="false"
+                            rendered="#{financeSessionBean.payroll.status == 'I'}"/>
+
+                <p:menuitem id="printButton" value="Print payslip " icon="ui-icon-print"
+                            action="/schooluser/finance/employeepayrollitemdetails" ajax="false"/>
+            </p:menu>
+        </ui:define>
+        <ui:define name="panelTitle">
+            <h:outputText value="Employee Pay Schedule Details - #{financeSessionBean.employeePayroll.employeePayrollId})"/>
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td align="center" colspan="4">
+                            <p:messages id="messages" rendered="true" globalOnly="true" 
+                                        showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="20%">Employee</td>
+                        <td width="30%" class="highlight">#{financeSessionBean.employeePayroll.employeeName}</td>
+                        <td align="right" width="20%">Period </td>
+                        <td class="highlight">#{financeSessionBean.employeePayroll.payPeriod}</td>
+                    </tr>
+                    <tr>
+                        <td align="right">Category</td>
+                        <td class="highlight">#{financeSessionBean.employeePayroll.employeeCategory}</td>
+                        <td align="right">Position</td>
+                        <td class="highlight">#{financeSessionBean.employeePayroll.employeePosition}</td>
+                    </tr>
+                    <tr>
+                        <td align="right">ID</td>
+                        <td class="highlight">#{financeSessionBean.employeePayroll.employeePayrollId}</td>
+                        <td align="right">Payroll ID</td>
+                        <td class="highlight">#{financeSessionBean.employeePayroll.payroll.payrollId}</td>
+                    </tr>
+                    <tr>
+                        <td align="right">Pay Scheme</td>
+                        <td class="highlight">#{financeSessionBean.employeePayroll.payStructure.title}</td>
+                        <td align="right">Pay Scheme ID</td>
+                        <td class="highlight">#{financeSessionBean.employeePayroll.payStructure.payStructureId}</td>
+                    </tr>
+                    <tr>
+                        <td align="right">Pay roll ID</td>
+                        <td class="highlight">#{financeSessionBean.employeePayroll.payroll.payrollId}</td>
+                        <td align="right">Date</td>
+                        <td class="highlight">
+                            <h:outputText value="#{financeSessionBean.employeePayroll.payroll.paymentDate}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Gross Pay</td>
+                        <td class="highlight">
+                            <h:outputText value="#{financeSessionBean.employeePayroll.gross}">
+                                <f:convertNumber pattern="#,##0.00"/>
+                            </h:outputText>
+                        </td>
+                        <td align="right">Tax</td>
+                        <td class="highlight">
+                            <h:outputText value="#{financeSessionBean.employeePayroll.tax}">
+                                <f:convertNumber pattern="#,##0.00"/>
+                            </h:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Net Pay</td>
+                        <td class="highlight">
+                            <h:outputText value="#{financeSessionBean.employeePayroll.net}">
+                                <f:convertNumber pattern="#,##0.00"/>
+                            </h:outputText>
+                        </td>
+                        <td align="right">Status</td>
+                        <td class="highlight">
+                            #{financeSessionBean.employeePayroll.status == 'I' ? 'Pending':'Approved'}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:separator />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" colspan="4">
+                            <p:dataTable id="dataTab" var="row" value="#{financeSessionBean.employeePayrollItemModel}"
+                                         selection="#{payrollBean.employeePayrollItem}" rowKey="#{row.employeePayrollItemId}"
+                                         selectionMode="single">
+                                <p:column headerText="ID">
+                                    <h:outputText value="#{row.employeePayrollItemId}"/>
+                                </p:column>
+                                <p:column headerText="Description">
+                                    <h:outputText value="#{row.title}"/>
+                                </p:column>
+                                <p:column headerText="Gross Pay">
+                                    <h:outputText value="#{row.gross}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Tax">
+                                    <h:outputText value="#{row.tax}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Net Pay">
+                                    <h:outputText value="#{row.net}" >
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    #{row.modifiedBy}
+                                </p:column>
+                                <p:column headerText="Lasted Modified">
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="doneButton" value=" Done " icon="ui-icon-check" immediate="true"  ajax="false"
+                                     action="/schooluser/finance/employeepayrollsearch"/>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

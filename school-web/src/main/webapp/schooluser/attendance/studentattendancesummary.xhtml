@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                Student Attendance Summary Reporting
+            </ui:define>
+            <ui:define name="menu_panel">
+
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="4">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"> Class </td>
+                            <td colspan="3"> 
+                                <p:selectOneMenu id="schoolClassId" value="#{schoolStudentAttendanceBean.schoolClassId}" style="width:200px">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{schoolSessionBean.schoolClasses}" var="s" 
+                                                   itemLabel="#{s.code}" itemValue="#{s.schoolClassId}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td colspan="3">     
+                                <p:commandButton id="searchButton" value=" Search " icon="ui-icon-check" ajax="false"
+                                                 action="#{schoolStudentAttendanceBean.findAttendanceSummary}" />   
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <p:dataTable id="dataTable" var="row" value="#{sessionBean.attendanceSummaryModel}"
+                                             rowKey="#{row.id}" selectionMode="single"
+                                             style="overflow: scroll;width: 96%;height: 250px">
+                                    <p:column headerText="ID">
+                                        #{row.id}
+                                    </p:column>
+                                    <p:column headerText="Student Name">
+                                        #{row.name}
+                                    </p:column>
+                                    <p:column headerText="Count">
+                                        #{row.count}
+                                    </p:column>
+                                    <p:column headerText="Max. Count">
+                                        #{row.total}
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">                        
+                        <p:commandButton id="doneButton" value=" Done " icon="ui-icon-check" ajax="false"
+                                         action="#{schoolStudentAttendanceBean.goHome}" />   
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

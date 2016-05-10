@@ -1,0 +1,4 @@
+Welcome to ${sender} online school management system. 
+Username: ${userLogin.username}
+Password: ${userLogin.username}
+Access your wards' school details at parent.schoolruns.com.ng with the details above

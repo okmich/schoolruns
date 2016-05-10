@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="menu_panel">
+            <ui:include src="/schooluser/student/relatedtaskmenu.xhtml" />
+        </ui:define>
+        <ui:define name="panelTitle">
+            Students extra-curricular activites - #{sessionBean.schoolStudentData.fullname}
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td align="center">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="underline">
+                            School Clubs
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:dataTable id="schoolClubTabs" var="row" value="#{studentPropertyBean.studentClubModel}" rowKey="#{row.studentClubId}"
+                                         selection="#{studentPropertyBean.studentClub}" selectionMode="single"
+                                         style="overflow: scroll;width: 100%;height: 150px">
+                                <p:column headerText="ID">
+                                    #{row.studentClubId}
+                                </p:column>
+                                <p:column headerText="Club">
+                                    #{row.club.clubType.description}
+                                </p:column>
+                                <p:column headerText="Date Joined">
+                                    <h:outputText value="#{row.dateJoined}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Academic Year" >
+                                    #{row.schoolYear.academicYear.description}
+                                </p:column>
+                                <p:column headerText="Narration" width="300px">
+                                    #{studentPropertyBean.truncate(row.narration)}
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    #{row.modifiedBy}
+                                </p:column>
+                                <p:column headerText="Lasted Modified">
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime dateStyle="short" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                            <div id="taskButtonPanel">
+                                <p:commandButton id="addButton" value=" New " icon="ui-icon-plusthick"
+                                                 action="/schooluser/student/clubnew" ajax="false" />
+
+                                <p:commandButton id="updateButton" value=" View " icon="ui-icon-zoomin"
+                                                 onclick="clubDlg.show()" />
+
+                                <p:commandButton id="doneButton" value="Done" icon="ui-icon-check" immediate="true"
+                                                 action="/schooluser/student/studentdetails" ajax="false"/>
+                                <p:defaultCommand target="doneButton" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="underline">
+                            Sports Activities
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:dataTable id="schoolSportsTabs" var="row" value="#{studentPropertyBean.studentSportModel}"
+                                         rowKey="#{row.studentSportId}"
+                                         selection="#{studentPropertyBean.studentSport}" selectionMode="single"
+                                         style="overflow: scroll;width: 100%;height: 150px">
+                                <p:column headerText="ID">
+                                    #{row.studentSportId}
+                                </p:column>
+                                <p:column headerText="Category">
+                                    #{row.sportCategory.description}
+                                </p:column>
+                                <p:column headerText="Academic Year" >
+                                    #{row.schoolYear.academicYear.description}
+                                </p:column>
+                                <p:column headerText="Comment" width="300px">
+                                    #{studentPropertyBean.truncate(row.description)}
+                                </p:column>
+                                <p:column headerText="Modified By">
+                                    #{row.modifiedBy}
+                                </p:column>
+                                <p:column headerText="Lasted Modified">
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime dateStyle="short" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                            <div id="taskButtonPanel">
+                                <p:commandButton id="addButton2" value=" New " icon="ui-icon-plusthick"
+                                                 action="/schooluser/student/sportnew" ajax="false" />
+
+                                <p:commandButton id="updateButton2" value=" View " icon="ui-icon-pencil"
+                                                 onclick="activityDlg.show()" />
+
+                                <p:commandButton id="doneButton2" value="Done" icon="ui-icon-check" immediate="true"
+                                                 action="/schooluser/student/studentdetails" ajax="false"/>
+                                <p:defaultCommand target="doneButton" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

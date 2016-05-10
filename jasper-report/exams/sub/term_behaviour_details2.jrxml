@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_details" language="groovy" pageWidth="115" pageHeight="842" columnWidth="115" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2f9879b8-e22f-44aa-8bca-f79acd677288">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="New Dataset 1" uuid="3f95187b-79fd-4011-9a23-99487b4b0666">
+		<queryString language="SQL">
+			<![CDATA[SELECT
+     term_behaviour_index.`term_exam_record_id` AS term_exam_record_id,
+     term_behaviour_index.`attentive` AS attentive,
+     term_behaviour_index.`honesty` AS honesty,
+     term_behaviour_index.`neatness` AS neatness,
+     term_behaviour_index.`politeness` AS politeness,
+     term_behaviour_index.`punctuality` AS punctuality,
+     term_behaviour_index.`relationship` AS relationship,
+     term_behaviour_index.`sports` AS sports,
+     term_behaviour_index.`hardwork` AS hardwork,
+     term_behaviour_index.`modified_by` AS modified_by,
+     term_behaviour_index.`modified_time` AS modified_time,
+     term_behaviour_index.`status` AS status
+FROM
+     `term_behaviour_index` term_behaviour_index]]>
+		</queryString>
+		<field name="attentive" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="honesty" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="neatness" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="politeness" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="punctuality" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="relationship" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="sports" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="hardwork" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="modified_by" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="modified_time" class="java.sql.Timestamp">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="status" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="termExamRecordId" class="java.lang.Integer" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT
+     term_behaviour_index.`term_exam_record_id` AS term_exam_record_id,
+     term_behaviour_index.`attentive` AS attentive,
+     term_behaviour_index.`honesty` AS honesty,
+     term_behaviour_index.`neatness` AS neatness,
+     term_behaviour_index.`politeness` AS politeness,
+     term_behaviour_index.`punctuality` AS punctuality,
+     term_behaviour_index.`relationship` AS relationship,
+     term_behaviour_index.`sports` AS sports,
+     term_behaviour_index.`hardwork` AS hardwork,
+     term_behaviour_index.`modified_by` AS modified_by,
+     term_behaviour_index.`modified_time` AS modified_time,
+     term_behaviour_index.`status` AS status
+FROM
+     `term_behaviour_index` term_behaviour_index
+WHERE term_behaviour_index.`term_exam_record_id` = $P{termExamRecordId}]]>
+	</queryString>
+	<field name="term_exam_record_id" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="attentive" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="honesty" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="neatness" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="politeness" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="punctuality" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="relationship" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sports" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hardwork" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="modified_by" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="modified_time" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="113" height="33" backcolor="#CCCCCC" uuid="2b804581-e59f-48a9-9244-ea388aea8505"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Dashed"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Behaviour / Skills]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="75" height="16" uuid="106e271c-42b2-4566-b36d-854f38b978bd"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Behaviour]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="74" y="0" width="39" height="16" uuid="8d80ad03-befb-4736-9c34-fb82ef01a447"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Rating]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="74" y="15" width="39" height="16" uuid="dd164ca4-16b2-4581-bccc-7c0fed874c80"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{attentive}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="30" width="39" height="16" uuid="7978c2a2-c97f-4df2-9d2b-5613a865e607"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{honesty}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="15" width="75" height="16" uuid="ec7fd868-eeee-4465-a6f5-a28941c778db"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Attentiveness]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="75" height="16" uuid="a37a9cf8-9ecb-40b8-a5a7-5b6b4088eece"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Honesty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="75" height="16" uuid="17668345-7118-4949-8eb8-4ba4431f60e8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Neatness]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="75" height="16" uuid="fd298376-5fb0-49ff-9dbf-4d52ca1779be"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Politeness]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="75" width="75" height="16" uuid="97793def-12e2-48d0-a5a9-2ce594292941"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Punctuality]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="75" height="16" uuid="9df4f989-a25b-414b-adef-69c3331e7d60"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Relationship]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="105" width="75" height="16" uuid="751872c7-d8af-4fc8-b0b5-1ccef7024995"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Sports]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="120" width="75" height="16" uuid="54e07721-8530-4228-9142-c89dc402fc4a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Hardwork]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="74" y="45" width="39" height="16" uuid="cb8edd49-0775-4086-bc36-10db8740c4ef"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{neatness}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="60" width="39" height="16" uuid="d9e7fe9c-ece8-4bb3-9ad6-365d4135ac8f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{politeness}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="75" width="39" height="16" uuid="f0ebdf76-274d-46d7-aace-c72801cee1ab"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{punctuality}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="90" width="39" height="16" uuid="294c10ad-cd1b-40cf-a5e6-6f43f98e3afb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{relationship}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="105" width="39" height="16" uuid="86d82d6b-3392-4f6f-92b0-2ae048c4b64c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sports}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="120" width="39" height="16" uuid="5f3e4297-1b7b-4922-903f-2cd0b5c99a48"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hardwork}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

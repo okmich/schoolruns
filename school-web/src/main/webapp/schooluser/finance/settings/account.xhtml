@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body class="ui-widget-content">
+        <h:form prependId="false" id="searchform"> 
+            <p:panel header="Accounts">
+                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                <table width="100%">
+                    <tr>
+                        <td width="20%" align="right">Account Code </td>
+                        <td> 
+                            <p:inputText value="#{accountBean.accountCode}" />
+                        </td>
+                        <td width="25%" align="right">Account Type </td>
+                        <td> 
+                            <p:selectOneMenu value="#{accountBean.accountTypeCode}" 
+                                             style="width:200px" immediate="true">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeApplicationBean.accountTypes}" var="a" 
+                                               itemLabel="#{a.description}" itemValue="#{a.accountTypeId}" />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" align="right"></td>
+                        <td colspan="3"> 
+                            <p:commandButton action="#{accountBean.findAccounts}" update="dataTable"
+                                             value=" Search " icon="ui-icon-search" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable scrollable="true" scrollHeight="200" value="#{accountBean.accountDataModel}" var="row" 
+                                         rowKey="#{row.accountId}"  selection="#{accountBean.account}" 
+                                         selectionMode="single" id="dataTable">
+                                <p:column width="50"> 
+                                    <f:facet name="header">
+                                        <h:outputText value="Account ID" />
+                                    </f:facet> 
+                                    #{row.accountId}  
+                                </p:column> 
+                                <p:column width="150">
+                                    <f:facet name="header">
+                                        <h:outputText value="Code" />
+                                    </f:facet>   
+                                    #{row.accountCode}  
+                                </p:column> 
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Description" />
+                                    </f:facet>   
+                                    #{row.description}  
+                                </p:column> 
+                                <p:column width="90">
+                                    <f:facet name="header">
+                                        <h:outputText value="Type" />
+                                    </f:facet>   
+                                    #{row.accountType.description}  
+                                </p:column>
+                                <p:column width="60">
+                                    <f:facet name="header">
+                                        <h:outputText value="Created On" />
+                                    </f:facet>
+                                    <h:outputText value="#{row.createDate}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column> 
+                                <p:column width="60">
+                                    <f:facet name="header">
+                                        <h:outputText value="Last Modified" />
+                                    </f:facet>
+                                    <h:outputText value="#{row.modifiedTime}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>  
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="updateButton" icon="ui-icon-pencil" value="Update"
+                                     action="#{accountBean.prepareForModify}" update=":detailsform:detailsPanel">
+                        <f:param name="editMode" value="EDIT" />
+                    </p:commandButton>
+
+                    <p:commandButton id="doneButton" value="Done" 
+                                     action="/schooluser/finance/settings/index" ajax="false" /> 
+                </div>
+            </p:panel>
+        </h:form>
+        <h:form prependId="false" id="detailsform">
+            <p:panel header="Details" id="detailsPanel">
+                <table width="100%">
+                    <tr>
+                        <td colspan="6">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Code</td>
+                        <td>
+                            <p:inputText id="accountCode" value="#{accountBean.account.accountCode}" 
+                                         readonly="#{accountBean.editMode != 'MODIFY'}"
+                                         required="true" requiredMessage=""/>
+                        </td>
+                        <td><p:message for="accountCode" /></td>
+                        <td>Description</td>
+                        <td>
+                            <p:inputText id="description" value="#{accountBean.account.description}" 
+                                         readonly="#{accountBean.editMode != 'MODIFY'}"
+                                         required="true" requiredMessage=""/>
+                        </td>
+                        <td><p:message for="description" /></td>
+                    </tr>
+                    <tr>
+                        <td>Account Type</td>
+                        <td>
+                            <p:selectOneMenu id="accountTypeId" value="#{accountBean.account.accountType.accountTypeId}"
+                                             style="width:200px" disabled="#{accountBean.editMode != 'MODIFY'}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeApplicationBean.accountTypes}" var="a" 
+                                               itemLabel="#{a.description}" itemValue="#{a.accountTypeId}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td><h:message for="accountTypeId" /></td>
+                        <td>Status</td>
+                        <td>
+                            <p:selectOneMenu id="status" value="#{accountBean.account.status}"
+                                             required="false" requiredMessage="" style="width:200px"
+                                             disabled="#{accountBean.editMode != 'MODIFY'}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.statusList}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td><h:message for="status" /></td>
+                    </tr>
+                    <tr>
+                        <td>Created On</td>
+                        <td>
+                            <p:inputText value="#{accountBean.account.createDate}" readonly="true" >
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </p:inputText>
+                        </td>
+                        <td></td>
+                        <td>Account ID</td>
+                        <td>
+                            <p:inputText id="accountId" value="#{accountBean.account.accountId}" 
+                                         readonly="true"/>
+                        </td>
+                        <td><h:message for="sectionId" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                        </td>
+                        <td><p:message for="accountId" /></td>
+                        <td>Modified by</td>
+                        <td>
+                            <h:inputText id="modifiedBy" value="#{accountBean.account.modifiedBy}" 
+                                         readonly="true"/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <p:commandButton id="saveButton" value=" Save " action="#{accountBean.saveAccount}"
+                                             disabled="#{accountBean.editMode != 'MODIFY'}" 
+                                             update=":searchform:dataTable,@form" icon="ui-icon-disk" /> 
+
+                            <p:commandButton id="clearButton" value="Reset" update="@form" icon="ui-icon-arrowrefresh-1-w"
+                                             immediate="true"  action="#{accountBean.clearForm}" /> 
+                        </td>
+                    </tr>
+                </table>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>

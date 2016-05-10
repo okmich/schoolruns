@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div style="margin: auto;width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="Religions">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <p:dataTable value="#{profileSettingBean.religionModel}" var="row" 
+                                 rowKey="#{row.religionId}"  selection="#{profileSettingBean.religion}" 
+                                 selectionMode="single" id="dataTable">
+                        <p:column headerText="ID"> 
+                            #{row.religionId}
+                        </p:column> 
+                        <p:column headerText="Description">
+                            #{row.description} 
+                        </p:column>
+                        <p:column headerText="Modified By">
+                            #{row.modifiedBy} 
+                        </p:column>
+                        <p:column headerText="Last Modified">
+                            <h:outputText value="#{row.modifiedTime}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>  
+                    <br />
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="newButton" value="New" icon="ui-icon-document" 
+                                         action="#{profileSettingBean.prepareForCreate}" update=":detailsform:detailsPanel"  />
+
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil"
+                                         action="#{profileSettingBean.prepareForModify}" update=":detailsform:detailsPanel" />
+
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/admin/settings/index" />   
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <table>
+                        <tr>
+                            <td align="right" width="15%">Code</td>
+                            <td>
+                                <p:inputText id="religionId" value="#{profileSettingBean.religion.religionId}"
+                                             required="true" requiredMessage="required"
+                                             readonly="#{profileSettingBean.editMode != 'CREATE'}"/>
+                            </td>
+                            <td><p:message for="religionId" /></td>
+                            <td align="right" width="15%">Description</td>
+                            <td>
+                                <p:inputText id="description" value="#{profileSettingBean.religion.description}"
+                                             required="true" requiredMessage="required"/>
+                            </td>
+                            <td><p:message for="description" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Modified</td>
+                            <td>
+                                <p:inputText id="modifiedTime" value="#{profileSettingBean.religion.modifiedTime}"
+                                             readonly="true" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:inputText>
+                            </td>
+                            <td><p:message for="modifiedTime" /></td>
+                            <td align="right" >By</td>
+                            <td>
+                                <p:inputText id="modifiedBy" value="#{profileSettingBean.religion.modifiedBy}"
+                                             readonly="true"/>
+                            </td>
+                            <td><p:message for="modifiedBy" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td colspan="5">
+                                <p:commandButton id="saveButton" value="Save" 
+                                                 action="#{profileSettingBean.saveReligion}" update=":searchform:dataTable @form" /> 
+
+                                <p:commandButton id="clearButton" value="Reset" update="@form"
+                                                 immediate="true"  action="#{profileSettingBean.clearForm}" /> 
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

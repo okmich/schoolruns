@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+                <ui:include src="/schooluser/staff/relatedtaskmenu.xhtml" />
+            </ui:define>
+            <ui:define name="panelTitle">
+                Educational/Professional Qualifications - (#{sessionBean.employeeData.fullname})
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td align="center">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="underline">
+                                Educational Qualification
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:dataTable id="empEduTabs" var="row" value="#{employeePropertyBean.empEduQualificationModel}"
+                                             rowKey="#{row.empEduQualificationId}" style="overflow: scroll;width: 100%;height: 150px"
+                                             selection="#{employeePropertyBean.empEduQualification}" selectionMode="single">
+                                    <p:column headerText="ID">
+                                        #{row.empEduQualificationId}
+                                    </p:column>
+                                    <p:column headerText="Qualification">
+                                        #{row.educationalQualification.description}
+                                    </p:column>
+                                    <p:column headerText="Institution" >
+                                        #{row.institution}
+                                    </p:column>
+                                    <p:column headerText="Date Obtained">
+                                        <h:outputText value="#{row.dateObtained}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Modified By">
+                                        #{row.modifiedBy}
+                                    </p:column>
+                                    <p:column headerText="Lasted Modified">
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime dateStyle="short" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <div id="taskButtonPanel">
+                                    <p:commandButton id="addButton" value=" New " icon="ui-icon-plusthick"
+                                                     action="/schooluser/staff/educationalqualificationnew" ajax="false"/>
+                                    
+                                    <p:commandButton id="updateButton" value=" Update " icon="ui-icon-pencil"
+                                                     onclick="eduDlg.show()" />
+
+                                    <p:commandButton id="doneButton" value="Done" icon="ui-icon-check" immediate="true"
+                                                     action="/schooluser/staff/employeedetails" ajax="false"/>
+                                    <p:defaultCommand target="doneButton" />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="underline">
+                                Professional Qualification
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:dataTable id="empProfTabs" var="row" value="#{employeePropertyBean.empProfQualificationModel}"
+                                             rowKey="#{row.empProfQualificationId}" style="overflow: scroll;width: 100%;height: 150px"
+                                             selection="#{employeePropertyBean.empProfQualification}" selectionMode="single"
+                                             >
+                                    <p:column headerText="ID">
+                                        #{row.empProfQualificationId}
+                                    </p:column>
+                                    <p:column headerText="Qualification">
+                                        #{row.professionalQualification.description}
+                                    </p:column>
+                                    <p:column headerText="Institution" >
+                                        #{row.institution}
+                                    </p:column>
+                                    <p:column headerText="Date Obtained">
+                                        <h:outputText value="#{row.dateObtained}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Is Member?" >
+                                        #{row.activeMember}
+                                    </p:column>
+                                    <p:column headerText="Modified By">
+                                        #{row.modifiedBy}
+                                    </p:column>
+                                    <p:column headerText="Lasted Modified">
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime dateStyle="short" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <div id="taskButtonPanel">
+                                    <p:commandButton id="addButton2" value=" New " icon="ui-icon-plusthick"
+                                                     action="/schooluser/staff/professionalqualificationnew" ajax="false"/>
+                                    
+                                    <p:commandButton id="updateButton2" value=" Update " icon="ui-icon-pencil"
+                                                     onclick="profDlg.show()" />
+
+                                    <p:commandButton id="doneButton2" value="Done" icon="ui-icon-check" immediate="true"
+                                                     action="/schooluser/staff/employeedetails" ajax="false"/>
+                                    <p:defaultCommand target="doneButton" />
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+                <p:dialog header="Educational Qualification" widgetVar="eduDlg" resizable="false" modal="true">  
+                    <h:form>
+                        <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        <h:panelGrid columns="1" style="margin-bottom:10px">
+
+                            <h:panelGrid columns="3">
+                                <h:outputText value="Qualification" />
+                                <p:inputText value="#{employeePropertyBean.empEduQualification.educationalQualification.educationalQualId}"
+                                             style="width:200px" id="educationalQualId" required="true" 
+                                             requiredMessage=""/>
+                                <p:message for="educationalQualId" />
+                                <h:outputText value="Insitution" />
+                                <p:inputText value="#{employeePropertyBean.empEduQualification.institution}"
+                                             required="true" requiredMessage="" id="institution"/>
+                                <p:message for="institution" />
+                                <h:outputText value="Date Obtained" />
+                                <p:calendar value="#{employeePropertyBean.empEduQualification.dateObtained}"
+                                            required="true" requiredMessage="" id="dateObtained"
+                                            pattern="dd/MM/yyyy" navigator="true"/>
+                                <p:message for="dateObtained" />
+                                <h:outputText value="ID" />
+                                <p:inputText value="#{employeePropertyBean.empEduQualification.empEduQualificationId}"
+                                             required="falses" requiredMessage="" id="empEduQualificationId"/>
+                                <p:message for="empEduQualificationId" />
+                                <h:outputText value=" " />
+                                <h:panelGroup>
+                                    <p:commandButton id="updateButton2" value=" Update " icon="ui-icon-pencil"
+                                                     action="#{employeePropertyBean.saveEmpEduQualification}" />
+
+                                    <p:commandButton id="doneButton2" value="Done" icon="ui-icon-check"
+                                                     onclick="activityDlg.hide()"/>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </h:form>  
+                </p:dialog>
+                <p:dialog header="Professional Qualification" widgetVar="profDlg" resizable="false" modal="true">  
+                    <h:form>
+                        <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        <h:panelGrid columns="1" style="margin-bottom:10px">
+
+                            <h:panelGrid columns="3">
+                                <h:outputText value="Qualification" />
+                                <p:inputText value="#{employeePropertyBean.empProfQualification.professionalQualification.professionalQualId}"
+                                             style="width:200px" id="professionalQualId" required="true" 
+                                             requiredMessage=""/>
+                                <p:message for="professionalQualId" />
+                                <h:outputText value="Insitution" />
+                                <p:inputText value="#{employeePropertyBean.empProfQualification.institution}"
+                                             required="true" requiredMessage="" id="institution"/>
+                                <p:message for="institution" />
+                                <h:outputText value="Date Obtained" />
+                                <p:calendar value="#{employeePropertyBean.empProfQualification.dateObtained}"
+                                            required="true" requiredMessage="" id="dateObtained"
+                                            pattern="dd/MM/yyyy" navigator="true"/>
+                                <p:message for="dateObtained" />
+                                <h:outputText value="Is Member of Institution" />
+                                <p:selectBooleanCheckbox value="#{employeePropertyBean.empProfQualification.activeMember}"
+                                                         id="activeMember"/>
+                                <p:message for="activeMember" />
+                                <h:outputText value="ID" />
+                                <p:inputText value="#{employeePropertyBean.empProfQualification.empProfQualificationId}"
+                                             required="falses" requiredMessage="" id="empProfQualificationId"/>
+                                <p:message for="empProfQualificationId" />
+                                <h:outputText value=" " />
+                                <h:panelGroup>
+                                    <p:commandButton id="updateButton2" value=" Update " icon="ui-icon-pencil"
+                                                     action="#{employeePropertyBean.saveEmpProfQualification}" />
+
+                                    <p:commandButton id="doneButton2" value="Done" icon="ui-icon-check"
+                                                     onclick="profDlg.hide()"/>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </h:form>  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

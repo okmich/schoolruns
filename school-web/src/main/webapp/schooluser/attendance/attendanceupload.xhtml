@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                Upload Attendance Register
+            </ui:define>
+            <ui:define name="menu_panel">
+
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form enctype="multipart/form-data">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="4">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">
+                                <p:panel style="float:right;width:200pt;" header="NOTICE">
+                                    Read the following instruction to ensure you smooth use of the data upload feature on this page.
+                                    <ul>
+                                        <li> the import file must be saved as an *.xls or *.xlxs file type</li>
+                                        <li> before an upload, an attendance register for the class in form of an excel file must have been downloaded.</li>
+                                        <li> the file must not be larger than 4mb in size</li>
+                                        <li> the structure of data import must strictly be in accordance with the downloaded form.</li>
+                                    </ul>
+                                </p:panel>
+                                <table width="360pt" style="float:left;">
+                                    <tr>
+                                        <td colspan="2">Read the instruction to the right to how best to use the student data upload facility</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"
+                                                        id="messageBoard"/>
+                                            <p:message for="filelogo" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><br /> </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right" valign="top">File</td>
+                                        <td>
+                                            <p:fileUpload id="filelogo" value="#{excelFileImportBean.uploadedFile}" mode="simple"
+                                                          allowTypes="/(\.|\/)(jpe?g)$/" invalidFileMessage="invalid file. Use jpeg files only"
+                                                          sizeLimit="512000" invalidSizeMessage="invalid file size. Must be less than 512kb"
+                                                          required="true" requiredMessage="" validatorMessage="A correct document is required. Check side note."/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">
+                                            <p:outputLabel for="schoolClassId" value="Class" rendered="#{sessionBean.editMode=='STUDENT'}"/>
+                                        </td>
+                                        <td>
+                                            <p:selectOneMenu id="schoolClassId" value="#{schoolSessionBean.gradeLevelId}" style="width:200px"
+                                                             rendered="#{sessionBean.editMode=='STUDENT'}"
+                                                             required="#{sessionBean.editMode=='STUDENT'}" requiredMessage="">
+                                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                                <f:selectItems value="#{schoolSessionBean.schoolClasses}" var="s" 
+                                                               itemLabel="#{s.code}" itemValue="#{s.schoolClassId}" />
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" id="taskButtonPanel">
+                                            <p:commandButton id="submitBuxtton" value="Submit" action="#{excelFileImportBean.doExcelImport}" ajax="false"
+                                                             icon="ui-icon-cart" rendered="#{sessionBean.editMode=='STUDENT'}">
+                                                <f:param name="ACTIONCODE" value="SCHSTDNSATTND" />
+                                                <f:param name="ACTIONDESC" value="Bulk loading of school students\' attendance register" />
+                                                <f:param name="BACKPATH" value="/schooluser/attendance/attendanceupload" />
+                                                <f:param name="ROWSTART" value="1" />
+                                            </p:commandButton>
+
+                                            <p:commandButton id="doneButton" value=" Done " icon="ui-icon-check" ajax="false"
+                                                             action="/schooluser/attendance/studentattendance" immediate="true"
+                                                             rendered="#{sessionBean.editMode=='STUDENT'}"> 
+                                                <f:setPropertyActionListener target="#{sessionBean.editMode}" value="" />
+                                            </p:commandButton>  
+
+                                            <p:commandButton id="submitButtons" value="Submit" action="#{excelFileImportBean.doExcelImport}" ajax="false"
+                                                             icon="ui-icon-cart" rendered="#{sessionBean.editMode=='STAFF'}">
+                                                <f:param name="ACTIONCODE" value="STAFFSATTND" />
+                                                <f:param name="ACTIONDESC" value="Bulk loading of staffs\' attendance register" />
+                                                <f:param name="BACKPATH" value="/schooluser/attendance/attendanceupload" />
+                                                <f:param name="ROWSTART" value="1" />
+                                            </p:commandButton>
+
+                                            <p:commandButton id="doneButtons" value=" Done " icon="ui-icon-check" ajax="false"
+                                                             action="/schooluser/attendance/staffattendance" immediate="true"
+                                                             rendered="#{sessionBean.editMode=='STAFF'}">  
+                                                <f:setPropertyActionListener target="#{sessionBean.editMode}" value="" />
+                                            </p:commandButton>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

@@ -1,0 +1,3 @@
+A staff account has been created for you on $school online platform.
+Username: ${userLogin.username}
+Password: same as username

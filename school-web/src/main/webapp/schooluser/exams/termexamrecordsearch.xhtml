@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/searchformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Exam Summary Records
+        </ui:define>
+        <ui:define name="contentPanel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="4">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <table width="90%">
+                                <tr>
+                                    <td width="20%" align="right">Exam Session</td>
+                                    <td width="25%">
+                                        <p:selectOneMenu id="examBatchId" value="#{termExamRecordBean.examBatchId}" style="width:200px">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                            <f:selectItems value="#{examBatchBean.examBatches}" var="e" 
+                                                           itemLabel="#{e.description}" itemValue="#{e.examBatchId}" />
+                                        </p:selectOneMenu>
+                                    </td>
+                                    <td width="20%" align="right">Grade</td>
+                                    <td width="25%">
+                                        <p:selectOneMenu id="gradeLevel" value="#{termExamRecordBean.gradeLevelId}">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                            <f:selectItems value="#{applicationListBean.gradeLevelList}" var="g" 
+                                                           itemLabel="#{g.description}" itemValue="#{g.gradeLevelId}" />
+                                        </p:selectOneMenu>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right">Student Surname</td>
+                                    <td><p:inputText value="#{termExamRecordBean.surname}" /></td>
+                                    <td align="right">Class</td>
+                                    <td>
+                                        <p:selectOneMenu id="schoolClassId" value="#{termExamRecordBean.schoolClassId}" style="width:200px">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                            <f:selectItems value="#{schoolSessionBean.schoolClasses}" var="s" 
+                                                           itemLabel="#{s.code}" itemValue="#{s.schoolClassId}" />
+                                        </p:selectOneMenu>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <p:commandButton id="searchButton" value="Search" icon="ui-icon-search"
+                                                         update="examRecTab messages" action="#{termExamRecordBean.findTermExamRecords}"/>
+                                        <p:defaultCommand target="searchButton" />
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p:dataTable id="examRecTab" var="row" value="#{sessionBean.termExamRecordModel}" rowKey="#{row.termExamRecordId}"
+                                         selection="#{termExamRecordBean.termExamRecord}" selectionMode="single"
+                                         style="overflow: scroll;width: 100%;height: 300px">
+                                <p:column headerText="ID">
+                                    #{row.termExamRecordId}
+                                </p:column>
+                                <p:column headerText="Student Name">
+                                    #{row.schoolStudent.student.fullname}
+                                </p:column>
+                                <p:column headerText="Admission No.">
+                                    #{row.schoolStudent.registrationNo}
+                                </p:column>
+                                <p:column headerText="Total Score" >
+                                    <h:outputText value="#{row.totalTermScore}" >
+                                        <f:convertNumber pattern="#,##0" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Total Weight">
+                                    <h:outputText value="#{row.totalcreditWeight}">
+                                        <f:convertNumber pattern="#,##0" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Average">
+                                    <h:outputText value="#{row.cgpa}">
+                                        <f:convertNumber pattern="#,##0.00" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Class Position">
+                                    #{row.classPosition}
+                                </p:column>
+                                <p:column headerText="Short Comment">
+                                    #{row.perfDescription}
+                                </p:column>
+                                <f:facet name="footer">  
+                                    <h:commandLink rendered="#{sessionBean.termExamRecordModel.rowAvailable}">
+                                        <h:graphicImage name="excel.png" library="images"/>
+                                        <p:dataExporter type="xls" target="examRecTab" fileName="exam-record-summary-export" />  
+                                    </h:commandLink>  
+
+                                    <h:commandLink rendered="#{sessionBean.termExamRecordModel.rowAvailable}">
+                                        <h:graphicImage name="pdf.png" library="images"/>
+                                        <p:dataExporter type="pdf" target="examRecTab" fileName="exam-record-summary-export"/>  
+                                    </h:commandLink>
+                                </f:facet>  
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel">
+                    <p:commandButton id="viewButton" value=" View " icon="ui-icon-zoomin"
+                                     action="#{termExamRecordBean.findTermExamRecord}">
+                    </p:commandButton>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

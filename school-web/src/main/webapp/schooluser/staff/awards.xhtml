@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+                <ui:include src="/schooluser/staff/relatedtaskmenu.xhtml" />
+            </ui:define>
+            <ui:define name="panelTitle">
+                Award History - (#{sessionBean.employeeData.fullname})
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="6">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:dataTable id="studentAwardTabs" var="row" value="#{employeePropertyBean.employeeAwardModel}" 
+                                             rowKey="#{row.employeeAwardId}"  selectionMode="single"
+                                             selection="#{employeePropertyBean.employeeAward}"
+                                             style="overflow: scroll;width: 100%;height: 250px">
+                                    <p:column headerText="ID">
+                                        #{row.employeeAwardId}
+                                    </p:column>
+                                    <p:column headerText="Award">
+                                        #{row.award}
+                                    </p:column>
+                                    <p:column headerText="Comment">
+                                        #{studentPropertyBean.truncate(row.comment)}
+                                    </p:column>
+                                    <p:column headerText="Date">
+                                        <h:outputText value="#{row.dateObtained}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="institution">
+                                        #{studentPropertyBean.truncate(row.institution)}
+                                    </p:column>
+                                    <p:column headerText="Modified By">
+                                        #{row.modifiedBy}
+                                    </p:column>
+                                    <p:column headerText="Lasted Modified">
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime dateStyle="short" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="addButton" value=" New " icon="ui-icon-plusthick"
+                                         action="/schooluser/staff/awardnew" ajax="false"/>
+
+                        <p:commandButton id="updateButton" value=" View " icon="ui-icon-zoomin"
+                                         onclick="awardDlg.show()" />
+
+                        <p:commandButton id="doneButton" value=" Done " icon="ui-icon-check" immediate="true"
+                                         action="/schooluser/staff/employeedetails" ajax="false"/>
+                        <p:defaultCommand target="doneButton" />
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

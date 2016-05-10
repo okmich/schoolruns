@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Class-wise Exam Score Entry
+        </ui:define>
+        <ui:define name="menu_panel">
+            Select an exam batch and the class to enter scores for all the subjects in one exam session by any member the class.
+            <br /><br />
+            Class Exam score sheet can also be download for offline data entry.
+            <br /><br />
+            Having filled the downloaded score sheets offline, the same can be uploaded to update your exam record in batch.
+            <br /><br />
+            Exams score previously saved can also be open and edited at this section.
+        </ui:define>
+        <ui:define name="panelTitle">
+            Class-wise Exam Score Entry
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form prependId="false">
+                <table width="100%">
+                    <tr>
+                        <td colspan="3" align="center">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="30%">Exam Session</td>
+                        <td>
+                            <p:selectOneMenu id="examBatchId" value="#{examBean.examBatchId}" style="width:200px"
+                                             required="true" requiredMessage="" valueChangeListener="#{examBean.examBatchSelectEvent}"
+                                             onchange="" immediate="true">
+                                <f:ajax event="valueChange" execute="@this" render="schoolClassId" />
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{examBatchBean.examBatches}" var="e" 
+                                               itemLabel="#{e.description}" itemValue="#{e.examBatchId}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="examBatchId" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top">Class</td>
+                        <td>
+                            <p:selectOneMenu id="schoolClassId" value="#{examBean.schoolClassId}" style="width:200px"
+                                             required="true" requiredMessage="" valueChangeListener="#{examBean.schoolClassSelectEvent}"
+                                             onchange="" immediate="true">
+                                <f:ajax event="valueChange" execute="@this" render="buttonGroup" />
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{examBean.schoolClasses}" var="s" 
+                                               itemLabel="#{s.description}" itemValue="#{s.schoolClassId}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="schoolClassId" /></td>
+                    </tr>
+                </table>
+                <p>  
+                    &nbsp;
+                </p>
+                <h:panelGroup id="buttonGroup"> 
+                    <div  id="taskButtonPanel">
+                        <p:commandButton id="prepateButton" icon="ui-icon-arrow-4-diag"
+                                         value="Prepare Class Scores" action="#{examBean.prepareClassExamScoreSheet}"  ajax="false" 
+                                         rendered="#{examBean.examBatchClass.status == 'I'}" />
+
+                        <p:commandButton id="scoreButton" value=" Scores " icon="ui-icon-calculator"
+                                         action="#{examBean.prepareForClassScoreEntry}"
+                                         rendered="#{examBean.examBatch.status != 'I'}"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

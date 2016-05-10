@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Exam Details (#{examBean.exam.examId})
+        </ui:define>
+        <ui:define name="menu_panel">
+            <p:menu style="width: 190px">
+                <p:menuitem value="Prepare Scoresheet" action="#{examBean.prepareExamScoreSheet}" icon="ui-icon-arrow-4-diag"
+                            rendered="#{sessionBean.exam.status == 'I'}" ajax="false"/>
+                <p:menuitem value="Scores" action="#{examBean.findExamScores}" icon="ui-icon-calculator"
+                            rendered="#{sessionBean.exam.status != 'I'}"/>
+                <p:menuitem value="Commit Result" action="#{examBean.findExam}" icon="ui-icon-arrowthickstop-1-s"
+                            rendered="#{sessionBean.exam.status == 'L'}"/>
+            </p:menu>
+        </ui:define>
+        <ui:define name="panelTitle">
+            Exam Details (#{examBean.exam.examId})
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3" align="center">
+                            <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="30%">Exam Session</td>
+                        <td>
+                            <p:selectOneMenu id="examBatchId" value="#{sessionBean.exam.examBatch.examBatchId}" style="width:200px"
+                            		disabled="true">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{examBatchBean.examBatches}" var="e" 
+                                               itemLabel="#{e.description}" itemValue="#{e.examBatchId}" />
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="examBatchId" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top">Exam ID</td>
+                        <td>
+                            <p:inputText id="examId" value="#{sessionBean.exam.examId}" required="true" 
+                                         requiredMessage="required" readonly="true" size="5"/>
+                        </td>
+                        <td><p:message for="examId" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top">Exam Date/Time</td>
+                        <td>
+                            <p:calendar id="examTime" value="#{sessionBean.exam.examTime}"
+                                        pattern="dd/MM/yyyy HH:mm" required="true" requiredMessage="" navigator="true"
+                                        disabled="#{sessionBean.editMode == 'VIEW' or sessionBean.exam.status != 'I'}"/>
+                        </td>
+                        <td><p:message for="examTime" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Full Score</td>
+                        <td valign="top">
+                            <p:inputText id="maxScore" value="#{sessionBean.exam.maxScore}" required="true" 
+                                         requiredMessage="required" size="10"
+                                         readonly="#{sessionBean.editMode == 'VIEW' or sessionBean.exam.status != 'I'}">
+                                <f:convertNumber pattern="#0" />
+                                <f:validateLongRange minimum="0" maximum="100" />
+                            </p:inputText>
+                        </td>
+                        <td><p:message for="maxScore" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Class</td>
+                        <td>
+                            <p:selectOneMenu id="schoolClassId" required="true" requiredMessage="" style="width:200px"
+                                             value="#{sessionBean.exam.schoolClass.schoolClassId}" disabled="true">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{schoolSessionBean.schoolClasses}" var="s"
+                                               itemValue="#{s.code}" itemLabel="#{s.schoolClassId}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="schoolClassId" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Term</td>
+                        <td>
+                            <p:selectOneMenu id="schoolTermId" required="true" requiredMessage="" style="width:200px"
+                                             value="#{sessionBean.exam.schoolTerm.schoolTermId}" disabled="true">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{schoolSessionBean.schoolTerms}" var="s"
+                                               itemValue="#{s.term.description}" itemLabel="#{s.schoolTermId}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="schoolTermId" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Status</td>
+                        <td>
+                            <p:selectOneMenu id="status" required="true" requiredMessage="" style="width:200px"
+                                             value="#{sessionBean.exam.status}" disabled="true">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{examBean.examStatus}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="status" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Modified By</td>
+                        <td>
+                            <p:inputText id="modifiedBy" value="#{sessionBean.exam.modifiedBy}" required="true" 
+                                         requiredMessage="required" readonly="true"/>
+                        </td>
+                        <td><p:message for="modifiedBy" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Last Modified</td>
+                        <td>
+                            <p:inputText id="modifiedTime" value="#{sessionBean.exam.modifiedTime}" required="true" 
+                                         requiredMessage="required" readonly="true">
+                                <f:convertDateTime />
+                            </p:inputText>
+                        </td>
+                        <td><p:message for="modifiedTime" /></td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel"> 
+                    <p:commandButton id="saveButton" value="Save" icon="ui-icon-disk"
+                                     action="#{examBean.saveExam}" 
+                                     rendered="#{sessionBean.editMode == 'EDIT' and sessionBean.exam.status == 'I'}" />
+
+                    <p:commandButton id="doneButton" value="Done" icon="ui-icon-check"
+                                     action="#{examBean.retToSearch}" immediate="true" />
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</f:view>

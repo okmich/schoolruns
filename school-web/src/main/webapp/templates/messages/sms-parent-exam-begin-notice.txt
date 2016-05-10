@@ -1,0 +1,1 @@
+${termdescription} ${examTypeCode} for ${student} will commence ${startDate} up till ${endDate}.  Accord your ward any necessary assistance.

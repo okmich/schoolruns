@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            Store Item Details for store - (#{financeSessionBean.store.name})
+        </ui:define>
+        <ui:define name="menu_panel">
+            <p:menu style="width: 190px" rendered="#{financeSessionBean.editMode != 'CREATE'}">
+                <p:menuitem value="View Store Items Events" action="#{storeBean.findStoreActivities}"
+                            icon="ui-icon-zoomin" ajax="false">
+                    <f:setPropertyActionListener target="#{financeSessionBean.editMode}" 
+                                                 value="" />
+                </p:menuitem>
+
+                <p:menuitem id="restockButton" value=" Restock Item " icon="ui-icon-plus"
+                            action="#{storeBean.preStoreItemAction}" ajax="false">
+                    <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="RESTOCK"/>
+                </p:menuitem>
+
+                <p:menuitem id="issueButton" value=" Issue " icon="ui-icon-plusthick"
+                            action="#{storeBean.preStoreItemAction}" ajax="false">
+                    <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="ISSUE"/>
+                </p:menuitem>
+
+                <p:menuitem id="lendButton" value=" Lend Item " icon="ui-icon-plusthick"
+                            action="#{storeBean.preStoreItemAction}" ajax="false">
+                    <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="LEND"/>
+                </p:menuitem>
+
+                <p:menuitem id="retButton" value=" Return Item " icon="ui-icon-refresh"
+                            action="#{storeBean.preStoreItemAction}" ajax="false">
+                    <f:setPropertyActionListener target="#{financeSessionBean.editMode}" value="RETURN"/>
+                </p:menuitem>
+            </p:menu>
+        </ui:define>
+        <ui:define name="panelTitle">
+            Store Item Details (#{storeBean.store.storeId})
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3" align="center">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">ID</td>
+                        <td>
+                            <p:inputText id="storeItemId" value="#{financeSessionBean.storeItem.storeItemId}" 
+                                         required="#{financeSessionBean.editMode != 'CREATE'}" 
+                                         requiredMessage="required" readonly="true" size="6"/>
+                        </td>
+                        <td><p:message for="storeItemId" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Name</td>
+                        <td>
+                            <p:inputText id="name" value="#{financeSessionBean.storeItem.name}" required="true" 
+                                         requiredMessage="required"/>
+                        </td>
+                        <td><p:message for="name" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Description</td>
+                        <td>
+                            <p:inputText id="description" value="#{financeSessionBean.storeItem.description}" 
+                                         requiredMessage="" size="50" />
+                        </td>
+                        <td><p:message for="description" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top">Quantity</td>
+                        <td>
+                            <p:inputText id="quantity" value="#{financeSessionBean.storeItem.quantity}" required="true" 
+                                         requiredMessage="">
+                                <f:convertNumber />
+                                <f:validateDoubleRange minimum="0" />
+                            </p:inputText>
+                        </td>
+                        <td><p:message for="quantity" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Item Type</td>
+                        <td>
+                            <p:selectOneMenu id="storeItemTypeCode" style="width:200px"
+                                             value="#{financeSessionBean.storeItem.storeItemType.storeItemTypeCode}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{financeApplicationBean.storeItemTypes}" var="s"
+                                               itemValue="#{s.storeItemTypeCode}" itemLabel="#{s.description}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="storeItemTypeCode" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Status</td>
+                        <td>
+                            <p:selectOneMenu id="status" required="true" requiredMessage="" style="width:200px"
+                                             value="#{financeSessionBean.storeItem.status}" disabled="true">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.statusList}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="status" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Modified By</td>
+                        <td>
+                            <p:inputText id="modifiedBy" value="#{financeSessionBean.storeItem.modifiedBy}" required="true" 
+                                         requiredMessage="required" readonly="true"/>
+                        </td>
+                        <td><p:message for="modifiedBy" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Last Modified</td>
+                        <td>
+                            <p:inputText id="modifiedTime" value="#{financeSessionBean.storeItem.modifiedTime}" required="true" 
+                                         requiredMessage="required" readonly="true">
+                                <f:convertDateTime />
+                            </p:inputText>
+                        </td>
+                        <td><p:message for="modifiedTime" /></td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel"> 
+                    <p:commandButton id="createButton" value=" Save " icon="ui-icon-disk"
+                                     action="#{storeBean.createStoreItem}" update="messages"
+                                     rendered="#{financeSessionBean.editMode == 'CREATE'}"/>
+
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk"
+                                     action="#{storeBean.saveStoreItem}" update="messages"
+                                     rendered="#{financeSessionBean.editMode != 'CREATE'}"/>
+
+                    <p:commandButton id="doneButton" value=" Done " icon="ui-icon-check"
+                                     action="#{storeBean.retToItemSearch}" immediate="true" />
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

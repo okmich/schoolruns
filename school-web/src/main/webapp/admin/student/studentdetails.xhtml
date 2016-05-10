@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+                <p:growl id="growl"/>
+                <p:menu style="width: 190px">
+                    <p:submenu label="School Tasks">
+                        <p:menuitem value="Administrator" action="/admin/school/schooladmin"/>
+                        <p:menuitem value="Modules" action="/admin/school/schoolmodules"/>
+                        <p:menuitem value="Web UI Preference"
+                                    action="/admin/school/schoolpref"/>
+                        <p:menuitem value="School Summary"
+                                    action="/admin/school/schoolpref"/>
+                    </p:submenu>
+                </p:menu>
+            </ui:define>
+            <ui:define name="panelTitle">
+                School Details
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="3" align="center">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="30%">Name</td>
+                            <td>
+                                <p:inputText id="name" value="#{schoolBean.school.name}" required="true" 
+                                             requiredMessage="required" size="40"
+                                             readonly="#{sessionBean.editMode == 'VIEW'}"/>
+                            </td>
+                            <td><p:message for="name" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top">Address</td>
+                            <td>
+                                <okrol:address address="#{schoolBean.school.address}" viewMode="#{sessionBean.editMode == 'VIEW'}"
+                                               required="true" requiredMessage="required" streetFieldSize = "40"
+                                               />
+                            </td>
+                            <td><p:message for="name" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Email</td>
+                            <td valign="top">
+                                <p:inputText id="emailAddress" value="#{schoolBean.school.emailAddress}" required="true" 
+                                             requiredMessage="required" size="40"
+                                             readonly="#{sessionBean.editMode == 'VIEW'}"/>
+                            </td>
+                            <td><p:message for="emailAddress" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Contact Number</td>
+                            <td valign="top">
+                                <p:inputText id="contactNo" value="#{schoolBean.school.contactNo}" required="true" 
+                                             requiredMessage="required" size="30"
+                                             readonly="#{sessionBean.editMode == 'VIEW'}"/>
+                            </td>
+                            <td><p:message for="contactNo" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Fax Number</td>
+                            <td valign="top">
+                                <p:inputText id="faxNo" value="#{schoolBean.school.faxNo}" size="30"
+                                             readonly="#{sessionBean.editMode == 'VIEW'}"/>
+                            </td>
+                            <td><p:message for="faxNo" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Web site</td>
+                            <td valign="top">
+                                <p:inputText id="webSite" value="#{schoolBean.school.webSite}" size="30"
+                                             readonly="#{sessionBean.editMode == 'VIEW'}"/>
+                            </td>
+                            <td><p:message for="webSite" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Date Founded</td>
+                            <td valign="top">
+                                <p:calendar id="startedDate" value="#{schoolBean.school.startedDate}" mindate="1/1/1890"
+                                            pattern="dd/MM/yyyy" required="true" requiredMessage="required" navigator="true"
+                                            readonly="#{sessionBean.editMode == 'VIEW'}"/>
+                            </td>
+                            <td><p:message for="startedDate" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">National Affiliation</td>
+                            <td valign="top">
+                                <p:selectOneMenu id="countryCode" value="#{schoolBean.school.country.countryCode}"
+                                                 style="width:170px" disabled="#{sessionBean.editMode == 'VIEW'}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{applicationListBean.countryList}" var="c" 
+                                                   itemLabel="#{c.description}" itemValue="#{c.countryCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:message for="countryCode" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Slogan</td>
+                            <td valign="top">
+                                <p:inputText id="slogan" value="#{schoolBean.school.slogan}" required="true" 
+                                             requiredMessage="required" size="40" readonly="#{sessionBean.editMode == 'VIEW'}"/>
+                            </td>
+                            <td><p:message for="slogan" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Facilities</td>
+                            <td valign="top">
+                                <div style="height: 100px;overflow: scroll">
+                                    <p:selectManyCheckbox value="#{schoolBean.school.facilityList}" layout="pageDirection"
+                                                          id="schoolFacilityList" style="width:200px;height:50px"
+                                                          required="false" requiredMessage="required"
+                                                          disabled="#{sessionBean.editMode == 'VIEW'}">
+                                        <f:selectItems value="#{applicationListBean.facilityList}" var="f"
+                                                       itemLabel="#{f.description}" itemValue="#{f.facilityId}" />
+                                    </p:selectManyCheckbox>
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel"> 
+                        <p:commandButton id="saveButton" value="Save" icon="ui-icon-zoomin"
+                                         action="#{schoolBean.saveSchool}" rendered="#{sessionBean.editMode == 'UPDATE'}" />
+                        <p:commandButton id="doneButton" value="Done" icon="ui-icon-pencil"
+                                         action="/admin/school/schoolsearch" immediate="true" />
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

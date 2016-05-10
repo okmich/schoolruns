@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body class="ui-widget-content">
+        <div style="margin: auto;width: 860px;">
+            <h:form prependId="false" id="searchform"> 
+                <p:panel header="States">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <table width="100%">
+                        <tr>
+                            <td width="25%" align="right">State </td>
+                            <td> 
+                                <p:selectOneMenu id="stateCodeView" value="#{addressBean.stateCode}"
+                                                 style="width:200px">
+                                    <f:selectItem itemValue="" itemLabel="----------------------" />
+                                    <f:selectItems value="#{addressApplicationBean.statesList}" var="s" 
+                                                   itemLabel="#{s.name}" itemValue="#{s.stateCode}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <p:dataTable scrollable="true" scrollHeight="200" value="#{addressBean.cityModel}" var="row" 
+                                             rowKey="#{row.cityId}"  selection="#{addressBean.city}" 
+                                             selectionMode="single" id="dataTable">
+                                    <p:column width="100"> 
+                                        <f:facet name="header">
+                                            <h:outputText value="City ID" />
+                                        </f:facet> 
+                                        #{row.cityId}  
+                                    </p:column> 
+                                    <p:column width="200">
+                                        <f:facet name="header">
+                                            <h:outputText value="Name" />
+                                        </f:facet>   
+                                        #{row.name}  
+                                    </p:column> 
+                                    <p:column width="200">
+                                        <f:facet name="header">
+                                            <h:outputText value="State" />
+                                        </f:facet>   
+                                        #{row.state.name}  
+                                    </p:column> 
+                                    <p:column width="200">
+                                        <f:facet name="header">
+                                            <h:outputText value="Last Modified" />
+                                        </f:facet>   
+                                        <h:outputText value="#{row.modifiedTime}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>  
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="newButton" value="New" icon="ui-icon-document" 
+                                         action="#{addressBean.prepareToAddCity}" update=":detailsform:detailsPanel"  />  
+
+                        <p:commandButton id="updateButton" icon="ui-icon-pencil" value="Update"
+                                         action="#{addressBean.findCity}" update=":detailsform:detailsPanel">   
+                            <f:param name="editMode" value="EDIT" />
+                        </p:commandButton>
+
+                        <p:commandButton id="searchButton" icon="ui-icon-zoomin" value="Search" update="dataTable"
+                                         action="#{addressBean.findCities}"/>   
+
+                        <p:commandButton id="doneButton" value="Done" 
+                                         action="/admin/settings/index" ajax="false" /> 
+                    </div>
+                </p:panel>
+            </h:form>
+            <h:form prependId="false" id="detailsform">
+                <p:panel header="Details" id="detailsPanel">
+                    <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                    <h:panelGrid columns="3">
+                        <h:outputText value="ID" />
+                        <h:inputText id="cityId" value="#{addressBean.city.cityId}" readonly="true"/>
+                        <h:message for="cityId" />
+                        <h:outputText value="City" />
+                        <h:inputText id="city" value="#{addressBean.city.name}" size="40"
+                                     required="true" requiredMessage="required"
+                                     readonly="#{addressBean.editMode != 'CREATE'}"/>
+                        <h:message for="city" />
+                        <h:outputText value="State" />
+                        <p:selectOneMenu id="state" value="#{addressBean.city.state.stateCode}"
+                                         required="true" requiredMessage="required" style="width:200px"
+                                         disabled="#{addressBean.editMode != 'CREATE'}">
+                            <f:selectItem itemValue="" itemLabel="----------------------" />
+                            <f:selectItems value="#{addressApplicationBean.statesList}" var="s" 
+                                           itemLabel="#{s.name}" itemValue="#{s.stateCode}" />
+                        </p:selectOneMenu>
+                        <h:message for="state" />
+                        <h:outputText value="" />
+                        <h:panelGroup>
+                            <p:commandButton id="saveButton" value="Save" disabled="#{addressBean.editMode == 'VIEW'}"
+                                             action="#{addressBean.saveCity}" update=":searchform:dataTable" /> 
+
+                            <p:commandButton id="clearButton" value="Reset" update="detailsPanel"
+                                             immediate="true"  action="#{addressBean.clearCity}" /> 
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

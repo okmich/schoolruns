@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="menu_panel">
+                <ui:include src="/schooluser/parent/relatedtaskmenu.xhtml" />
+            </ui:define>
+            <ui:define name="panelTitle">
+                Wards - #{sessionBean.parent.surname} #{sessionBean.parent.othernames}
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form>
+                    <table width="100%">
+                        <tr>
+                            <td align="center">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:dataGrid var="row" value="#{parentBean.schoolStudentModel}" 
+                                            columns="2" rows="4">
+                                    <p:column>
+                                        <p:panel header="#{row.fullname}">
+                                            <h:panelGrid columns="2">
+                                                <p:column colspan="2">
+                                                    <p:graphicImage value="#{row.pictureUrl}"/>
+                                                </p:column>
+                                                <h:outputText value="Admission #: " />
+                                                <h:outputText value="#{row.registrationNo}" />
+                                                <h:outputText value="Class: " />
+                                                <h:outputText value="#{row.schoolClassCode}" />
+                                            </h:panelGrid>
+                                        </p:panel>
+                                    </p:column>
+                                </p:dataGrid>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton id="doneButton" value="Done" icon="ui-icon-check" immediate="true"
+                                         action="/schooluser/parent/parentdetails" ajax="false"/>
+                        <p:defaultCommand target="doneButton" />
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

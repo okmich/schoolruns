@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:okrol="http://java.sun.com/jsf/composite/okrol">
+    <h:body>
+        <ui:composition template="/templates/detailsformatstyle.xhtml">
+            <ui:define name="panelTitle">
+                About me..
+            </ui:define>
+            <ui:define name="menu_panel">
+                <h:form prependId="false"> 
+                    <p:menu style="width: 190px" >
+                        <p:menuitem value="Other Roles" outcome="/admin/security/userroles" icon="ui-icon-tag"/>
+                    </p:menu>
+                </h:form>
+            </ui:define>
+            <ui:define name="panelTitle">
+                User Details - #{sessionBean.userLogin.userLoginId}
+            </ui:define>
+            <ui:define name="content_panel">
+                <h:form prependId="false">
+                    <table width="100%">
+                        <tr>
+                            <td  colspan="2">
+                                <p:messages rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="25%"><p:outputLabel for="title" value="Title"/></td>
+                            <td>
+                                <p:inputText id="title" value="#{sessionBean.userLogin.title}" required="true" size="30"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="username" value="Username"/></td>
+                            <td>
+                                <p:inputText id="username" value="#{sessionBean.userLogin.username}" 
+                                             required="true" readonly="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="password" value="Password"/></td>
+                            <td>
+                                <p:password id="password" value="#{sessionBean.userLogin.password}" 
+                                             required="true" readonly="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="email" value="Email"/></td>
+                            <td>
+                                <p:inputText id="email" value="#{sessionBean.userLogin.email}" 
+                                             required="true" size="40" readonly="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="phoneNumber" value="Mobile Number"/></td>
+                            <td>
+                                <p:inputText id="phoneNumber" value="#{sessionBean.userLogin.phoneNumber}"
+                                             required="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="systemRoleId" value="Default Role"/></td>
+                            <td>
+                                <p:selectOneMenu value="#{sessionBean.userLogin.defaultSystemRole.systemRoleId}"
+                                                 style="width:200px" id="systemRoleId" required="true" disabled="true">
+                                    <f:selectItem itemLabel="Select One" />
+                                    <f:selectItems  value="#{applicationListBean.systemRoleList}" var="s"
+                                                    itemLabel="#{s.description}" itemValue="#{s.systemRoleId}"/>
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="isAdmin" value="Is Admin"/></td>
+                            <td>
+                                <p:selectOneMenu id="isAdmin" value="#{sessionBean.userLogin.isAdmin}"
+                                                 style="width:200px" required="true" disabled="true">
+                                    <f:selectItem itemLabel="Select One"  />
+                                    <f:selectItems value="#{applicationListBean.staticListMap['NO_YES_TYPE']}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="name" value="School"/></td>
+                            <td>
+                                <p:inputText id="name" value="#{sessionBean.userLogin.school.name}"
+                                             required="true" size="40" readonly="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="generatedPassword" value="System Generated Password"/></td>
+                            <td>
+                                <p:selectBooleanCheckbox id="generatedPassword" value="#{sessionBean.userLogin.generatedPassword}"
+                                                         disabled="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="loginAttempts" value="Login Attempts"/></td>
+                            <td>
+                                <p:inputText id="loginAttempts" value="#{sessionBean.userLogin.loginAttempts}"
+                                             required="true" readonly="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="changeOnNextLogin" value="Password Change at next login"/></td>
+                            <td>
+                                <p:selectOneMenu id="changeOnNextLogin" value="#{sessionBean.userLogin.changeOnNextLogin}"
+                                                 style="width:100px" disabled="true">
+                                    <f:selectItem itemLabel="Select One"  />
+                                    <f:selectItems value="#{applicationListBean.staticListMap['NO_YES_TYPE']}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="status" value="Status"/></td>
+                            <td>
+                                <p:selectOneMenu id="status" value="#{sessionBean.userLogin.status}"
+                                                 style="width:100px" required="true">
+                                    <f:selectItem itemLabel="Select One"  />
+                                    <f:selectItems  value="#{applicationListBean.staticListMap['STATUS_TYPE']}" />
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="modifiedTime" value="Modified Time"/></td>
+                            <td>
+                                <p:inputText id="modifiedTime" value="#{sessionBean.userLogin.modifiedTime}" size="30"
+                                	readonly="true">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel for="modifiedBy" value="Modified By"/></td>
+                            <td>
+                                <p:inputText id="modifiedBy" value="#{sessionBean.userLogin.modifiedBy}"
+                                	readonly="true"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="taskButtonPanel">
+                        <p:commandButton value="Save" icon="ui-icon-disk"
+                                         action="#{userLoginBean.saveUserLogin}" ajax="false" />   
+
+                        <p:commandButton value="Reset Password" icon="ui-icon-arrowreturnthick-1-w"
+                                         action="#{userLoginBean.performUserPasswordReset}" ajax="false" />   
+
+                        <p:commandButton value="Cancel" immediate="true" icon="ui-icon-circle-close"
+                                         action="#{userLoginBean.backToSearch}" ajax="false" />
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</f:view>

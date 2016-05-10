@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="schoolruns-style.css" library="css"/>
+    </h:head>
+    <h:body class="ui-widget-content">
+        <div style="margin: 0px auto;width: 860px;">
+            <h:form>
+                <table style="width: 100%">
+                    <tr>
+                        <td valign="top" width="50%">
+                            <p:panel header="Staff General Reports">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="#{employeeReportBean.runStaffRegister}" value="Staff Register" /> 
+                                        <sup>
+                                            <h:commandLink action="#{employeeReportBean.runStaffRegister}" value="(Excel)" > 
+                                                <f:param name="EXPORT_FORMAT" value="XLSX" />
+                                            </h:commandLink>
+                                        </sup>
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/staff/reports/staff-class-register" value="Staff-Class Register" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/student/reports/staff-subject-register" value="Staff-Subject Register" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                        <td valign="top" width="50%">
+                            <p:panel header="Distribution Reports">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/schooluser/student/reports/dailycashlist" value="Staff-Gender distribution" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/student/reports/dailycashlist" value="Staff-Category distribution" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/student/reports/dailycashlist" value="Staff-Position distribution" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink action="/schooluser/student/reports/dailycashlist" value="Staff-Type distribution" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" width="50%">
+                            <p:panel header="Attendance Reports">
+                                <ul>
+                                    <li>
+                                        <h:commandLink action="/schooluser/student/reports/dailycashlist" value="Staff Attendance Report" />
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </td>
+                        <td valign="top" width="50%">
+                            <p:panel header="Distribution Reports">
+
+
+                            </p:panel>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </div>
+    </h:body>
+</f:view>

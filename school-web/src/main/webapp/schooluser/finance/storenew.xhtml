@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/detailsformatstyle.xhtml">
+        <ui:define name="panelTitle">
+            New Store
+        </ui:define>
+        <ui:define name="menu_panel">
+        </ui:define>
+        <ui:define name="panelTitle">
+            New Store Details
+        </ui:define>
+        <ui:define name="content_panel">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td colspan="3" align="center">
+                            <p:messages id="messages" rendered="true" globalOnly="true" showSummary="true" showDetail="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="30%">Name</td>
+                        <td>
+                            <p:inputText id="name" value="#{storeBean.store.name}" required="true" 
+                                         requiredMessage="required" />
+                        </td>
+                        <td><p:message for="name" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top">Address</td>
+                        <td>
+                            <p:inputText id="address" value="#{storeBean.store.address}" required="true" 
+                                         requiredMessage="required" size="60"/>
+                        </td>
+                        <td><p:message for="address" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Store Keeper</td>
+                        <td>
+                            <p:selectOneMenu id="employeeId" style="width:200px"
+                                             value="#{storeBean.store.employee.employeeId}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{schoolSessionBean.nonTeachingStaffs}" var="e"
+                                               itemValue="#{e.employeeId}" itemLabel="#{e.fullname}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="employeeId" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Status</td>
+                        <td>
+                            <p:selectOneMenu id="status" style="width:200px"
+                                             value="#{storeBean.store.status}">
+                                <f:selectItem itemValue="" itemLabel="----------------------" />
+                                <f:selectItems value="#{applicationListBean.statusList}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:message for="status" /></td>
+                    </tr>
+                </table>
+                <div id="taskButtonPanel"> 
+                    <p:commandButton id="saveButton" value=" Save " icon="ui-icon-disk" update="messages"
+                                     action="#{storeBean.createStore}" ajax="false"/>
+
+                    <p:commandButton id="doneButton" value=" Back " icon="ui-icon-check" ajax="false"
+                                     action="/schooluser/finance/storesearch" immediate="true" />
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
